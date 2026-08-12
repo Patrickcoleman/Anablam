@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://cq8eatk10u17v"]
+
+[ext_resource type="Texture2D" uid="uid://d1qk4n7gka22s" path="res://common/sprites/Tanks/tankBlack_outline.png" id="1_g2f1i"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_g2f1i")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]

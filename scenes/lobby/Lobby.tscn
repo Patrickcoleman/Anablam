@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://dnkpbi1m3xw57"]
+
+[ext_resource type="Script" uid="uid://doambjwto8fuk" path="res://scenes/lobby/lobby.gd" id="1_sj1j4"]
+[ext_resource type="Script" uid="uid://cflf2w2epx7um" path="res://scenes/lobby/ui.gd" id="2_v0l1j"]
+
+[node name="Lobby" type="Node2D" unique_id=795581606]
+script = ExtResource("1_sj1j4")
+
+[node name="Level" type="Node2D" parent="." unique_id=587595762]
+
+[node name="Players" type="Node2D" parent="." unique_id=1985806010]
+
+[node name="LevelSpawner" type="MultiplayerSpawner" parent="." unique_id=1861484377]
+_spawnable_scenes = PackedStringArray("uid://b6j0xvuuhrws7")
+spawn_path = NodePath("../Level")
+spawn_limit = 1
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1576568509]
+_spawnable_scenes = PackedStringArray("uid://syeprg8lvf16")
+spawn_path = NodePath("../Players")
+spawn_limit = 5
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1454329024]
+script = ExtResource("2_v0l1j")
+
+[node name="Start" type="CenterContainer" parent="UI" unique_id=179418323]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ENet" type="VBoxContainer" parent="UI/Start" unique_id=525980242]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Start/ENet" unique_id=25052606]
+layout_mode = 2
+text = "Anablam"
+horizontal_alignment = 1
+
+[node name="Join" type="PanelContainer" parent="UI/Start/ENet" unique_id=1168979281]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="UI/Start/ENet/Join" unique_id=1863327014]
+layout_mode = 2
+
+[node name="Options" type="GridContainer" parent="UI/Start/ENet/Join/VBox" unique_id=1572943227]
+layout_mode = 2
+columns = 2
+
+[node name="AddressLabel" type="Label" parent="UI/Start/ENet/Join/VBox/Options" unique_id=1458126940]
+layout_mode = 2
+text = "Address:"
+
+[node name="Address" type="LineEdit" parent="UI/Start/ENet/Join/VBox/Options" unique_id=1515847076]
+layout_mode = 2
+text = "127.0.0.1"
+
+[node name="PortLabel" type="Label" parent="UI/Start/ENet/Join/VBox/Options" unique_id=1865988540]
+layout_mode = 2
+text = "Port:"
+
+[node name="Port" type="SpinBox" parent="UI/Start/ENet/Join/VBox/Options" unique_id=1797025318]
+layout_mode = 2
+max_value = 60000.0
+value = 34777.0
+
+[node name="Start" type="Button" parent="UI/Start/ENet/Join/VBox" unique_id=680331872]
+layout_mode = 2
+text = "Start"
+
+[node name="Host" type="PanelContainer" parent="UI/Start/ENet" unique_id=2069700495]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="UI/Start/ENet/Host" unique_id=1492494188]
+layout_mode = 2
+
+[node name="Options" type="GridContainer" parent="UI/Start/ENet/Host/VBox" unique_id=1412359445]
+layout_mode = 2
+columns = 2
+
+[node name="PortLabel" type="Label" parent="UI/Start/ENet/Host/VBox/Options" unique_id=1185886669]
+layout_mode = 2
+text = "Port:"
+
+[node name="Port" type="SpinBox" parent="UI/Start/ENet/Host/VBox/Options" unique_id=1498132297]
+layout_mode = 2
+max_value = 60000.0
+value = 34777.0
+
+[node name="Start" type="Button" parent="UI/Start/ENet/Host/VBox" unique_id=857522971]
+layout_mode = 2
+text = "Start"
+
+[connection signal="pressed" from="UI/Start/ENet/Join/VBox/Start" to="UI" method="_on_enet_join_pressed"]
+[connection signal="pressed" from="UI/Start/ENet/Host/VBox/Start" to="UI" method="_on_enet_host_pressed"]
