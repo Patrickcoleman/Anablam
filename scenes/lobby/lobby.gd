@@ -1,9 +1,10 @@
 extends Node2D
 class_name Lobby
 
-
 const MAX_PLAYERS: int = 5
-const DEFAULT_PORT: int = 47218
+const DEFAULT_PORT: int = 34777
+
+var headless_mode: bool = (DisplayServer.get_name() == "headless")
 
 const PLAYER_SCN: PackedScene = preload("res://objects/player/player.tscn")
 var available_characters: Array[int] = []
@@ -23,12 +24,16 @@ func _ready() -> void:
 	# Prepare available character indices
 	for idx: int in Player.CHARACTERS.size():
 		available_characters.append(idx)
+	
+	if (headless_mode):
+		start_enet_server()
 
 # Network
 
 func _start_server_common() -> void:
-	load_level()
-	spawn_player(1) # server always has ID 1
+	if (!headless_mode):
+		load_level() # start the first level
+		spawn_player(1) # server always has ID 1
 
 func start_enet_server(port: int = DEFAULT_PORT) -> void:
 	var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
@@ -46,11 +51,19 @@ func start_enet_client(address: String, port: int = DEFAULT_PORT) -> void:
 func _on_peer_connected(peer_id: int) -> void:
 	# Handle player spawn if hosting
 	if (!multiplayer.is_server()): return
+	
+	if (level == null):
+		load_level()
+		
 	spawn_player(peer_id)
 
 func _on_peer_disconnected(peer_id: int) -> void:
 	# Handle player removal if hosting
 	if (!multiplayer.is_server()): return
+	
+	if (get_player_count() == 1):
+		unload_level()
+	
 	remove_player(peer_id)
 
 func _on_connected_to_server() -> void:
@@ -78,6 +91,10 @@ func load_level() -> void:
 	var level_scn: PackedScene = load(level_path)
 	level = level_scn.instantiate()
 	$Level.add_child.call_deferred(level, true)
+
+func unload_level() -> void:
+	if (level != null): level.queue_free()
+	level = null
 
 func get_player(peer_id: int) -> Player:
 	for child: Node in $Players.get_children():
