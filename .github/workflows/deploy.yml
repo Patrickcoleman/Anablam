@@ -29,6 +29,7 @@ jobs:
           archive_output: false
           cache: true
           presets_to_export: "LinuxServer"
+          use_preset_export_path: true
 
       # This release action has worked well for me. However, you can most likely use any release action of your choosing.
       # https://github.com/ncipollo/release-action
