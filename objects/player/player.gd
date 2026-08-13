@@ -65,7 +65,7 @@ func on_state_received() -> void:
 func _physics_process(delta: float) -> void:
 	# Only process physics if local
 	if local:
-		if Input.is_action_just_pressed("fire"):
+		if Input.is_action_pressed("fire"):
 			fire_bullet()
 		
 		update_barrel_angle()
@@ -119,10 +119,13 @@ const bullet_SCN: PackedScene = preload("res://objects/bullets/bullet.tscn")
 
 func fire_bullet() -> void:
 	if (!local): return
+	if !$FireCooldown.is_stopped(): return
 	if (!multiplayer.is_server()):
 		_request_fire.rpc_id(1)
+		$FireCooldown.start()
 		return
 	_spawn_bullet()
+	$FireCooldown.start()
 
 @rpc("any_peer", "call_remote", "reliable")
 func _request_fire() -> void:
@@ -136,7 +139,6 @@ func _spawn_bullet() -> void:
 	bullet.owner_peer_id = peer_id
 	get_node("/root/Lobby/Bullets").add_child(bullet, true)
 	
-	
 func update_barrel_angle():
 	barrel_angle = get_angle_to_mouse()
 	
@@ -144,3 +146,23 @@ func get_angle_to_mouse() -> float:
 		var mouse_pos: Vector2 = get_global_mouse_position()
 		var direction: Vector2 = mouse_pos - global_position
 		return direction.angle() - PI / 2
+
+@rpc("authority", "call_local", "reliable")
+func kill() -> void:
+	set_hidden(true)
+	if multiplayer.is_server():
+		$RespawnTimer.start()
+
+func _on_respawn_timer_timeout() -> void:
+	if !multiplayer.is_server(): return
+	get_node("/root/Lobby").respawn_player(peer_id)
+
+@rpc("authority", "call_local", "reliable")
+func revive(new_pos: Vector2) -> void:
+	global_position = new_pos
+	set_hidden(false)
+
+func set_hidden(hidden: bool) -> void:
+	visible = !hidden
+	$Hitbox.set_deferred("disabled", hidden)
+	set_physics_process(!hidden)

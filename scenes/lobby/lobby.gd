@@ -126,11 +126,16 @@ func spawn_player(peer_id: int) -> void:
 	player.character = available_characters.pop_front()
 	
 	# Add player to level and teleport to spawn position
-	var best_spawn_location: Vector2 = get_furthest_spawn()
 	$Players.add_child(player)
-	player.teleport.rpc(best_spawn_location)
+	player.teleport.rpc(get_furthest_spawn(player))
 
-func get_furthest_spawn() -> Vector2:
+func respawn_player(peer_id: int) -> void:
+	var player: Player = get_player(peer_id)
+	if player == null: return
+	var spawn_pos: Vector2 = get_furthest_spawn(player)
+	player.revive.rpc(spawn_pos)
+
+func get_furthest_spawn(excluded_player: Player) -> Vector2:
 	var potential_spawns: Array[Vector2] = level.get_spawn_positions()
 	var players: Array[Node] = $Players.get_children()
 	if players.is_empty():
@@ -139,7 +144,8 @@ func get_furthest_spawn() -> Vector2:
 		var spawn_distances: Array[float] = []
 		var player_locations: Array[Vector2] = []
 		for player in players:
-			player_locations.append(player.global_position)
+			if player != excluded_player:
+				player_locations.append(player.global_position)
 		for spawn in potential_spawns:
 			var nearest = INF
 			for location in player_locations:

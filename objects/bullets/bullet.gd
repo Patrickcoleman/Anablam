@@ -17,7 +17,9 @@ func _physics_process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if !multiplayer.is_server(): return
-	if body is Player && body.peer_id == owner_peer_id:
-		return
-	
+	if body is Player:
+		if body.peer_id == owner_peer_id:
+			return
+		else:
+			body.kill.rpc()
 	queue_free()

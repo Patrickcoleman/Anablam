@@ -51,4 +51,12 @@ replication_config = SubResource("SceneReplicationConfig_ssrue")
 [node name="ClientSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1575425373]
 replication_config = SubResource("SceneReplicationConfig_jnjyq")
 
+[node name="FireCooldown" type="Timer" parent="." unique_id=1765109179]
+one_shot = true
+
+[node name="RespawnTimer" type="Timer" parent="." unique_id=788943578]
+wait_time = 5.0
+one_shot = true
+
 [connection signal="synchronized" from="ClientSynchronizer" to="." method="on_state_received"]
+[connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
