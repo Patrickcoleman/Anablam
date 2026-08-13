@@ -66,7 +66,7 @@ func _physics_process(delta: float) -> void:
 	# Only process physics if local
 	if local:
 		if Input.is_action_just_pressed("fire"):
-			fire_missile()
+			fire_bullet()
 		
 		update_barrel_angle()
 		
@@ -114,27 +114,27 @@ func _physics_process(delta: float) -> void:
 	
 	$Barrel.rotation = barrel_angle - rotation
 
-#Missile firing logic
-const MISSILE_SCN: PackedScene = preload("res://objects/bullets/bullet.tscn")
+#bullet firing logic
+const bullet_SCN: PackedScene = preload("res://objects/bullets/bullet.tscn")
 
-func fire_missile() -> void:
+func fire_bullet() -> void:
 	if (!local): return
 	if (!multiplayer.is_server()):
 		_request_fire.rpc_id(1)
 		return
-	_spawn_missile()
+	_spawn_bullet()
 
 @rpc("any_peer", "call_remote", "reliable")
 func _request_fire() -> void:
 	if (!multiplayer.is_server()): return
-	_spawn_missile()
+	_spawn_bullet()
 
-func _spawn_missile() -> void:
-	var missile: Missile = MISSILE_SCN.instantiate()
-	missile.position = global_position + Vector2.DOWN.rotated(barrel_angle) * 20.0
-	missile.rotation = barrel_angle
-	missile.owner_peer_id = peer_id
-	get_node("/root/Lobby/Missiles").add_child(missile, true)
+func _spawn_bullet() -> void:
+	var bullet: Bullet = bullet_SCN.instantiate()
+	bullet.position = global_position + Vector2.DOWN.rotated(barrel_angle) * 20.0
+	bullet.rotation = barrel_angle
+	bullet.owner_peer_id = peer_id
+	get_node("/root/Lobby/Bullets").add_child(bullet, true)
 	
 	
 func update_barrel_angle():

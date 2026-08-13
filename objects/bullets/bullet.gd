@@ -1,5 +1,5 @@
 extends Area2D
-class_name Missile
+class_name Bullet
 
 @export var speed: float = 600.0
 var owner_peer_id: int = -1
