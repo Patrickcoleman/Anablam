@@ -131,9 +131,9 @@ func _request_fire() -> void:
 
 func _spawn_bullet() -> void:
 	var bullet: Bullet = bullet_SCN.instantiate()
-	bullet.position = global_position + Vector2.DOWN.rotated(barrel_angle) * 20.0
+	bullet.position = global_position + Vector2.DOWN.rotated(barrel_angle) * 60.0
 	bullet.rotation = barrel_angle
-	bullet.owner_peer_id = peer_id
+	#bullet.owner_peer_id = peer_id
 	get_node("/root/Lobby/Bullets").add_child(bullet, true)
 	
 	
