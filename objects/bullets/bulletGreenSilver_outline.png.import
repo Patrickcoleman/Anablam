@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ceeymx0bn26pr"
-path="res://.godot/imported/bulletBeigeSilver_outline.png-3edd05f583ff63c41217dd5b9cde96e3.ctex"
+uid="uid://c3brrquhwtma4"
+path="res://.godot/imported/bulletGreenSilver_outline.png-886db6ba6e9bb6f001a516886526d7db.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://common/sprites/Bullets/bulletBeigeSilver_outline.png"
-dest_files=["res://.godot/imported/bulletBeigeSilver_outline.png-3edd05f583ff63c41217dd5b9cde96e3.ctex"]
+source_file="res://objects/bullets/bulletGreenSilver_outline.png"
+dest_files=["res://.godot/imported/bulletGreenSilver_outline.png-886db6ba6e9bb6f001a516886526d7db.ctex"]
 
 [params]
 

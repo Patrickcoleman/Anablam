@@ -48,6 +48,7 @@ func teleport(new_pos: Vector2) -> void:
 @export var collision_torque_factor: float = 0.003
 
 var speed: float = 0.0
+var barrel_angle: float = 0.0
 var angular_velocity: float = 0.0
 
 var last_received_position: Vector2 = Vector2.ZERO
@@ -64,6 +65,11 @@ func on_state_received() -> void:
 func _physics_process(delta: float) -> void:
 	# Only process physics if local
 	if local:
+		if Input.is_action_pressed("fire"):
+			fire_bullet()
+		
+		update_barrel_angle()
+		
 		var turn_input: float = 0.0
 		var move_input: float = 0.0
 
@@ -76,7 +82,6 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_pressed("move_back"):
 			move_input -= 1
 		
-		# Accelerate/decelerate toward target speed
 		if !is_zero_approx(move_input):
 			var target_speed: float = max_speed if (move_input > 0) else -max_reverse_speed
 			speed = move_toward(speed, target_speed, acceleration * delta)
@@ -99,10 +104,65 @@ func _physics_process(delta: float) -> void:
 
 		rotation += (turn_input * turn_speed + angular_velocity) * delta
 		angular_velocity = move_toward(angular_velocity, 0, angular_damping * delta)
+		
 	
-	#interpolate for other players
 	else:
 		time_since_last_update += delta
 		if time_since_last_update > 0.02:
 			var forward: Vector2 = Vector2.DOWN.rotated(last_received_rotation)
 			global_position += forward * last_received_velocity.length() * delta
+	
+	$Barrel.rotation = barrel_angle - rotation
+
+#bullet firing logic
+const bullet_SCN: PackedScene = preload("res://objects/bullets/bullet.tscn")
+
+func fire_bullet() -> void:
+	if (!local): return
+	if !$FireCooldown.is_stopped(): return
+	if (!multiplayer.is_server()):
+		_request_fire.rpc_id(1)
+		$FireCooldown.start()
+		return
+	_spawn_bullet()
+	$FireCooldown.start()
+
+@rpc("any_peer", "call_remote", "reliable")
+func _request_fire() -> void:
+	if (!multiplayer.is_server()): return
+	_spawn_bullet()
+
+func _spawn_bullet() -> void:
+	var bullet: Bullet = bullet_SCN.instantiate()
+	bullet.position = global_position + Vector2.DOWN.rotated(barrel_angle) * 20.0
+	bullet.rotation = barrel_angle
+	bullet.owner_peer_id = peer_id
+	get_node("/root/Lobby/Bullets").add_child(bullet, true)
+	
+func update_barrel_angle():
+	barrel_angle = get_angle_to_mouse()
+	
+func get_angle_to_mouse() -> float:
+		var mouse_pos: Vector2 = get_global_mouse_position()
+		var direction: Vector2 = mouse_pos - global_position
+		return direction.angle() - PI / 2
+
+@rpc("authority", "call_local", "reliable")
+func kill() -> void:
+	set_hidden(true)
+	if multiplayer.is_server():
+		$RespawnTimer.start()
+
+func _on_respawn_timer_timeout() -> void:
+	if !multiplayer.is_server(): return
+	get_node("/root/Lobby").respawn_player(peer_id)
+
+@rpc("authority", "call_local", "reliable")
+func revive(new_pos: Vector2) -> void:
+	global_position = new_pos
+	set_hidden(false)
+
+func set_hidden(hidden: bool) -> void:
+	visible = !hidden
+	$Hitbox.set_deferred("disabled", hidden)
+	set_physics_process(!hidden)
