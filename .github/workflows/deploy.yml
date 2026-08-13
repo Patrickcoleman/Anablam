@@ -41,7 +41,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           source: "build/server/*"
           target: "~/anablamserver"
-
+          strip_components: 2
+      
       - name: Restart service
         uses: appleboy/ssh-action@v1.0.3
         with:
