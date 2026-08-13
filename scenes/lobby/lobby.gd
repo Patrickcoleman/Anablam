@@ -8,6 +8,7 @@ var headless_mode: bool = (DisplayServer.get_name() == "headless")
 
 const PLAYER_SCN: PackedScene = preload("res://objects/player/player.tscn")
 var available_characters: Array[int] = []
+var display_name: String = "Player"
 
 # Lifecycle
 
@@ -30,18 +31,18 @@ func _ready() -> void:
 
 # Network
 
-func _start_server_common() -> void:
+func _start_server_common(playername: String = "") -> void:
 	if (!headless_mode):
 		load_level() # start the first level
 		spawn_player(1) # server always has ID 1
 
-func start_enet_server(port: int = DEFAULT_PORT) -> void:
+func start_enet_server(port: int = DEFAULT_PORT, playername: String = "") -> void:
 	var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 	peer.create_server(port, MAX_PLAYERS)
 	multiplayer.multiplayer_peer = peer
 	_start_server_common()
 
-func start_enet_client(address: String, port: int = DEFAULT_PORT) -> void:
+func start_enet_client(address: String, port: int = DEFAULT_PORT, playername: String = "") -> void:
 	var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 	peer.create_client(address, port)
 	multiplayer.multiplayer_peer = peer
@@ -119,11 +120,14 @@ func get_player_count() -> int:
 			count += 1
 	return count
 
-func spawn_player(peer_id: int) -> void:
+func spawn_player(peer_id: int, playername: String = "") -> void:
 	# Prepare new player
 	var player: Player = PLAYER_SCN.instantiate()
 	player.name = str(peer_id)
-	player.character = available_characters.pop_front()
+	
+	var random_index: int = randi_range(0, available_characters.size() - 1)
+	player.character = available_characters[random_index]
+	available_characters.remove_at(random_index)
 	
 	# Add player to level and teleport to spawn position
 	$Players.add_child(player)

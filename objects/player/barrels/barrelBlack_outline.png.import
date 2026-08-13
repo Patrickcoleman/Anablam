@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cqferfev16lgo"
-path="res://.godot/imported/barrelBlack_outline.png-0c4930305acbc8ca78eef4cd9b6f09d7.ctex"
+path="res://.godot/imported/barrelBlack_outline.png-b6416f3307a727ce9f05dae60ee5f722.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://common/sprites/Tanks/barrelBlack_outline.png"
-dest_files=["res://.godot/imported/barrelBlack_outline.png-0c4930305acbc8ca78eef4cd9b6f09d7.ctex"]
+source_file="res://objects/player/barrels/barrelBlack_outline.png"
+dest_files=["res://.godot/imported/barrelBlack_outline.png-b6416f3307a727ce9f05dae60ee5f722.ctex"]
 
 [params]
 

@@ -5,19 +5,32 @@ var peer_id: int = 1
 var local: bool = true
 
 const CHARACTERS: Array[SpriteFrames] = [
-	preload("res://objects/player/green_player.tres"),
-	preload("res://objects/player/red_player.tres"),
-	preload("res://objects/player/black_player.tres"),
-	preload("res://objects/player/blue_player.tres"),
-	preload("res://objects/player/beige_player.tres")
+	preload("res://objects/player/bodies/green_player.tres"),
+	preload("res://objects/player/bodies/red_player.tres"),
+	preload("res://objects/player/bodies/black_player.tres"),
+	preload("res://objects/player/bodies/blue_player.tres"),
+	preload("res://objects/player/bodies/beige_player.tres")
+]
+
+const BARRELS: Array[Texture2D] = [
+	preload("res://objects/player/barrels/barrelGreen_outline.png"),
+	preload("res://objects/player/barrels/barrelRed_outline.png"),
+	preload("res://objects/player/barrels/barrelBlack_outline.png"),
+	preload("res://objects/player/barrels/barrelBlue_outline.png"),
+	preload("res://objects/player/barrels/barrelBeige_outline.png"),
 ]
 
 var character: int = 0 :
 	set(value):
 		character = clampi(value, 0, CHARACTERS.size() - 1)
-		var sprite: AnimatedSprite2D = $Body
-		sprite.sprite_frames = CHARACTERS[character]
-		sprite.play(&"default")
+		$Body.sprite_frames = CHARACTERS[character]
+		$Body.play(&"default")
+		$Barrel.texture = BARRELS[character]
+
+var display_name: String = "Player" :
+	set(value):
+		display_name = value
+		$InfoPanel/DisplayName.text = display_name
 
 # Lifecycle
 
@@ -29,6 +42,16 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	if (local):
 		$Camera2D.make_current()
+		submit_display_name.rpc_id(1, get_node("/root/Lobby").display_name)
+	else:
+		$HUD.queue_free()
+
+@rpc("any_peer", "call_local", "reliable")
+func submit_display_name(name_value: String) -> void:
+	if !multiplayer.is_server(): return
+	if multiplayer.get_remote_sender_id() != peer_id: return
+	display_name = name_value
+
 
 # RPC
 @rpc("authority", "call_local", "reliable")
@@ -154,8 +177,8 @@ func kill() -> void:
 		$RespawnTimer.start()
 
 func _on_respawn_timer_timeout() -> void:
-	if !multiplayer.is_server(): return
-	get_node("/root/Lobby").respawn_player(peer_id)
+	if multiplayer.is_server():
+		get_node("/root/Lobby").respawn_player(peer_id)
 
 @rpc("authority", "call_local", "reliable")
 func revive(new_pos: Vector2) -> void:

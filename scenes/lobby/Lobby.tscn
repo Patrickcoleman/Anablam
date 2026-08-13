@@ -51,6 +51,21 @@ layout_mode = 2
 text = "Anablam"
 horizontal_alignment = 1
 
+[node name="Name" type="PanelContainer" parent="UI/Start/ENet" unique_id=893118983]
+layout_mode = 2
+
+[node name="VBox" type="HBoxContainer" parent="UI/Start/ENet/Name" unique_id=2003541667]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="UI/Start/ENet/Name/VBox" unique_id=935473184]
+layout_mode = 2
+text = "Name:"
+
+[node name="Name" type="TextEdit" parent="UI/Start/ENet/Name/VBox" unique_id=1055132676]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="Join" type="PanelContainer" parent="UI/Start/ENet" unique_id=1168979281]
 layout_mode = 2
 
