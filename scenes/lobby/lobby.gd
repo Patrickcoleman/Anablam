@@ -48,6 +48,8 @@ func start_enet_client(address: String, port: int = DEFAULT_PORT) -> void:
 
 # Network Events
 
+#This signal is emitted with the newly connected peer's ID on each other peer, 
+# and on the new peer multiple times, once with each other peer's ID.
 func _on_peer_connected(peer_id: int) -> void:
 	# Handle player spawn if hosting
 	if (!multiplayer.is_server()): return
@@ -57,6 +59,7 @@ func _on_peer_connected(peer_id: int) -> void:
 		
 	spawn_player(peer_id)
 
+#This signal is emitted on every remaining peer when one disconnects.
 func _on_peer_disconnected(peer_id: int) -> void:
 	# Handle player removal if hosting
 	if (!multiplayer.is_server()): return
@@ -137,7 +140,6 @@ func get_furthest_spawn() -> Vector2:
 		var player_locations: Array[Vector2] = []
 		for player in players:
 			player_locations.append(player.global_position)
-		var closest_player: Array[float] = []
 		for spawn in potential_spawns:
 			var nearest = INF
 			for location in player_locations:

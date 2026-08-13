@@ -48,6 +48,7 @@ func teleport(new_pos: Vector2) -> void:
 @export var collision_torque_factor: float = 0.003
 
 var speed: float = 0.0
+var barrel_angle: float = 0.0
 var angular_velocity: float = 0.0
 
 var last_received_position: Vector2 = Vector2.ZERO
@@ -64,6 +65,11 @@ func on_state_received() -> void:
 func _physics_process(delta: float) -> void:
 	# Only process physics if local
 	if local:
+		if Input.is_action_just_pressed("fire"):
+			fire_missile()
+		
+		update_barrel_angle()
+		
 		var turn_input: float = 0.0
 		var move_input: float = 0.0
 
@@ -76,7 +82,6 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_pressed("move_back"):
 			move_input -= 1
 		
-		# Accelerate/decelerate toward target speed
 		if !is_zero_approx(move_input):
 			var target_speed: float = max_speed if (move_input > 0) else -max_reverse_speed
 			speed = move_toward(speed, target_speed, acceleration * delta)
@@ -99,10 +104,43 @@ func _physics_process(delta: float) -> void:
 
 		rotation += (turn_input * turn_speed + angular_velocity) * delta
 		angular_velocity = move_toward(angular_velocity, 0, angular_damping * delta)
+		
 	
-	#interpolate for other players
 	else:
 		time_since_last_update += delta
 		if time_since_last_update > 0.02:
 			var forward: Vector2 = Vector2.DOWN.rotated(last_received_rotation)
 			global_position += forward * last_received_velocity.length() * delta
+	
+	$Barrel.rotation = barrel_angle - rotation
+
+#Missile firing logic
+const MISSILE_SCN: PackedScene = preload("res://objects/bullets/bullet.tscn")
+
+func fire_missile() -> void:
+	if (!local): return
+	if (!multiplayer.is_server()):
+		_request_fire.rpc_id(1)
+		return
+	_spawn_missile()
+
+@rpc("any_peer", "call_remote", "reliable")
+func _request_fire() -> void:
+	if (!multiplayer.is_server()): return
+	_spawn_missile()
+
+func _spawn_missile() -> void:
+	var missile: Missile = MISSILE_SCN.instantiate()
+	missile.position = global_position + Vector2.DOWN.rotated(barrel_angle) * 20.0
+	missile.rotation = barrel_angle
+	missile.owner_peer_id = peer_id
+	get_node("/root/Lobby/Missiles").add_child(missile, true)
+	
+	
+func update_barrel_angle():
+	barrel_angle = get_angle_to_mouse()
+	
+func get_angle_to_mouse() -> float:
+		var mouse_pos: Vector2 = get_global_mouse_position()
+		var direction: Vector2 = mouse_pos - global_position
+		return direction.angle() - PI / 2
