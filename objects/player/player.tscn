@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://4egcuvsa7sey" path="res://common/sprites/Tanks/barrelRed.png" id="2_ssrue"]
 [ext_resource type="Script" uid="uid://clxdaiv0k3jgd" path="res://objects/player/info_panel.gd" id="4_gnkmh"]
 [ext_resource type="SpriteFrames" uid="uid://bkoaa8c671837" path="res://objects/player/bodies/red_player.tres" id="4_jnjyq"]
+[ext_resource type="Script" uid="uid://c48h50dmwoyb6" path="res://objects/player/hud.gd" id="4_xkryw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cimh6"]
 size = Vector2(40, 42)
@@ -66,7 +67,7 @@ wait_time = 5.0
 one_shot = true
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=545584566]
-visible = false
+script = ExtResource("4_xkryw")
 
 [node name="Label" type="Label" parent="HUD" unique_id=1766960836]
 offset_right = 40.0

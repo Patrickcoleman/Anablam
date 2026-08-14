@@ -21,5 +21,8 @@ func _on_body_entered(body: Node2D) -> void:
 		if body.peer_id == owner_peer_id:
 			return
 		else:
+			var shooter: Player = get_node("/root/Lobby").get_player(owner_peer_id)
+			if shooter != null:
+				shooter.kill_count += 1
 			body.kill.rpc()
 	queue_free()

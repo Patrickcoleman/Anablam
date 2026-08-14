@@ -10,7 +10,7 @@ var random_names: Array[String] = [
 # ENet
 
 func _on_enet_join_pressed():
-	lobby.display_name = $Start/ENet/Name/VBox/Name.text
+	lobby.display_name = check_name()
 	var address: String = $Start/ENet/Join/VBox/Options/Address.text
 	var port: int = $Start/ENet/Join/VBox/Options/Port.value
 	lobby.start_enet_client(address, port)

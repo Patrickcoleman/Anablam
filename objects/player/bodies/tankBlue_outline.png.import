@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1qk4n7gka22s"
-path="res://.godot/imported/tankBlack_outline.png-ad2a0e51933a11c6d4037ae15d2fb77f.ctex"
+uid="uid://jm6dp8nx2v7p"
+path="res://.godot/imported/tankBlue_outline.png-e8a1af9ddafa7952ad34b955a44dc2d4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://common/sprites/Tanks/tankBlack_outline.png"
-dest_files=["res://.godot/imported/tankBlack_outline.png-ad2a0e51933a11c6d4037ae15d2fb77f.ctex"]
+source_file="res://objects/player/bodies/tankBlue_outline.png"
+dest_files=["res://.godot/imported/tankBlue_outline.png-e8a1af9ddafa7952ad34b955a44dc2d4.ctex"]
 
 [params]
 

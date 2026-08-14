@@ -32,6 +32,11 @@ var display_name: String = "Player" :
 		display_name = value
 		$InfoPanel/DisplayName.text = display_name
 
+var kill_count: int = 0 :
+	set(value):
+		kill_count = value
+		get_node("/root/Lobby/Scoreboard").update_row.rpc(peer_id, display_name, kill_count, character)
+
 # Lifecycle
 
 func _enter_tree() -> void:
@@ -185,7 +190,7 @@ func revive(new_pos: Vector2) -> void:
 	global_position = new_pos
 	set_hidden(false)
 
-func set_hidden(hidden: bool) -> void:
-	visible = !hidden
-	$Hitbox.set_deferred("disabled", hidden)
-	set_physics_process(!hidden)
+func set_hidden(hidden_bool: bool) -> void:
+	visible = !hidden_bool
+	$Hitbox.set_deferred("disabled", hidden_bool)
+	set_physics_process(!hidden_bool)

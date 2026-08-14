@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://dvtop86yruak2"]
+
+[ext_resource type="Texture2D" uid="uid://bqyy7l24a2cil" path="res://common/sprites/Tanks/tankBlue.png" id="1_glu1e"]
+[ext_resource type="Script" uid="uid://cwnn0vak01p45" path="res://common/ui/enemy_panel.gd" id="1_lbtmj"]
+
+[node name="EnemyPanel" type="PanelContainer" unique_id=1671561667]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -115.0
+offset_top = -110.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("1_lbtmj")
+
+[node name="Margins" type="MarginContainer" parent="." unique_id=1146220630]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Margins" unique_id=1032464713]
+layout_mode = 2
+
+[node name="DisplayName" type="Label" parent="Margins/VBox" unique_id=1566914674]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Hamish"
+horizontal_alignment = 1
+
+[node name="Sprite" type="TextureRect" parent="Margins/VBox" unique_id=1721279062]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("1_glu1e")
+
+[node name="HBox" type="HBoxContainer" parent="Margins/VBox" unique_id=1347944826]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Kills" type="Label" parent="Margins/VBox/HBox" unique_id=1496978199]
+layout_mode = 2
+text = "Kills:"
+horizontal_alignment = 1
+
+[node name="KillCount" type="Label" parent="Margins/VBox/HBox" unique_id=51860670]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1

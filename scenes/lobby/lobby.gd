@@ -31,18 +31,18 @@ func _ready() -> void:
 
 # Network
 
-func _start_server_common(playername: String = "") -> void:
+func _start_server_common() -> void:
 	if (!headless_mode):
 		load_level() # start the first level
 		spawn_player(1) # server always has ID 1
 
-func start_enet_server(port: int = DEFAULT_PORT, playername: String = "") -> void:
+func start_enet_server(port: int = DEFAULT_PORT) -> void:
 	var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 	peer.create_server(port, MAX_PLAYERS)
 	multiplayer.multiplayer_peer = peer
 	_start_server_common()
 
-func start_enet_client(address: String, port: int = DEFAULT_PORT, playername: String = "") -> void:
+func start_enet_client(address: String, port: int = DEFAULT_PORT) -> void:
 	var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 	peer.create_client(address, port)
 	multiplayer.multiplayer_peer = peer
@@ -120,7 +120,7 @@ func get_player_count() -> int:
 			count += 1
 	return count
 
-func spawn_player(peer_id: int, playername: String = "") -> void:
+func spawn_player(peer_id: int) -> void:
 	# Prepare new player
 	var player: Player = PLAYER_SCN.instantiate()
 	player.name = str(peer_id)
