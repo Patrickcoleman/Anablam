@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 const PLAYER_DISPLAY: PackedScene = preload("res://common/ui/EnemyPanel.tscn")
-const PLAYER_SPRITES: Array[CompressedTexture2D] = [
+const PLAYER_SPRITES: Array[Texture2D] = [
 	preload("res://common/ui/player_icons/Green_Icon.png"),
 	preload("res://common/ui/player_icons/Red_Icon.png"),
 	preload("res://common/ui/player_icons/Black_Icon.png"),
