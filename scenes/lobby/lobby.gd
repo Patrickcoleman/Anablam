@@ -172,9 +172,16 @@ func remove_player(peer_id: int) -> void:
 	# Find player node
 	var player: Player = get_player(peer_id)
 	if (player == null): return
-	
+	# Remove the player from the scoreboard
+	$Scoreboard.remove_player(peer_id)
 	# Return character back to available list
 	available_characters.append(player.character)
 	
 	# Free player
 	player.queue_free()
+
+
+# Game Logic
+
+func check_game_over():
+	return

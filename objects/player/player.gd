@@ -35,7 +35,7 @@ var display_name: String = "Player" :
 var kill_count: int = 0 :
 	set(value):
 		kill_count = value
-		get_node("/root/Lobby/Scoreboard").update_row.rpc(peer_id, display_name, kill_count, character)
+		get_node("/root/Lobby/Scoreboard").update_scores(peer_id, display_name, kill_count, character)
 
 # Lifecycle
 
@@ -57,13 +57,11 @@ func submit_display_name(name_value: String) -> void:
 	if multiplayer.get_remote_sender_id() != peer_id: return
 	display_name = name_value
 
-
 # RPC
 @rpc("authority", "call_local", "reliable")
 func teleport(new_pos: Vector2) -> void:
 	velocity = Vector2.ZERO
 	global_position = new_pos 
-
 
 @export var acceleration: float = 400.0
 @export var deceleration: float = 600.0

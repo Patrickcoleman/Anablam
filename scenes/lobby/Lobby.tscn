@@ -83,7 +83,7 @@ text = "Address:"
 
 [node name="Address" type="LineEdit" parent="UI/Start/ENet/Join/VBox/Options" unique_id=1515847076]
 layout_mode = 2
-text = "62.238.5.106"
+text = "127.0.0.1"
 
 [node name="PortLabel" type="Label" parent="UI/Start/ENet/Join/VBox/Options" unique_id=1865988540]
 layout_mode = 2

@@ -8,19 +8,38 @@ const PLAYER_SPRITES: Array[Texture2D] = [
 	preload("res://common/ui/player_icons/Blue_Icon.png"),
 	preload("res://common/ui/player_icons/Beige_Icon.png"),
 	]
-var players: Dictionary = {}
+var player_scores: Dictionary = {
+}
+
+func update_scores(peer_id: int, display_name: String, kill_count: int, character: int) -> void:
+	if !multiplayer.is_server():
+		return
+	if peer_id not in player_scores:
+		player_scores[peer_id] = {
+			"display_name" : display_name,
+			"kill_count" : kill_count,
+			"player_sprite_id" : character
+		}
+	else:
+		player_scores[peer_id]["kill_count"] = kill_count
+	draw_scoreboard.rpc(player_scores)
+
+func remove_player(peer_id: int):
+	player_scores.erase(peer_id)
+	draw_scoreboard.rpc(player_scores)
 
 @rpc("authority", "call_local", "reliable")
-func update_row(peer_id: int, display_name: String, kill_count: int, character: int) -> void:
-	var display: PanelContainer = players.get(peer_id)
-	if display == null:
-		display = PLAYER_DISPLAY.instantiate()
-		$PlayerBoxes.add_child(display)
-		players[peer_id] = display
-	display.set_info(display_name, kill_count, PLAYER_SPRITES[character])
+func draw_scoreboard(new_player_scores : Dictionary):
+	for child in $PlayerBoxes.get_children():
+		$PlayerBoxes.remove_child(child)
+		child.queue_free() 
 	
-
-func remove_row(peer_id: int) -> void:
-	if players.has(peer_id):
-		players[peer_id].queue_free()
-		players.erase(peer_id)
+	player_scores = new_player_scores
+	var player_ids: Array = player_scores.keys()
+	player_ids.sort_custom(func(a, b): return player_scores[a]["kill_count"] < player_scores[b]["kill_count"])
+	for player_id in player_ids:
+		var player_dict = player_scores[player_id]
+		var new_player_card = PLAYER_DISPLAY.instantiate()
+		$PlayerBoxes.add_child(new_player_card)
+		new_player_card.set_info(player_dict["display_name"], player_dict["kill_count"], 
+			PLAYER_SPRITES[player_dict["player_sprite_id"]])		
