@@ -33,8 +33,7 @@ func _ready() -> void:
 
 func _start_server_common() -> void:
 	if (!headless_mode):
-		load_level() # start the first level
-		spawn_player(1) # server always has ID 1
+		start_new_game()
 
 func start_enet_server(port: int = DEFAULT_PORT) -> void:
 	var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
@@ -56,9 +55,7 @@ func _on_peer_connected(peer_id: int) -> void:
 	if (!multiplayer.is_server()): return
 	
 	if (level == null):
-		load_level()
-		
-	spawn_player(peer_id)
+		start_new_game()
 
 #This signal is emitted on every remaining peer when one disconnects.
 func _on_peer_disconnected(peer_id: int) -> void:
@@ -82,7 +79,35 @@ func _on_server_disconnected() -> void:
 var level: Level = null
 var level_idx: int = -1
 
-# ...
+# Game State Management
+
+enum GameState {
+	MAIN_MENU,
+	LOBBY,
+	IN_GAME,
+	GAME_OVER
+}
+
+var game_state: GameState = GameState.MAIN_MENU
+
+@rpc("authority", "call_local", "reliable")
+func update_game_state(new_state: GameState) -> void:
+	game_state = GameState.GAME_OVER
+	return
+
+func start_new_game() -> void:
+	load_level() # start the first level
+	spawn_all_players()
+	return
+
+func end_game() -> void:
+	unload_level()
+	remove_all_players()
+	await get_tree().process_frame
+	start_new_game()
+	#update_game_state.rpc(GameState.GAME_OVER)
+	#Set gameover screen
+	return
 
 # Level Management
 
@@ -132,6 +157,31 @@ func spawn_player(peer_id: int) -> void:
 	# Add player to level and teleport to spawn position
 	$Players.add_child(player)
 	player.teleport.rpc(get_furthest_spawn(player))
+	
+func remove_player(peer_id: int) -> void:
+	# Find player node
+	var player: Player = get_player(peer_id)
+	if (player == null): return
+	# Remove the player from the scoreboard
+	$Scoreboard.remove_player(peer_id)
+	# Return character back to available list
+	available_characters.append(player.character)
+	
+	# Free player
+	player.queue_free()
+
+func spawn_all_players() -> void:
+	if !multiplayer.is_server(): return
+	var peer_ids: Array = multiplayer.get_peers()
+	if !headless_mode:
+		peer_ids.append(1)
+	for peer_id: int in peer_ids:
+		spawn_player(peer_id)
+
+func remove_all_players() -> void:
+	if !multiplayer.is_server(): return
+	for player: Player in get_players():
+		remove_player(player.peer_id)
 
 func respawn_player(peer_id: int) -> void:
 	var player: Player = get_player(peer_id)
@@ -167,21 +217,3 @@ func get_furthest_spawn(excluded_player: Player) -> Vector2:
 
 		var best_spawn: Vector2 = potential_spawns[best_spawn_index]
 		return best_spawn
-
-func remove_player(peer_id: int) -> void:
-	# Find player node
-	var player: Player = get_player(peer_id)
-	if (player == null): return
-	# Remove the player from the scoreboard
-	$Scoreboard.remove_player(peer_id)
-	# Return character back to available list
-	available_characters.append(player.character)
-	
-	# Free player
-	player.queue_free()
-
-
-# Game Logic
-
-func check_game_over():
-	return

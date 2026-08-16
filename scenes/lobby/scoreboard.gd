@@ -10,6 +10,11 @@ const PLAYER_SPRITES: Array[Texture2D] = [
 	]
 var player_scores: Dictionary = {
 }
+var kills_to_win: int = 1
+var lobby: Lobby
+
+func _ready() -> void:
+	lobby = get_parent()
 
 func update_scores(peer_id: int, display_name: String, kill_count: int, character: int) -> void:
 	if !multiplayer.is_server():
@@ -22,7 +27,11 @@ func update_scores(peer_id: int, display_name: String, kill_count: int, characte
 		}
 	else:
 		player_scores[peer_id]["kill_count"] = kill_count
-	draw_scoreboard.rpc(player_scores)
+	
+	if check_game_over():
+		lobby.end_game()
+	else:
+		draw_scoreboard.rpc(player_scores)
 
 func remove_player(peer_id: int):
 	player_scores.erase(peer_id)
@@ -42,4 +51,15 @@ func draw_scoreboard(new_player_scores : Dictionary):
 		var new_player_card = PLAYER_DISPLAY.instantiate()
 		$PlayerBoxes.add_child(new_player_card)
 		new_player_card.set_info(player_dict["display_name"], player_dict["kill_count"], 
-			PLAYER_SPRITES[player_dict["player_sprite_id"]])		
+			PLAYER_SPRITES[player_dict["player_sprite_id"]])
+
+
+
+func draw_game_over() -> void:
+	return
+
+func check_game_over() -> bool:
+	for player in player_scores:
+		if player_scores[player]["kill_count"] >= kills_to_win:
+			return true
+	return false

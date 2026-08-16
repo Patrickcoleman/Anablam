@@ -4,7 +4,9 @@ extends CanvasLayer
 var random_names: Array[String] = [
 	"Monkey", "Walrus", "Chihuahua", "Bonobo", "Chameleon", "Bacterium",
 	"Hippo", "Elk", "Goanna", "Koala", "Kangaroo", "Platypus", "Raven",
-	"Eagle", "Moose", "Beaver", "Rat", "Donkey", "Caribou", "Springbok"
+	"Eagle", "Moose", "Beaver", "Rat", "Donkey", "Caribou", "Springbok",
+	"Mouse", "Capybara", "Tapir", "Sloth", "Raccoon", "Worm", "Mole",
+	"Bat", "Bison", "Yak", "Buffalo", "Gnu"
 	]
 
 # ENet
