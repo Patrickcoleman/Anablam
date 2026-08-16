@@ -10,7 +10,7 @@ const PLAYER_SPRITES: Array[Texture2D] = [
 	]
 var player_scores: Dictionary = {
 }
-var kills_to_win: int = 1
+var kills_to_win: int = 3
 var lobby: Lobby
 
 func _ready() -> void:
