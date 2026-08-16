@@ -56,8 +56,8 @@ func _on_peer_connected(peer_id: int) -> void:
 	
 	if (level == null):
 		start_new_game()
-	
-	spawn_player(peer_id)
+	else:
+		spawn_player(peer_id)
 
 #This signal is emitted on every remaining peer when one disconnects.
 func _on_peer_disconnected(peer_id: int) -> void:
@@ -150,14 +150,12 @@ func get_player_count() -> int:
 func spawn_player(peer_id: int) -> void:
 	var player: Player = PLAYER_SCN.instantiate()
 	player.name = str(peer_id)
-	print("Spawning player, intended name: ", player.name, " actual name after set: ", str(peer_id))
 	
 	var random_index: int = randi_range(0, available_characters.size() - 1)
 	player.character = available_characters[random_index]
 	available_characters.remove_at(random_index)
 	
 	$Players.add_child(player)
-	print("Player added, final tree name: ", player.name)
 	
 	player.teleport.rpc(get_furthest_spawn(player))
 	
