@@ -56,6 +56,8 @@ func _on_peer_connected(peer_id: int) -> void:
 	
 	if (level == null):
 		start_new_game()
+	
+	spawn_player(peer_id)
 
 #This signal is emitted on every remaining peer when one disconnects.
 func _on_peer_disconnected(peer_id: int) -> void:
