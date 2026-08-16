@@ -148,25 +148,24 @@ func get_player_count() -> int:
 	return count
 
 func spawn_player(peer_id: int) -> void:
-	# Prepare new player
 	var player: Player = PLAYER_SCN.instantiate()
 	player.name = str(peer_id)
+	print("Spawning player, intended name: ", player.name, " actual name after set: ", str(peer_id))
 	
 	var random_index: int = randi_range(0, available_characters.size() - 1)
 	player.character = available_characters[random_index]
 	available_characters.remove_at(random_index)
 	
-	# Add player to level and teleport to spawn position
 	$Players.add_child(player)
+	print("Player added, final tree name: ", player.name)
+	
 	player.teleport.rpc(get_furthest_spawn(player))
 	
 func remove_player(peer_id: int) -> void:
-	# Find player node
 	var player: Player = get_player(peer_id)
 	if (player == null): return
-	# Remove the player from the scoreboard
 	$Scoreboard.remove_player(peer_id)
-	# Return character back to available list
+	
 	available_characters.append(player.character)
 	
 	# Free player
