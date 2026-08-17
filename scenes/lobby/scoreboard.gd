@@ -49,6 +49,7 @@ func remove_player(peer_id: int):
 @rpc("authority", "call_local", "reliable")
 func share_scores(new_player_scores : Dictionary) -> void:
 	player_scores = new_player_scores
+	draw_scoreboard()
 
 @rpc("authority", "call_local", "reliable")
 func draw_scoreboard():
