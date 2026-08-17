@@ -63,7 +63,7 @@ replication_config = SubResource("SceneReplicationConfig_jnjyq")
 one_shot = true
 
 [node name="RespawnTimer" type="Timer" parent="." unique_id=788943578]
-wait_time = 5.0
+wait_time = 2.0
 one_shot = true
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=545584566]

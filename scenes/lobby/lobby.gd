@@ -90,26 +90,55 @@ enum GameState {
 	GAME_OVER
 }
 
-var game_state: GameState = GameState.MAIN_MENU
+var game_state: GameState = GameState.MAIN_MENU :
+	set(value):
+		game_state = value
+		_on_game_state_changed(value)
+
+func _on_game_state_changed(new_state: GameState) -> void:
+	match new_state:
+		GameState.MAIN_MENU:
+			$UI/MainMenu.show()
+			$Scoreboard.hide()
+		GameState.LOBBY:
+			$UI/MainMenu.hide()
+		GameState.IN_GAME:
+			$Scoreboard.show()
+			$Scoreboard/PlayerBoxes.show()
+			$Scoreboard/GameOver.hide()
+		GameState.GAME_OVER:
+			$Scoreboard/PlayerBoxes.hide()
+			$Scoreboard/GameOver.show()
+			$Scoreboard.draw_game_over()
 
 @rpc("authority", "call_local", "reliable")
 func update_game_state(new_state: GameState) -> void:
-	game_state = GameState.GAME_OVER
+	game_state = new_state
 	return
 
 func start_new_game() -> void:
+	if !multiplayer.is_server():
+		return
 	load_level() # start the first level
 	spawn_all_players()
+	$Scoreboard.reset_scores()
+	update_game_state.rpc(GameState.IN_GAME)
 	return
 
 func end_game() -> void:
+	if !multiplayer.is_server():
+		return
 	unload_level()
 	remove_all_players()
-	await get_tree().process_frame
-	start_new_game()
-	#update_game_state.rpc(GameState.GAME_OVER)
-	#Set gameover screen
+	update_game_state.rpc(GameState.GAME_OVER)
+	$GameOverTimer.start()
 	return
+
+func gameover_screen_timeout() -> void:
+	if !multiplayer.is_server():
+		return
+	start_new_game()
+
 
 # Level Management
 
@@ -162,11 +191,9 @@ func spawn_player(peer_id: int) -> void:
 func remove_player(peer_id: int) -> void:
 	var player: Player = get_player(peer_id)
 	if (player == null): return
-	$Scoreboard.remove_player(peer_id)
 	
 	available_characters.append(player.character)
 	
-	# Free player
 	player.queue_free()
 
 func spawn_all_players() -> void:

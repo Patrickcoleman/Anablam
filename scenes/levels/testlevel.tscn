@@ -136,7 +136,7 @@ metadata/_edit_use_anchors_ = true
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=758169686]
 
 [node name="Spawn" type="Marker2D" parent="SpawnPoints" unique_id=229370693]
-position = Vector2(156, 134)
+position = Vector2(352, 456)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn" unique_id=2038921869]
@@ -152,7 +152,7 @@ visible = false
 texture = ExtResource("3_3hckn")
 
 [node name="Spawn3" type="Marker2D" parent="SpawnPoints" unique_id=1999919262]
-position = Vector2(1177, 575)
+position = Vector2(552, 304)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn3" unique_id=590609854]
@@ -160,7 +160,7 @@ visible = false
 texture = ExtResource("3_3hckn")
 
 [node name="Spawn4" type="Marker2D" parent="SpawnPoints" unique_id=663404559]
-position = Vector2(1182, 153)
+position = Vector2(512, 568)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn4" unique_id=849114941]
@@ -176,7 +176,7 @@ visible = false
 texture = ExtResource("3_3hckn")
 
 [node name="Spawn6" type="Marker2D" parent="SpawnPoints" unique_id=1769828603]
-position = Vector2(669, 351)
+position = Vector2(504, 400)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn6" unique_id=391342301]

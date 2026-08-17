@@ -168,5 +168,10 @@ text = "Placeholder"
 [node name="PlayerBoxes" type="HBoxContainer" parent="Scoreboard/GameOver" unique_id=1639504148]
 layout_mode = 2
 
+[node name="GameOverTimer" type="Timer" parent="." unique_id=618592337]
+wait_time = 5.0
+one_shot = true
+
 [connection signal="pressed" from="UI/Start/ENet/Join/VBox/Start" to="UI" method="_on_enet_join_pressed"]
 [connection signal="pressed" from="UI/Start/ENet/Host/VBox/Start" to="UI" method="_on_enet_host_pressed"]
+[connection signal="timeout" from="GameOverTimer" to="." method="gameover_screen_timeout"]
