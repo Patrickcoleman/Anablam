@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jqhdkilt2ikm"
-path="res://.godot/imported/barrelBlue_outline.png-92f58f1f2ef1bd492d5cbf1d4a5b9f7e.ctex"
+uid="uid://jt1qf14rm4q3"
+path="res://.godot/imported/tankRed_outline.png-a67fe3d16880a01c4312c5ce0ca81012.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://common/sprites/Tanks/barrelBlue_outline.png"
-dest_files=["res://.godot/imported/barrelBlue_outline.png-92f58f1f2ef1bd492d5cbf1d4a5b9f7e.ctex"]
+source_file="res://objects/player/bodies/tankRed_outline.png"
+dest_files=["res://.godot/imported/tankRed_outline.png-a67fe3d16880a01c4312c5ce0ca81012.ctex"]
 
 [params]
 

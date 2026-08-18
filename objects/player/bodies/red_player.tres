@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://bkoaa8c671837"]
 
-[ext_resource type="Texture2D" uid="uid://jt1qf14rm4q3" path="res://common/sprites/Tanks/tankRed_outline.png" id="1_hs8pd"]
+[ext_resource type="Texture2D" uid="uid://jt1qf14rm4q3" path="res://objects/player/bodies/tankRed_outline.png" id="1_hs8pd"]
 
 [resource]
 animations = [{
