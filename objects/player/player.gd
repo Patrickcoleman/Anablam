@@ -1,7 +1,7 @@
 extends CharacterBody2D
 class_name Player
 
-var peer_id: int = 1 
+var peer_id: int = 1
 var local: bool = true
 var lobby: Lobby
 
@@ -10,7 +10,7 @@ const CHARACTERS: Array[SpriteFrames] = [
 	preload("res://objects/player/bodies/red_player.tres"),
 	preload("res://objects/player/bodies/black_player.tres"),
 	preload("res://objects/player/bodies/blue_player.tres"),
-	preload("res://objects/player/bodies/beige_player.tres")
+	preload("res://objects/player/bodies/beige_player.tres"),
 ]
 
 const BARRELS: Array[Texture2D] = [
@@ -21,25 +21,30 @@ const BARRELS: Array[Texture2D] = [
 	preload("res://objects/player/barrels/barrelBeige_outline.png"),
 ]
 
+
 func _on_player_data_changed():
 	var player_data = lobby.player_data
 	update_sprite(player_data[int(name)]["sprite_id"])
 	set_display_name(player_data[int(name)]["display_name"])
+
 
 func update_sprite(sprite_id: int):
 	$Body.sprite_frames = CHARACTERS[sprite_id]
 	$Body.play(&"default")
 	$Barrel.texture = BARRELS[sprite_id]
 
+
 func set_display_name(player_name: String):
 	$InfoPanel/DisplayName.text = player_name
 
 # Lifecycle
 
+
 func _enter_tree() -> void:
 	peer_id = int(name)
 	$ClientSynchronizer.set_multiplayer_authority(peer_id)
 	local = (peer_id == multiplayer.get_unique_id())
+
 
 func _ready() -> void:
 	lobby = get_node("/root/Lobby")
@@ -49,18 +54,19 @@ func _ready() -> void:
 	else:
 		$HUD.queue_free()
 
+
 # RPC
 @rpc("authority", "call_local", "reliable")
 func teleport(new_pos: Vector2) -> void:
 	velocity = Vector2.ZERO
-	global_position = new_pos 
+	global_position = new_pos
+
 
 @export var acceleration: float = 400.0
 @export var deceleration: float = 600.0
 @export var max_speed: float = 120.0
 @export var max_reverse_speed: float = 70.0
-@export var turn_speed: float = 1.5 
-
+@export var turn_speed: float = 1.5
 
 @export var angular_damping: float = 100.0
 @export var collision_torque_factor: float = 0.003
@@ -74,20 +80,22 @@ var last_received_velocity: Vector2 = Vector2.ZERO
 var last_received_rotation: float = 0.0
 var time_since_last_update: float = 0.0
 
+
 func on_state_received() -> void:
 	last_received_position = global_position
 	last_received_velocity = velocity
 	last_received_rotation = rotation
 	time_since_last_update = 0.0
 
+
 func _physics_process(delta: float) -> void:
 	# Only process physics if local
 	if local:
 		if Input.is_action_pressed("fire"):
 			fire_bullet()
-		
+
 		update_barrel_angle()
-		
+
 		var turn_input: float = 0.0
 		var move_input: float = 0.0
 
@@ -99,21 +107,21 @@ func _physics_process(delta: float) -> void:
 			move_input += 1
 		if Input.is_action_pressed("move_back"):
 			move_input -= 1
-		
+
 		if !is_zero_approx(move_input):
 			var target_speed: float = max_speed if (move_input > 0) else -max_reverse_speed
 			speed = move_toward(speed, target_speed, acceleration * delta)
 		else:
 			speed = move_toward(speed, 0, deceleration * delta)
-		
+
 		var forward: Vector2 = Vector2.DOWN.rotated(rotation)
 		var pre_velocity: Vector2 = forward * speed
 		velocity = pre_velocity
-		
+
 		move_and_slide()
-		
+
 		speed = velocity.dot(forward)
-		
+
 		for i in get_slide_collision_count():
 			var collision: KinematicCollision2D = get_slide_collision(i)
 			var normal: Vector2 = collision.get_normal()
@@ -122,22 +130,25 @@ func _physics_process(delta: float) -> void:
 
 		rotation += (turn_input * turn_speed + angular_velocity) * delta
 		angular_velocity = move_toward(angular_velocity, 0, angular_damping * delta)
-		
-	
+
 	else:
 		time_since_last_update += delta
 		if time_since_last_update > 0.02:
 			var forward: Vector2 = Vector2.DOWN.rotated(last_received_rotation)
 			global_position += forward * last_received_velocity.length() * delta
-	
+
 	$Barrel.rotation = barrel_angle - rotation
+
 
 #bullet firing logic
 const bullet_SCN: PackedScene = preload("res://objects/bullets/bullet.tscn")
 
+
 func fire_bullet() -> void:
-	if (!local): return
-	if !$FireCooldown.is_stopped(): return
+	if (!local):
+		return
+	if !$FireCooldown.is_stopped():
+		return
 	if (!multiplayer.is_server()):
 		_request_fire.rpc_id(1)
 		$FireCooldown.start()
@@ -145,10 +156,13 @@ func fire_bullet() -> void:
 	_spawn_bullet()
 	$FireCooldown.start()
 
+
 @rpc("any_peer", "call_remote", "reliable")
 func _request_fire() -> void:
-	if (!multiplayer.is_server()): return
+	if (!multiplayer.is_server()):
+		return
 	_spawn_bullet()
+
 
 func _spawn_bullet() -> void:
 	var bullet: Bullet = bullet_SCN.instantiate()
@@ -156,14 +170,17 @@ func _spawn_bullet() -> void:
 	bullet.rotation = barrel_angle
 	bullet.owner_peer_id = peer_id
 	get_node("/root/Lobby/Bullets").add_child(bullet, true)
-	
+
+
 func update_barrel_angle():
 	barrel_angle = get_angle_to_mouse()
-	
+
+
 func get_angle_to_mouse() -> float:
-		var mouse_pos: Vector2 = get_global_mouse_position()
-		var direction: Vector2 = mouse_pos - global_position
-		return direction.angle() - PI / 2
+	var mouse_pos: Vector2 = get_global_mouse_position()
+	var direction: Vector2 = mouse_pos - global_position
+	return direction.angle() - PI / 2
+
 
 @rpc("authority", "call_local", "reliable")
 func kill() -> void:
@@ -171,14 +188,17 @@ func kill() -> void:
 	if multiplayer.is_server():
 		$RespawnTimer.start()
 
+
 func _on_respawn_timer_timeout() -> void:
 	if multiplayer.is_server():
 		get_node("/root/Lobby").respawn_player(peer_id)
+
 
 @rpc("authority", "call_local", "reliable")
 func revive(new_pos: Vector2) -> void:
 	global_position = new_pos
 	set_hidden(false)
+
 
 func set_hidden(hidden_bool: bool) -> void:
 	visible = !hidden_bool

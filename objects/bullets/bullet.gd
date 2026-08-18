@@ -12,11 +12,14 @@ const SPRITES: Array[Texture2D] = [
 	preload("res://objects/bullets/bulletBeigeSilver_outline.png"),
 ]
 
+
 func _physics_process(delta: float) -> void:
 	position += Vector2.DOWN.rotated(rotation) * speed * delta
 
+
 func _on_body_entered(body: Node2D) -> void:
-	if !multiplayer.is_server(): return
+	if !multiplayer.is_server():
+		return
 	if body is Player:
 		if body.peer_id == owner_peer_id:
 			return
