@@ -8,50 +8,16 @@ const PLAYER_SPRITES: Array[Texture2D] = [
 	preload("res://common/ui/player_icons/Blue_Icon.png"),
 	preload("res://common/ui/player_icons/Beige_Icon.png"),
 	]
-var player_scores: Dictionary = {
-}
-var kills_to_win: int = 3
+
 var lobby: Lobby
 
 func _ready() -> void:
 	lobby = get_parent()
+	lobby.player_data_changed.connect(_on_player_data_changed)
 
-func reset_scores() -> void:
-	if !multiplayer.is_server():
-		return
-	player_scores = {}
-	share_scores.rpc(player_scores)
-
-func update_scores(peer_id: int, display_name: String, kill_count: int, character: int) -> void:
-	if !multiplayer.is_server():
-		return
-	if peer_id not in player_scores:
-		player_scores[peer_id] = {
-			"display_name" : display_name,
-			"kill_count" : kill_count,
-			"player_sprite_id" : character
-		}
-	else:
-		player_scores[peer_id]["kill_count"] = kill_count
-	
-	share_scores.rpc(player_scores)
-	
-	if check_game_over():
-		lobby.end_game()
-	else:
-		draw_scoreboard.rpc()
-
-func remove_player(peer_id: int):
-	player_scores.erase(peer_id)
-	share_scores.rpc(player_scores)
-	draw_scoreboard.rpc()
-
-@rpc("authority", "call_local", "reliable")
-func share_scores(new_player_scores : Dictionary) -> void:
-	player_scores = new_player_scores
+func _on_player_data_changed():
 	draw_scoreboard()
 
-@rpc("authority", "call_local", "reliable")
 func draw_scoreboard():
 	draw_scores_in_element($PlayerBoxes)
 
@@ -63,20 +29,15 @@ func draw_scores_in_element(parent: HBoxContainer) -> void:
 		parent.remove_child(child)
 		child.queue_free()
 	
-	var player_ids: Array = player_scores.keys()
-	player_ids.sort_custom(func(a, b): return player_scores[a]["kill_count"] < player_scores[b]["kill_count"])
+	var player_data = lobby.player_data
+	var player_ids: Array = player_data.keys()
+	
+	player_ids.sort_custom(func(a, b): return player_data[a]["kills"] < player_data[b]["kills"])
 	for player_id in player_ids:
-		var player_dict = player_scores[player_id]
+		var player_dict = player_data[player_id]
+		if player_dict["kills"] == 0:
+			continue
 		var new_player_card = PLAYER_DISPLAY.instantiate()
 		parent.add_child(new_player_card)
-		new_player_card.set_info(player_dict["display_name"], player_dict["kill_count"], 
-			PLAYER_SPRITES[player_dict["player_sprite_id"]])
-
-func set_game_over_visible(visible_bool: bool) -> void:
-	$GameOver.visible = visible_bool
-
-func check_game_over() -> bool:
-	for player in player_scores:
-		if player_scores[player]["kill_count"] >= kills_to_win:
-			return true
-	return false
+		new_player_card.set_info(player_dict["display_name"], player_dict["kills"], 
+			PLAYER_SPRITES[player_dict["sprite_id"]])

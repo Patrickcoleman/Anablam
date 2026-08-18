@@ -3,6 +3,7 @@ class_name Player
 
 var peer_id: int = 1 
 var local: bool = true
+var lobby: Lobby
 
 const CHARACTERS: Array[SpriteFrames] = [
 	preload("res://objects/player/bodies/green_player.tres"),
@@ -20,22 +21,18 @@ const BARRELS: Array[Texture2D] = [
 	preload("res://objects/player/barrels/barrelBeige_outline.png"),
 ]
 
-var character: int = 0 :
-	set(value):
-		character = clampi(value, 0, CHARACTERS.size() - 1)
-		$Body.sprite_frames = CHARACTERS[character]
-		$Body.play(&"default")
-		$Barrel.texture = BARRELS[character]
+func _on_player_data_changed():
+	var player_data = lobby.player_data
+	update_sprite(player_data[int(name)]["sprite_id"])
+	set_display_name(player_data[int(name)]["display_name"])
 
-var display_name: String = "Player" :
-	set(value):
-		display_name = value
-		$InfoPanel/DisplayName.text = display_name
+func update_sprite(sprite_id: int):
+	$Body.sprite_frames = CHARACTERS[sprite_id]
+	$Body.play(&"default")
+	$Barrel.texture = BARRELS[sprite_id]
 
-var kill_count: int = 0 :
-	set(value):
-		kill_count = value
-		get_node("/root/Lobby/Scoreboard").update_scores(peer_id, display_name, kill_count, character)
+func set_display_name(player_name: String):
+	$InfoPanel/DisplayName.text = player_name
 
 # Lifecycle
 
@@ -45,17 +42,12 @@ func _enter_tree() -> void:
 	local = (peer_id == multiplayer.get_unique_id())
 
 func _ready() -> void:
+	lobby = get_node("/root/Lobby")
+	lobby.player_data_changed.connect(_on_player_data_changed)
 	if (local):
 		$Camera2D.make_current()
-		submit_display_name.rpc_id(1, get_node("/root/Lobby").display_name)
 	else:
 		$HUD.queue_free()
-
-@rpc("any_peer", "call_local", "reliable")
-func submit_display_name(name_value: String) -> void:
-	if !multiplayer.is_server(): return
-	if multiplayer.get_remote_sender_id() != peer_id: return
-	display_name = name_value
 
 # RPC
 @rpc("authority", "call_local", "reliable")

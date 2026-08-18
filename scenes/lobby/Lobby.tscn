@@ -3,6 +3,28 @@
 [ext_resource type="Script" uid="uid://doambjwto8fuk" path="res://scenes/lobby/lobby.gd" id="1_sj1j4"]
 [ext_resource type="Script" uid="uid://cflf2w2epx7um" path="res://scenes/lobby/ui.gd" id="2_v0l1j"]
 [ext_resource type="Script" uid="uid://brmueumte4vm2" path="res://scenes/lobby/scoreboard.gd" id="3_qv0t4"]
+[ext_resource type="Script" uid="uid://d0p5xpyt7lbg8" path="res://scenes/lobby/lobby_ui.gd" id="4_5c8lw"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5c8lw"]
+properties/0/path = NodePath(".:game_state")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_patxp"]
+bg_color = Color(0.37168315, 0.52715355, 0.8087059, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.20368925, 0.41101432, 0.7112251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cimh6"]
+font_color = Color(0.032822635, 2.7344282e-05, 0.13993934, 1)
+
+[sub_resource type="Theme" id="Theme_cimh6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tk3j5"]
+bg_color = Color(0.83634555, 0, 0.14623445, 1)
 
 [node name="Lobby" type="Node2D" unique_id=795581606]
 script = ExtResource("1_sj1j4")
@@ -27,6 +49,9 @@ spawn_limit = 5
 _spawnable_scenes = PackedStringArray("uid://buokvh4vsppti")
 spawn_path = NodePath("../Bullets")
 spawn_limit = 40
+
+[node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=214453317]
+replication_config = SubResource("SceneReplicationConfig_5c8lw")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1454329024]
 script = ExtResource("2_v0l1j")
@@ -122,6 +147,7 @@ layout_mode = 2
 text = "Start"
 
 [node name="Scoreboard" type="CanvasLayer" parent="." unique_id=87374042]
+visible = false
 script = ExtResource("3_qv0t4")
 
 [node name="PlayerBoxes" type="HBoxContainer" parent="Scoreboard" unique_id=2059009260]
@@ -172,6 +198,84 @@ layout_mode = 2
 wait_time = 5.0
 one_shot = true
 
+[node name="LobbyUI" type="CanvasLayer" parent="." unique_id=1924289879]
+visible = false
+script = ExtResource("4_5c8lw")
+
+[node name="HBox" type="HBoxContainer" parent="LobbyUI" unique_id=1921645264]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerList" type="VBoxContainer" parent="LobbyUI/HBox" unique_id=555308288]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="Slot1" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=153220064]
+custom_maximum_size = Vector2(150, -1)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
+text = "Empty"
+label_settings = SubResource("LabelSettings_cimh6")
+
+[node name="Slot2" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=859820582]
+custom_maximum_size = Vector2(150, -1)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
+text = "Empty"
+label_settings = SubResource("LabelSettings_cimh6")
+
+[node name="Slot3" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=1728584875]
+custom_maximum_size = Vector2(150, -1)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
+text = "Empty"
+label_settings = SubResource("LabelSettings_cimh6")
+
+[node name="Slot4" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=1327825596]
+custom_maximum_size = Vector2(150, -1)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
+text = "Empty"
+label_settings = SubResource("LabelSettings_cimh6")
+
+[node name="Slot5" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=2106689970]
+custom_maximum_size = Vector2(150, -1)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
+text = "Empty"
+label_settings = SubResource("LabelSettings_cimh6")
+
+[node name="VBox" type="VBoxContainer" parent="LobbyUI/HBox" unique_id=884012282]
+layout_mode = 2
+
+[node name="ExitMenu" type="Button" parent="LobbyUI/HBox/VBox" unique_id=1974380143]
+layout_mode = 2
+theme = SubResource("Theme_cimh6")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_tk3j5")
+text = "Exit to Menu"
+
+[node name="VoteStart" type="Button" parent="LobbyUI/HBox/VBox" unique_id=1048713104]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Vote to Start"
+
+[node name="Label" type="Label" parent="LobbyUI/HBox/VBox" unique_id=560288484]
+layout_mode = 2
+size_flags_vertical = 8
+text = "0/? votes"
+
 [connection signal="pressed" from="UI/Start/ENet/Join/VBox/Start" to="UI" method="_on_enet_join_pressed"]
 [connection signal="pressed" from="UI/Start/ENet/Host/VBox/Start" to="UI" method="_on_enet_host_pressed"]
 [connection signal="timeout" from="GameOverTimer" to="." method="gameover_screen_timeout"]
+[connection signal="pressed" from="LobbyUI/HBox/VBox/ExitMenu" to="LobbyUI" method="exit_to_menu"]
+[connection signal="pressed" from="LobbyUI/HBox/VBox/VoteStart" to="LobbyUI" method="vote_start"]

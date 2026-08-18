@@ -9,6 +9,11 @@ var headless_mode: bool = (DisplayServer.get_name() == "headless")
 const PLAYER_SCN: PackedScene = preload("res://objects/player/player.tscn")
 var available_characters: Array[int] = []
 var display_name: String = "Player"
+var player_data: Dictionary = {
+}
+signal player_data_changed
+
+var kills_to_win: int = 5
 
 # Lifecycle
 
@@ -26,14 +31,19 @@ func _ready() -> void:
 	for idx: int in Player.CHARACTERS.size():
 		available_characters.append(idx)
 	
+	update_game_state(GameState.MAIN_MENU)
+	
 	if (headless_mode):
 		start_enet_server()
 
 # Network
 
 func _start_server_common() -> void:
-	if (!headless_mode):
-		start_new_game()
+	if !headless_mode:
+		player_data[1] = make_default_player_entry()
+		player_data[1]["display_name"] = display_name
+	share_player_info.rpc(player_data)
+	open_lobby()
 
 func start_enet_server(port: int = DEFAULT_PORT) -> void:
 	var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
@@ -54,15 +64,32 @@ func _on_peer_connected(peer_id: int) -> void:
 	# Handle player spawn if hosting
 	if (!multiplayer.is_server()): return
 	
-	if (level == null):
-		start_new_game()
-	else:
+	player_data[peer_id] = make_default_player_entry()
+	
+	if (game_state == GameState.IN_GAME):
 		spawn_player(peer_id)
+	
+	share_player_info.rpc(player_data)
+
+func make_default_player_entry() -> Dictionary:
+	return {
+		"display_name": "Loading...",
+		"voted": false,
+		"sprite_id": 0,
+		"kills": 0
+	}
+
+@rpc("authority", "call_local", "reliable")
+func share_player_info(new_player_data):
+	player_data = new_player_data
+	player_data_changed.emit()
 
 #This signal is emitted on every remaining peer when one disconnects.
 func _on_peer_disconnected(peer_id: int) -> void:
-	# Handle player removal if hosting
 	if (!multiplayer.is_server()): return
+	
+	player_data.erase(peer_id)
+	share_player_info.rpc(player_data)
 	
 	if (get_player_count() == 1):
 		unload_level()
@@ -70,6 +97,7 @@ func _on_peer_disconnected(peer_id: int) -> void:
 	remove_player(peer_id)
 
 func _on_connected_to_server() -> void:
+	submit_display_name.rpc_id(1, display_name)
 	pass
 
 func _on_connection_failed() -> void:
@@ -77,6 +105,22 @@ func _on_connection_failed() -> void:
 
 func _on_server_disconnected() -> void:
 	pass
+
+func leave_server() -> void:
+	if multiplayer.multiplayer_peer != null:
+		multiplayer.multiplayer_peer.close()
+	multiplayer.multiplayer_peer = null
+	game_state = GameState.MAIN_MENU
+
+@rpc("authority", "call_local", "reliable")
+func notify_server_closing() -> void:
+	if !multiplayer.is_server():
+		leave_server()
+
+func close_server() -> void:
+	if !multiplayer.is_server(): return
+	notify_server_closing.rpc()
+	leave_server()
 
 var level: Level = null
 var level_idx: int = -1
@@ -96,49 +140,106 @@ var game_state: GameState = GameState.MAIN_MENU :
 		_on_game_state_changed(value)
 
 func _on_game_state_changed(new_state: GameState) -> void:
+	$UI.hide()
+	$LobbyUI.hide()
+	$Scoreboard.hide()
+	$Scoreboard/PlayerBoxes.hide()
+	$Scoreboard/GameOver.hide()
+
 	match new_state:
 		GameState.MAIN_MENU:
-			$UI/MainMenu.show()
-			$Scoreboard.hide()
+			$UI.show()
 		GameState.LOBBY:
-			$UI/MainMenu.hide()
+			$LobbyUI.show()
 		GameState.IN_GAME:
+			$Scoreboard.draw_scoreboard()
 			$Scoreboard.show()
 			$Scoreboard/PlayerBoxes.show()
-			$Scoreboard/GameOver.hide()
 		GameState.GAME_OVER:
-			$Scoreboard/PlayerBoxes.hide()
+			$Scoreboard.draw_game_over()
+			$Scoreboard.show()
 			$Scoreboard/GameOver.show()
 			$Scoreboard.draw_game_over()
+			hide_all_players()
 
-@rpc("authority", "call_local", "reliable")
 func update_game_state(new_state: GameState) -> void:
 	game_state = new_state
 	return
+
+func open_lobby():
+	reset_votes()
+	update_game_state(GameState.LOBBY)
 
 func start_new_game() -> void:
 	if !multiplayer.is_server():
 		return
 	load_level() # start the first level
 	spawn_all_players()
-	$Scoreboard.reset_scores()
-	update_game_state.rpc(GameState.IN_GAME)
+	reset_kills()
+	update_game_state(GameState.IN_GAME)
 	return
 
 func end_game() -> void:
 	if !multiplayer.is_server():
 		return
 	unload_level()
+	update_game_state(GameState.GAME_OVER)
 	remove_all_players()
-	update_game_state.rpc(GameState.GAME_OVER)
 	$GameOverTimer.start()
 	return
 
 func gameover_screen_timeout() -> void:
 	if !multiplayer.is_server():
 		return
-	start_new_game()
+	open_lobby()
 
+# player_data updaters
+
+@rpc("any_peer", "call_remote", "reliable")
+func submit_display_name(name_value: String) -> void:
+	if multiplayer.is_server():
+		player_data[multiplayer.get_remote_sender_id()]["display_name"] = name_value
+		share_player_info.rpc(player_data)
+
+func add_kill(player_id: int):
+	if multiplayer.is_server():
+		player_data[player_id]["kills"] += 1
+		share_player_info.rpc(player_data)
+		if is_game_over():
+			end_game()
+
+func is_game_over() -> bool:
+	for player in player_data:
+		if player_data[player]["kills"] >= kills_to_win:
+			return true
+	return false
+
+func reset_kills():
+	for player in player_data:
+		player_data[player]["kills"] = 0
+	share_player_info.rpc(player_data)
+
+@rpc("any_peer", "call_local", "reliable")
+func request_vote():
+	if multiplayer.is_server():
+		player_data[multiplayer.get_remote_sender_id()]["voted"] = true
+		share_player_info.rpc(player_data)
+		if all_players_voted():
+			start_new_game()
+
+func reset_votes():
+	for player in player_data:
+		player_data[player]["voted"] = false
+	share_player_info.rpc(player_data)
+
+#returns true if all players have voted
+func all_players_voted() -> bool:
+	if player_data.size() <= 1:
+		return false
+	for player in player_data:
+		if !player_data[player]["voted"]:
+			return false
+	return true
 
 # Level Management
 
@@ -181,8 +282,9 @@ func spawn_player(peer_id: int) -> void:
 	player.name = str(peer_id)
 	
 	var random_index: int = randi_range(0, available_characters.size() - 1)
-	player.character = available_characters[random_index]
+	player_data[peer_id]["sprite_id"] = available_characters[random_index]
 	available_characters.remove_at(random_index)
+	share_player_info.rpc(player_data)
 	
 	$Players.add_child(player)
 	
@@ -191,24 +293,28 @@ func spawn_player(peer_id: int) -> void:
 func remove_player(peer_id: int) -> void:
 	var player: Player = get_player(peer_id)
 	if (player == null): return
-	
-	available_characters.append(player.character)
+	available_characters.append(player_data[peer_id]["sprite_id"])
 	
 	player.queue_free()
 
 func spawn_all_players() -> void:
 	if !multiplayer.is_server(): return
-	var peer_ids: Array = multiplayer.get_peers()
-	if !headless_mode:
-		peer_ids.append(1)
-	for peer_id: int in peer_ids:
-		spawn_player(peer_id)
+	for player in player_data:
+		spawn_player(player)
 
 func remove_all_players() -> void:
 	if !multiplayer.is_server(): return
 	for player: Player in get_players():
+		player.get_node("ClientSynchronizer").public_visibility = false
+	await get_tree().create_timer(0.3).timeout
+
+	for player: Player in get_players():
 		remove_player(player.peer_id)
 
+func hide_all_players():
+	for player: Player in get_players():
+		player.hide()
+	
 func respawn_player(peer_id: int) -> void:
 	var player: Player = get_player(peer_id)
 	if player == null: return
