@@ -168,7 +168,6 @@ wait_time = 5.0
 one_shot = true
 
 [node name="LobbyUI" type="CanvasLayer" parent="." unique_id=1924289879]
-visible = false
 script = ExtResource("4_5c8lw")
 
 [node name="HBox" type="HBoxContainer" parent="LobbyUI" unique_id=1921645264]
