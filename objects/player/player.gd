@@ -201,10 +201,10 @@ func revive(new_pos: Vector2) -> void:
 		velocity = Vector2.ZERO
 		speed = 0.0
 		angular_velocity = 0.0
-	set_hidden(false)
+		set_hidden.rpc(false)
 
 
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func set_hidden(hidden_bool: bool) -> void:
 	visible = !hidden_bool
 	$Hitbox.set_deferred("disabled", hidden_bool)
