@@ -205,3 +205,9 @@ func set_hidden(hidden_bool: bool) -> void:
 	visible = !hidden_bool
 	$Hitbox.set_deferred("disabled", hidden_bool)
 	set_physics_process(!hidden_bool)
+
+
+@rpc("authority", "call_local", "reliable")
+func prepare_for_despawn() -> void:
+	if $ClientSynchronizer.is_multiplayer_authority():
+		$ClientSynchronizer.public_visibility = false

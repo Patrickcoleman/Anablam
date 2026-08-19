@@ -341,8 +341,9 @@ func remove_all_players() -> void:
 	if !multiplayer.is_server():
 		return
 	for player: Player in get_players():
+		player.prepare_for_despawn.rpc()
 		player.set_hidden.rpc(true)
-	await get_tree().create_timer(0.3).timeout
+	await get_tree().create_timer(0.5).timeout
 
 	for player: Player in get_players():
 		remove_player(player.peer_id)
