@@ -16,10 +16,15 @@ func redraw_players():
 	var player_data = lobby.player_data
 	var player_ids = player_data.keys()
 	for i in 5:
+		var label = labels[i]
+		var style = label.get_theme_stylebox("normal").duplicate()
 		if i < player_ids.size():
 			labels[i].text = player_data[player_ids[i]]["display_name"]
+			style.draw_center = true
 		else:
 			labels[i].text = "Empty"
+			style.draw_center = false
+		label.add_theme_stylebox_override("normal", style)
 
 
 func vote_start():

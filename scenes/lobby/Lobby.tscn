@@ -14,20 +14,40 @@ properties/0/replication_mode = 2
 font_size = 40
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_patxp"]
-bg_color = Color(0.37168315, 0.52715355, 0.8087059, 1)
+bg_color = Color(0.09803922, 0.14117648, 0.105882354, 1)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color(0.20368925, 0.41101432, 0.7112251, 1)
+border_color = Color(0, 0.8235294, 0.11764706, 0.5686275)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
 
 [sub_resource type="LabelSettings" id="LabelSettings_cimh6"]
-font_color = Color(0.032822635, 2.7344282e-05, 0.13993934, 1)
 
 [sub_resource type="Theme" id="Theme_cimh6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tk3j5"]
 bg_color = Color(0.83634555, 0, 0.14623445, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.3050502, 0, 0.04228992, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_5c8lw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_413et"]
+bg_color = Color(0.08627451, 0.18039216, 0.09803922, 0.36862746)
 
 [node name="Lobby" type="Node2D" unique_id=795581606]
 script = ExtResource("1_sj1j4")
@@ -240,7 +260,10 @@ text = "Vote to Start"
 [node name="Label" type="Label" parent="LobbyUI/HBox/VBox" unique_id=560288484]
 layout_mode = 2
 size_flags_vertical = 8
+theme = SubResource("Theme_5c8lw")
+theme_override_styles/normal = SubResource("StyleBoxFlat_413et")
 text = "0/? votes"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button" to="UI" method="_on_join_dedicated_pressed"]
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button2" to="UI" method="_on_join_localhost_pressed"]
