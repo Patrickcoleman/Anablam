@@ -196,7 +196,11 @@ func _on_respawn_timer_timeout() -> void:
 
 @rpc("authority", "call_local", "reliable")
 func revive(new_pos: Vector2) -> void:
-	global_position = new_pos
+	if local:
+		global_position = new_pos
+		velocity = Vector2.ZERO
+		speed = 0.0
+		angular_velocity = 0.0
 	set_hidden(false)
 
 
