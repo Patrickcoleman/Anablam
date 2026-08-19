@@ -24,8 +24,11 @@ const BARRELS: Array[Texture2D] = [
 
 func _on_player_data_changed():
 	var player_data = lobby.player_data
-	update_sprite(player_data[int(name)]["sprite_id"])
-	set_display_name(player_data[int(name)]["display_name"])
+	var id: int = int(name)
+	if !player_data.has(id):
+		return
+	update_sprite(player_data[id]["sprite_id"])
+	set_display_name(player_data[id]["display_name"])
 
 
 func update_sprite(sprite_id: int):

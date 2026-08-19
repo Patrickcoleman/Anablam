@@ -92,13 +92,12 @@ func _on_peer_disconnected(peer_id: int) -> void:
 	if (!multiplayer.is_server()):
 		return
 
+	remove_player(peer_id)
 	player_data.erase(peer_id)
 	share_player_info.rpc(player_data)
 
-	if (get_player_count() == 1):
+	if (get_player_count() == 0):
 		unload_level()
-
-	remove_player(peer_id)
 
 
 func _on_connected_to_server() -> void:
@@ -325,7 +324,10 @@ func remove_player(peer_id: int) -> void:
 	var player: Player = get_player(peer_id)
 	if (player == null):
 		return
-	available_characters.append(player_data[peer_id]["sprite_id"])
+	if player_data.has(peer_id):
+		var sprite_id = player_data[peer_id]["sprite_id"]
+		if sprite_id != null:
+			available_characters.append(sprite_id)
 
 	player.queue_free()
 
