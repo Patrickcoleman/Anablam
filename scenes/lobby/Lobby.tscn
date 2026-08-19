@@ -10,6 +10,9 @@ properties/0/path = NodePath(".:game_state")
 properties/0/spawn = true
 properties/0/replication_mode = 2
 
+[sub_resource type="LabelSettings" id="LabelSettings_patxp"]
+font_size = 40
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_patxp"]
 bg_color = Color(0.37168315, 0.52715355, 0.8087059, 1)
 border_width_left = 5
@@ -56,95 +59,61 @@ replication_config = SubResource("SceneReplicationConfig_5c8lw")
 [node name="UI" type="CanvasLayer" parent="." unique_id=1454329024]
 script = ExtResource("2_v0l1j")
 
-[node name="Start" type="CenterContainer" parent="UI" unique_id=179418323]
+[node name="Panel" type="PanelContainer" parent="UI" unique_id=925567546]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -150.5
+offset_top = -120.0
+offset_right = 150.5
+offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ENet" type="VBoxContainer" parent="UI/Start" unique_id=525980242]
+[node name="MarginContainer" type="MarginContainer" parent="UI/Panel" unique_id=48013392]
 layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
 
-[node name="Label" type="Label" parent="UI/Start/ENet" unique_id=25052606]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Panel/MarginContainer" unique_id=566719430]
 layout_mode = 2
-text = "Anablam"
+theme_override_constants/separation = 30
+
+[node name="Label" type="Label" parent="UI/Panel/MarginContainer/VBoxContainer" unique_id=242848433]
+layout_mode = 2
+text = "Ana-blam!"
+label_settings = SubResource("LabelSettings_patxp")
 horizontal_alignment = 1
 
-[node name="Name" type="PanelContainer" parent="UI/Start/ENet" unique_id=893118983]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Panel/MarginContainer/VBoxContainer" unique_id=2124319396]
 layout_mode = 2
 
-[node name="VBox" type="HBoxContainer" parent="UI/Start/ENet/Name" unique_id=2003541667]
+[node name="Name" type="Label" parent="UI/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=264782762]
 layout_mode = 2
+size_flags_horizontal = 0
+text = "Your name: "
 
-[node name="NameLabel" type="Label" parent="UI/Start/ENet/Name/VBox" unique_id=935473184]
-layout_mode = 2
-text = "Name:"
-
-[node name="Name" type="TextEdit" parent="UI/Start/ENet/Name/VBox" unique_id=1055132676]
-custom_minimum_size = Vector2(0, 35)
+[node name="NameEntry" type="TextEdit" parent="UI/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=553284989]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/line_spacing = -9
+theme_override_font_sizes/font_size = 16
 
-[node name="Join" type="PanelContainer" parent="UI/Start/ENet" unique_id=1168979281]
+[node name="Button" type="Button" parent="UI/Panel/MarginContainer/VBoxContainer" unique_id=982767906]
 layout_mode = 2
+text = "Join the dedicated server"
 
-[node name="VBox" type="VBoxContainer" parent="UI/Start/ENet/Join" unique_id=1863327014]
+[node name="Button2" type="Button" parent="UI/Panel/MarginContainer/VBoxContainer" unique_id=176381835]
 layout_mode = 2
+text = "Join Localhost (for dev)"
 
-[node name="Options" type="GridContainer" parent="UI/Start/ENet/Join/VBox" unique_id=1572943227]
+[node name="Button3" type="Button" parent="UI/Panel/MarginContainer/VBoxContainer" unique_id=1651834869]
 layout_mode = 2
-columns = 2
-
-[node name="AddressLabel" type="Label" parent="UI/Start/ENet/Join/VBox/Options" unique_id=1458126940]
-layout_mode = 2
-text = "Address:"
-
-[node name="Address" type="LineEdit" parent="UI/Start/ENet/Join/VBox/Options" unique_id=1515847076]
-layout_mode = 2
-text = "62.238.5.106"
-
-[node name="PortLabel" type="Label" parent="UI/Start/ENet/Join/VBox/Options" unique_id=1865988540]
-layout_mode = 2
-text = "Port:"
-
-[node name="Port" type="SpinBox" parent="UI/Start/ENet/Join/VBox/Options" unique_id=1797025318]
-layout_mode = 2
-max_value = 60000.0
-value = 34777.0
-
-[node name="Start" type="Button" parent="UI/Start/ENet/Join/VBox" unique_id=680331872]
-layout_mode = 2
-text = "Start"
-
-[node name="Host" type="PanelContainer" parent="UI/Start/ENet" unique_id=2069700495]
-layout_mode = 2
-
-[node name="VBox" type="VBoxContainer" parent="UI/Start/ENet/Host" unique_id=1492494188]
-layout_mode = 2
-
-[node name="Options" type="GridContainer" parent="UI/Start/ENet/Host/VBox" unique_id=1412359445]
-layout_mode = 2
-columns = 2
-
-[node name="PortLabel" type="Label" parent="UI/Start/ENet/Host/VBox/Options" unique_id=1185886669]
-layout_mode = 2
-text = "Port:"
-
-[node name="Port" type="SpinBox" parent="UI/Start/ENet/Host/VBox/Options" unique_id=1498132297]
-layout_mode = 2
-max_value = 60000.0
-value = 34777.0
-
-[node name="Start" type="Button" parent="UI/Start/ENet/Host/VBox" unique_id=857522971]
-layout_mode = 2
-text = "Start"
+text = "Host your own game"
 
 [node name="Scoreboard" type="CanvasLayer" parent="." unique_id=87374042]
 visible = false
@@ -220,35 +189,35 @@ custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 
 [node name="Slot1" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=153220064]
-custom_maximum_size = Vector2(150, -1)
+custom_maximum_size = Vector2(200, -1)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
 text = "Empty"
 label_settings = SubResource("LabelSettings_cimh6")
 
 [node name="Slot2" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=859820582]
-custom_maximum_size = Vector2(150, -1)
+custom_maximum_size = Vector2(200, -1)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
 text = "Empty"
 label_settings = SubResource("LabelSettings_cimh6")
 
 [node name="Slot3" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=1728584875]
-custom_maximum_size = Vector2(150, -1)
+custom_maximum_size = Vector2(200, -1)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
 text = "Empty"
 label_settings = SubResource("LabelSettings_cimh6")
 
 [node name="Slot4" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=1327825596]
-custom_maximum_size = Vector2(150, -1)
+custom_maximum_size = Vector2(200, -1)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
 text = "Empty"
 label_settings = SubResource("LabelSettings_cimh6")
 
 [node name="Slot5" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=2106689970]
-custom_maximum_size = Vector2(150, -1)
+custom_maximum_size = Vector2(200, -1)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
 text = "Empty"
@@ -274,8 +243,9 @@ layout_mode = 2
 size_flags_vertical = 8
 text = "0/? votes"
 
-[connection signal="pressed" from="UI/Start/ENet/Join/VBox/Start" to="UI" method="_on_enet_join_pressed"]
-[connection signal="pressed" from="UI/Start/ENet/Host/VBox/Start" to="UI" method="_on_enet_host_pressed"]
+[connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button" to="UI" method="_on_join_dedicated_pressed"]
+[connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button2" to="UI" method="_on_join_localhost_pressed"]
+[connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button3" to="UI" method="_on_enet_host_pressed"]
 [connection signal="timeout" from="GameOverTimer" to="." method="gameover_screen_timeout"]
 [connection signal="pressed" from="LobbyUI/HBox/VBox/ExitMenu" to="LobbyUI" method="exit_to_menu"]
 [connection signal="pressed" from="LobbyUI/HBox/VBox/VoteStart" to="LobbyUI" method="vote_start"]

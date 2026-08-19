@@ -200,6 +200,7 @@ func revive(new_pos: Vector2) -> void:
 	set_hidden(false)
 
 
+@rpc("authority", "call_local", "reliable")
 func set_hidden(hidden_bool: bool) -> void:
 	visible = !hidden_bool
 	$Hitbox.set_deferred("disabled", hidden_bool)

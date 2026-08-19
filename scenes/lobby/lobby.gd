@@ -169,11 +169,9 @@ func _on_game_state_changed(new_state: GameState) -> void:
 			$Scoreboard.show()
 			$Scoreboard/PlayerBoxes.show()
 		GameState.GAME_OVER:
-			$Scoreboard.draw_game_over()
 			$Scoreboard.show()
 			$Scoreboard/GameOver.show()
 			$Scoreboard.draw_game_over()
-			hide_all_players()
 
 
 func update_game_state(new_state: GameState) -> void:
@@ -343,16 +341,11 @@ func remove_all_players() -> void:
 	if !multiplayer.is_server():
 		return
 	for player: Player in get_players():
-		player.get_node("ClientSynchronizer").public_visibility = false
+		player.set_hidden.rpc(true)
 	await get_tree().create_timer(0.3).timeout
 
 	for player: Player in get_players():
 		remove_player(player.peer_id)
-
-
-func hide_all_players():
-	for player: Player in get_players():
-		player.hide()
 
 
 func respawn_player(peer_id: int) -> void:
