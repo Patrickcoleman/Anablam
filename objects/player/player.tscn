@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://syeprg8lvf16"]
 
 [ext_resource type="Script" uid="uid://dr6jb16olusby" path="res://objects/player/player.gd" id="1_ssrue"]
+[ext_resource type="SpriteFrames" uid="uid://cq4j054hl28dv" path="res://objects/player/bodies/green_player.tres" id="2_gnkmh"]
 [ext_resource type="Texture2D" uid="uid://4egcuvsa7sey" path="res://common/sprites/Tanks/barrelRed.png" id="2_ssrue"]
 [ext_resource type="Script" uid="uid://clxdaiv0k3jgd" path="res://objects/player/info_panel.gd" id="4_gnkmh"]
-[ext_resource type="SpriteFrames" uid="uid://bkoaa8c671837" path="res://objects/player/bodies/red_player.tres" id="4_jnjyq"]
 [ext_resource type="Script" uid="uid://c48h50dmwoyb6" path="res://objects/player/hud.gd" id="4_xkryw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cimh6"]
@@ -22,11 +22,17 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath(".:barrel_angle")
 properties/3/spawn = true
 properties/3/replication_mode = 1
+properties/4/path = NodePath(".:current_animation")
+properties/4/spawn = true
+properties/4/replication_mode = 2
 
 [sub_resource type="LabelSettings" id="LabelSettings_cimh6"]
 font_size = 12
 
 [node name="Player" type="CharacterBody2D" unique_id=626678841]
+rotation = 3.1415927
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_ssrue")
 
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=881239018]
@@ -35,7 +41,8 @@ shape = SubResource("RectangleShape2D_cimh6")
 [node name="Body" type="AnimatedSprite2D" parent="." unique_id=855747537]
 position = Vector2(-1.9073486e-06, -1.9073486e-06)
 scale = Vector2(0.48192766, 0.5384615)
-sprite_frames = ExtResource("4_jnjyq")
+sprite_frames = ExtResource("2_gnkmh")
+animation = &"forwards"
 
 [node name="Barrel" type="Sprite2D" parent="." unique_id=2035398129]
 scale = Vector2(0.5, 0.55)
@@ -59,6 +66,7 @@ one_shot = true
 script = ExtResource("4_xkryw")
 
 [node name="Label" type="Label" parent="HUD" unique_id=1766960836]
+visible = false
 offset_right = 40.0
 offset_bottom = 23.0
 text = "Test"

@@ -13,6 +13,7 @@ script = ExtResource("1_wopdt")
 
 [node name="Wall" type="StaticBody2D" parent="Walls" unique_id=465770840]
 position = Vector2(319, 43)
+collision_mask = 0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall" unique_id=731925146]
@@ -29,6 +30,7 @@ metadata/_edit_use_anchors_ = true
 [node name="Wall2" type="StaticBody2D" parent="Walls" unique_id=1908811180]
 position = Vector2(1335, 380)
 rotation = 1.5707964
+collision_mask = 0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall2" unique_id=1739351272]
@@ -45,6 +47,7 @@ metadata/_edit_use_anchors_ = true
 [node name="Wall3" type="StaticBody2D" parent="Walls" unique_id=1928428672]
 position = Vector2(3, 359)
 rotation = 1.5707964
+collision_mask = 0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall3" unique_id=1146040155]
@@ -60,6 +63,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Wall4" type="StaticBody2D" parent="Walls" unique_id=2054108272]
 position = Vector2(325, 232)
+collision_mask = 0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall4" unique_id=725820544]
@@ -75,6 +79,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Wall5" type="StaticBody2D" parent="Walls" unique_id=1561104503]
 position = Vector2(996, 480)
+collision_mask = 0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall5" unique_id=372573951]
@@ -90,6 +95,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Wall6" type="StaticBody2D" parent="Walls" unique_id=883928664]
 position = Vector2(1018, 45)
+collision_mask = 0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall6" unique_id=872992352]
@@ -105,6 +111,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Wall7" type="StaticBody2D" parent="Walls" unique_id=2010225067]
 position = Vector2(327, 678)
+collision_mask = 0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall7" unique_id=1796147574]
@@ -120,6 +127,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Wall8" type="StaticBody2D" parent="Walls" unique_id=174909585]
 position = Vector2(999, 677)
+collision_mask = 0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall8" unique_id=2107232047]

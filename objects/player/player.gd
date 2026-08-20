@@ -5,6 +5,15 @@ var peer_id: int = 1
 var local: bool = true
 var lobby: Lobby
 
+var current_animation: StringName = "stopped":
+	set(value):
+		current_animation = value
+		if value == "stopped":
+			$Body.stop()
+		else:
+			if is_node_ready():
+				$Body.play(current_animation)
+
 const CHARACTERS: Array[SpriteFrames] = [
 	preload("res://objects/player/bodies/green_player.tres"),
 	preload("res://objects/player/bodies/red_player.tres"),
@@ -33,7 +42,7 @@ func _on_player_data_changed():
 
 func update_sprite(sprite_id: int):
 	$Body.sprite_frames = CHARACTERS[sprite_id]
-	$Body.play(&"default")
+	$Body.stop()
 	$Barrel.texture = BARRELS[sprite_id]
 
 
@@ -108,13 +117,16 @@ func _physics_process(delta: float) -> void:
 			turn_input -= 1
 		if Input.is_action_pressed("move_forward"):
 			move_input += 1
+			current_animation = &"forwards"
 		if Input.is_action_pressed("move_back"):
+			current_animation = &"backwards"
 			move_input -= 1
 
 		if !is_zero_approx(move_input):
 			var target_speed: float = max_speed if (move_input > 0) else -max_reverse_speed
 			speed = move_toward(speed, target_speed, acceleration * delta)
 		else:
+			current_animation = "stopped"
 			speed = move_toward(speed, 0, deceleration * delta)
 
 		var forward: Vector2 = Vector2.DOWN.rotated(rotation)

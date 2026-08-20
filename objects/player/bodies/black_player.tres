@@ -1,14 +1,36 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://cq8eatk10u17v"]
 
-[ext_resource type="Texture2D" uid="uid://d1qk4n7gka22s" path="res://objects/player/bodies/tankBlack_outline.png" id="1_g2f1i"]
+[ext_resource type="Texture2D" uid="uid://hilo0nwn5ltk" path="res://objects/player/bodies/black3.png" id="1_cypfs"]
+[ext_resource type="Texture2D" uid="uid://bqsmr5dtjtx0o" path="res://objects/player/bodies/black2.png" id="2_gtg3p"]
+[ext_resource type="Texture2D" uid="uid://bhy3jq447bpyv" path="res://objects/player/bodies/black1.png" id="3_5y6ie"]
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_g2f1i")
+"texture": ExtResource("1_cypfs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_gtg3p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_5y6ie")
 }],
 "loop": 1,
-"name": &"default",
-"speed": 5.0
+"name": &"backwards",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_gtg3p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_cypfs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_5y6ie")
+}],
+"loop": 1,
+"name": &"forwards",
+"speed": 15.0
 }]
