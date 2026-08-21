@@ -15,14 +15,14 @@ properties/1/spawn = true
 properties/1/replication_mode = 2
 properties/2/path = NodePath(".:owner_peer_id")
 properties/2/spawn = true
-properties/2/replication_mode = 1
+properties/2/replication_mode = 2
 
 [node name="Bullet" type="Area2D" unique_id=753519941]
 collision_layer = 0
 collision_mask = 3
 script = ExtResource("1_62d0n")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=865167418]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=865167418]
 rotation = 3.1415927
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_k1njs")

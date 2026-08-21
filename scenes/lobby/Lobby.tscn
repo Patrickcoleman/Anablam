@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dnkpbi1m3xw57"]
 
 [ext_resource type="Script" uid="uid://doambjwto8fuk" path="res://scenes/lobby/lobby.gd" id="1_sj1j4"]
+[ext_resource type="Script" uid="uid://cvpb55qxwch4h" path="res://scenes/lobby/tracks.gd" id="2_413et"]
 [ext_resource type="Script" uid="uid://cflf2w2epx7um" path="res://scenes/lobby/ui.gd" id="2_v0l1j"]
 [ext_resource type="Script" uid="uid://brmueumte4vm2" path="res://scenes/lobby/scoreboard.gd" id="3_qv0t4"]
 [ext_resource type="Script" uid="uid://d0p5xpyt7lbg8" path="res://scenes/lobby/lobby_ui.gd" id="4_5c8lw"]
@@ -57,6 +58,9 @@ script = ExtResource("1_sj1j4")
 [node name="Players" type="Node2D" parent="." unique_id=1985806010]
 
 [node name="Bullets" type="Node2D" parent="." unique_id=1132286643]
+
+[node name="Tracks" type="Node2D" parent="." unique_id=195987468]
+script = ExtResource("2_413et")
 
 [node name="LevelSpawner" type="MultiplayerSpawner" parent="." unique_id=1861484377]
 _spawnable_scenes = PackedStringArray("uid://b6j0xvuuhrws7")

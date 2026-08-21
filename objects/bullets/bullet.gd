@@ -15,6 +15,11 @@ const SPRITES: Array[Texture2D] = [
 ]
 
 
+@rpc("authority", "call_local", "reliable")
+func set_sprite(sprite_id: int):
+	$Sprite.texture = SPRITES[sprite_id]
+
+
 func _ready() -> void:
 	if multiplayer.is_server():
 		#I need to await 2 here until the other bodies are registered

@@ -39,19 +39,15 @@ func _ready() -> void:
 # Network
 
 
-func _start_server_common() -> void:
+func start_enet_server(port: int = DEFAULT_PORT) -> void:
+	var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
+	peer.create_server(port, MAX_PLAYERS)
+	multiplayer.multiplayer_peer = peer
 	if !headless_mode:
 		player_data[1] = make_default_player_entry()
 		player_data[1]["display_name"] = display_name
 	share_player_info.rpc(player_data)
 	open_lobby()
-
-
-func start_enet_server(port: int = DEFAULT_PORT) -> void:
-	var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
-	peer.create_server(port, MAX_PLAYERS)
-	multiplayer.multiplayer_peer = peer
-	_start_server_common()
 
 
 func start_enet_client(address: String, port: int = DEFAULT_PORT) -> void:

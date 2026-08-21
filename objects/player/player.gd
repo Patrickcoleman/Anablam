@@ -4,6 +4,10 @@ class_name Player
 var peer_id: int = 1
 var local: bool = true
 var lobby: Lobby
+var tracks: Node2D
+var previous_position: Vector2
+var distance_since_last_track: float = 0.0
+@export var distance_between_tracks: int = 10
 
 var current_animation: StringName = "stopped":
 	set(value):
@@ -60,6 +64,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	lobby = get_node("/root/Lobby")
+	tracks = get_node("/root/Lobby/Tracks")
 	lobby.player_data_changed.connect(_on_player_data_changed)
 	if (local):
 		$Camera2D.make_current()
@@ -154,6 +159,13 @@ func _physics_process(delta: float) -> void:
 
 	$Barrel.rotation = barrel_angle - rotation
 
+	var distance_this_frame: float = global_position.distance_to(previous_position)
+	distance_since_last_track += distance_this_frame
+	if distance_since_last_track >= distance_between_tracks:
+		distance_since_last_track = 0.0
+		tracks.spawn_track(position, rotation)
+	previous_position = global_position
+
 
 #bullet firing logic
 const bullet_SCN: PackedScene = preload("res://objects/bullets/bullet.tscn")
@@ -185,6 +197,7 @@ func _spawn_bullet() -> void:
 	bullet.rotation = barrel_angle
 	bullet.owner_peer_id = peer_id
 	get_node("/root/Lobby/Bullets").add_child(bullet, true)
+	bullet.set_sprite.rpc(lobby.player_data[peer_id]["sprite_id"])
 
 
 func update_barrel_angle():
