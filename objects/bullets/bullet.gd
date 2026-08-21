@@ -4,6 +4,7 @@ class_name Bullet
 var speed: float = 400.0
 var owner_peer_id: int = -1
 var bounces_remaining: int = 1
+var wall_bounced_off: Node2D
 
 const SPRITES: Array[Texture2D] = [
 	preload("res://objects/bullets/bulletGreenSilver_outline.png"),
@@ -28,7 +29,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	var ray_right: RayCast2D = $RayCastRight
-	var ray_left: RayCast2D = $RayCastRight
+	var ray_left: RayCast2D = $RayCastLeft
 	var colliding_ray: RayCast2D
 
 	if ray_right.is_colliding():
@@ -38,12 +39,17 @@ func _physics_process(delta: float) -> void:
 
 	if colliding_ray:
 		if bounces_remaining > 0:
+			wall_bounced_off = colliding_ray.get_collider()
 			var normal: Vector2 = colliding_ray.get_collision_normal()
 			var direction: Vector2 = Vector2.DOWN.rotated(rotation)
 			var bounced: Vector2 = direction.bounce(normal)
 			rotation = bounced.angle() - PI / 2
 			bounces_remaining -= 1
 			global_position = colliding_ray.get_collision_point() + bounced.normalized() * 8.0
+			if multiplayer.is_server() and is_instance_valid(self):
+				for body in get_overlapping_bodies():
+					if body != wall_bounced_off:
+						queue_free()
 		else:
 			if multiplayer.is_server():
 				queue_free()

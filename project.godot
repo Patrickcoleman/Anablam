@@ -64,4 +64,5 @@ fire={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0.10615813, 0.36154705, 0.13174072, 1)
