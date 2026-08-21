@@ -11,6 +11,10 @@
 [ext_resource type="AudioStream" uid="uid://wnw32xbwimfu" path="res://common/sound_effects/bulletexplode.wav" id="9_phpfy"]
 [ext_resource type="AudioStream" uid="uid://cdhd5ocwy5mao" path="res://common/sound_effects/tankexplode.ogg" id="10_02lw7"]
 [ext_resource type="AudioStream" uid="uid://dj7rryfck6nli" path="res://common/sound_effects/fire.ogg" id="11_6iqo4"]
+[ext_resource type="Script" uid="uid://cb0kbdl6xee3a" path="res://scenes/lobby/Music.gd" id="12_02hng"]
+[ext_resource type="AudioStream" uid="uid://imukug1p3ry2" path="res://common/music/MainMenu.ogg" id="13_bdtai"]
+[ext_resource type="AudioStream" uid="uid://d24ut8b1puf43" path="res://common/music/Lobby.ogg" id="14_opc5t"]
+[ext_resource type="AudioStream" uid="uid://ymev7icbaxsh" path="res://common/music/Battle.ogg" id="15_pbg2n"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5c8lw"]
 properties/0/path = NodePath(".:game_state")
@@ -306,6 +310,13 @@ script = ExtResource("7_g8dbv")
 bullet_explosion_sfx = SubResource("Resource_cimh6")
 tank_explosion_sfx = SubResource("Resource_02lw7")
 fire_sfx = SubResource("Resource_6iqo4")
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=596210380]
+volume_db = -8.0
+script = ExtResource("12_02hng")
+menu = ExtResource("13_bdtai")
+lobby = ExtResource("14_opc5t")
+battle = ExtResource("15_pbg2n")
 
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button" to="UI" method="_on_join_dedicated_pressed"]
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button2" to="UI" method="_on_join_localhost_pressed"]

@@ -6,6 +6,8 @@ const DEFAULT_PORT: int = 34777
 
 var headless_mode: bool = (DisplayServer.get_name() == "headless")
 
+@onready var music: AudioStreamPlayer = $Music
+
 const PLAYER_SCN: PackedScene = preload("res://objects/player/player.tscn")
 var available_characters: Array[int] = []
 var display_name: String = "Player"
@@ -157,9 +159,12 @@ func _on_game_state_changed(new_state: GameState) -> void:
 	match new_state:
 		GameState.MAIN_MENU:
 			$UI.show()
+			music.play_track(music.MUSIC_TRACK.MENU)
 		GameState.LOBBY:
+			music.play_track(music.MUSIC_TRACK.LOBBY)
 			$LobbyUI.show()
 		GameState.IN_GAME:
+			music.play_track(music.MUSIC_TRACK.BATTLE)
 			$Scoreboard.draw_scoreboard()
 			$Scoreboard.show()
 			$Scoreboard/PlayerBoxes.show()
