@@ -34,6 +34,13 @@ rotation = 3.1415927
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_ssrue")
+acceleration = null
+deceleration = null
+max_speed = null
+max_reverse_speed = null
+turn_speed = null
+angular_damping = null
+collision_torque_factor = null
 
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=881239018]
 shape = SubResource("RectangleShape2D_cimh6")

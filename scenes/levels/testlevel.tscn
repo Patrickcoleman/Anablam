@@ -2,149 +2,17 @@
 
 [ext_resource type="Script" uid="uid://ms6gcuid1wbb" path="res://scenes/levels/testlevel.gd" id="1_wopdt"]
 [ext_resource type="Texture2D" uid="uid://by4dgv0dfhgno" path="res://common/sprites/Obstacles/barrelRed_up.png" id="3_3hckn"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cimh6"]
-size = Vector2(704, 64)
+[ext_resource type="PackedScene" uid="uid://hhwn7sykn2cn" path="res://objects/scene/background/background.tscn" id="3_gwqra"]
 
 [node name="Testlevel" type="Node2D" unique_id=204164268]
 script = ExtResource("1_wopdt")
 
-[node name="Walls" type="Node2D" parent="." unique_id=793194628]
-
-[node name="Wall" type="StaticBody2D" parent="Walls" unique_id=465770840]
-position = Vector2(319, 43)
-collision_mask = 0
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall" unique_id=731925146]
-shape = SubResource("RectangleShape2D_cimh6")
-
-[node name="ColorRect" type="ColorRect" parent="Walls/Wall" unique_id=1994776238]
-offset_left = -352.0
-offset_top = -32.0
-offset_right = 352.0
-offset_bottom = 32.0
-color = Color(0.3287229, 0.00093903096, 0.5128202, 1)
-metadata/_edit_use_anchors_ = true
-
-[node name="Wall2" type="StaticBody2D" parent="Walls" unique_id=1908811180]
-position = Vector2(1335, 380)
-rotation = 1.5707964
-collision_mask = 0
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall2" unique_id=1739351272]
-shape = SubResource("RectangleShape2D_cimh6")
-
-[node name="ColorRect" type="ColorRect" parent="Walls/Wall2" unique_id=991912]
-offset_left = -352.0
-offset_top = -32.0
-offset_right = 352.0
-offset_bottom = 32.0
-color = Color(0.3287229, 0.00093903096, 0.5128202, 1)
-metadata/_edit_use_anchors_ = true
-
-[node name="Wall3" type="StaticBody2D" parent="Walls" unique_id=1928428672]
-position = Vector2(3, 359)
-rotation = 1.5707964
-collision_mask = 0
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall3" unique_id=1146040155]
-shape = SubResource("RectangleShape2D_cimh6")
-
-[node name="ColorRect" type="ColorRect" parent="Walls/Wall3" unique_id=1591836397]
-offset_left = -352.0
-offset_top = -32.0
-offset_right = 352.0
-offset_bottom = 32.0
-color = Color(0.3287229, 0.00093903096, 0.5128202, 1)
-metadata/_edit_use_anchors_ = true
-
-[node name="Wall4" type="StaticBody2D" parent="Walls" unique_id=2054108272]
-position = Vector2(325, 232)
-collision_mask = 0
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall4" unique_id=725820544]
-shape = SubResource("RectangleShape2D_cimh6")
-
-[node name="ColorRect" type="ColorRect" parent="Walls/Wall4" unique_id=1835527464]
-offset_left = -352.0
-offset_top = -32.0
-offset_right = 352.0
-offset_bottom = 32.0
-color = Color(0.3287229, 0.00093903096, 0.5128202, 1)
-metadata/_edit_use_anchors_ = true
-
-[node name="Wall5" type="StaticBody2D" parent="Walls" unique_id=1561104503]
-position = Vector2(996, 480)
-collision_mask = 0
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall5" unique_id=372573951]
-shape = SubResource("RectangleShape2D_cimh6")
-
-[node name="ColorRect" type="ColorRect" parent="Walls/Wall5" unique_id=1510642456]
-offset_left = -352.0
-offset_top = -32.0
-offset_right = 352.0
-offset_bottom = 32.0
-color = Color(0.3287229, 0.00093903096, 0.5128202, 1)
-metadata/_edit_use_anchors_ = true
-
-[node name="Wall6" type="StaticBody2D" parent="Walls" unique_id=883928664]
-position = Vector2(1018, 45)
-collision_mask = 0
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall6" unique_id=872992352]
-shape = SubResource("RectangleShape2D_cimh6")
-
-[node name="ColorRect" type="ColorRect" parent="Walls/Wall6" unique_id=95155162]
-offset_left = -352.0
-offset_top = -32.0
-offset_right = 352.0
-offset_bottom = 32.0
-color = Color(0.3287229, 0.00093903096, 0.5128202, 1)
-metadata/_edit_use_anchors_ = true
-
-[node name="Wall7" type="StaticBody2D" parent="Walls" unique_id=2010225067]
-position = Vector2(327, 678)
-collision_mask = 0
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall7" unique_id=1796147574]
-shape = SubResource("RectangleShape2D_cimh6")
-
-[node name="ColorRect" type="ColorRect" parent="Walls/Wall7" unique_id=39712977]
-offset_left = -352.0
-offset_top = -32.0
-offset_right = 352.0
-offset_bottom = 32.0
-color = Color(0.3287229, 0.00093903096, 0.5128202, 1)
-metadata/_edit_use_anchors_ = true
-
-[node name="Wall8" type="StaticBody2D" parent="Walls" unique_id=174909585]
-position = Vector2(999, 677)
-collision_mask = 0
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall8" unique_id=2107232047]
-shape = SubResource("RectangleShape2D_cimh6")
-
-[node name="ColorRect" type="ColorRect" parent="Walls/Wall8" unique_id=341279324]
-offset_left = -352.0
-offset_top = -32.0
-offset_right = 352.0
-offset_bottom = 32.0
-color = Color(0.3287229, 0.00093903096, 0.5128202, 1)
-metadata/_edit_use_anchors_ = true
+[node name="Background" parent="." unique_id=1356983562 instance=ExtResource("3_gwqra")]
 
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=758169686]
 
 [node name="Spawn" type="Marker2D" parent="SpawnPoints" unique_id=229370693]
-position = Vector2(856, 592)
+position = Vector2(1144, 832)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn" unique_id=2038921869]
@@ -152,7 +20,7 @@ visible = false
 texture = ExtResource("3_3hckn")
 
 [node name="Spawn2" type="Marker2D" parent="SpawnPoints" unique_id=2009489891]
-position = Vector2(392, 168)
+position = Vector2(-168, 88)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn2" unique_id=529201661]
@@ -160,7 +28,7 @@ visible = false
 texture = ExtResource("3_3hckn")
 
 [node name="Spawn3" type="Marker2D" parent="SpawnPoints" unique_id=1999919262]
-position = Vector2(600, 144)
+position = Vector2(1336, 256)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn3" unique_id=590609854]
@@ -168,7 +36,7 @@ visible = false
 texture = ExtResource("3_3hckn")
 
 [node name="Spawn4" type="Marker2D" parent="SpawnPoints" unique_id=663404559]
-position = Vector2(688, 608)
+position = Vector2(96, 912)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn4" unique_id=849114941]
@@ -176,7 +44,7 @@ visible = false
 texture = ExtResource("3_3hckn")
 
 [node name="Spawn5" type="Marker2D" parent="SpawnPoints" unique_id=431170378]
-position = Vector2(496, 144)
+position = Vector2(520, 0)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn5" unique_id=1192023601]
@@ -184,7 +52,7 @@ visible = false
 texture = ExtResource("3_3hckn")
 
 [node name="Spawn6" type="Marker2D" parent="SpawnPoints" unique_id=1769828603]
-position = Vector2(776, 584)
+position = Vector2(552, 472)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn6" unique_id=391342301]
