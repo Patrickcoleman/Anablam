@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://4egcuvsa7sey" path="res://common/sprites/Tanks/barrelRed.png" id="2_ssrue"]
 [ext_resource type="Script" uid="uid://clxdaiv0k3jgd" path="res://objects/player/info_panel.gd" id="4_gnkmh"]
 [ext_resource type="Script" uid="uid://c48h50dmwoyb6" path="res://objects/player/hud.gd" id="4_xkryw"]
+[ext_resource type="AudioStream" uid="uid://cwhrsnp87pi1i" path="res://common/sound_effects/engine.ogg" id="6_xkryw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cimh6"]
 size = Vector2(40, 42)
@@ -34,13 +35,6 @@ rotation = 3.1415927
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_ssrue")
-acceleration = null
-deceleration = null
-max_speed = null
-max_reverse_speed = null
-turn_speed = null
-angular_damping = null
-collision_torque_factor = null
 
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=881239018]
 shape = SubResource("RectangleShape2D_cimh6")
@@ -94,6 +88,11 @@ text = "Placeholder"
 label_settings = SubResource("LabelSettings_cimh6")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="EngineSound" type="AudioStreamPlayer2D" parent="." unique_id=1590951095]
+stream = ExtResource("6_xkryw")
+volume_db = -3.0
+max_distance = 1000.0
 
 [connection signal="synchronized" from="ClientSynchronizer" to="." method="on_state_received"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dsbu7f51tffiw"]
+
+[ext_resource type="AudioStream" uid="uid://wnw32xbwimfu" path="res://common/sound_effects/bulletexplode.wav" id="1_bob0n"]
+
+[node name="BulletExplode" type="AudioStreamPlayer2D" unique_id=361601543]
+stream = ExtResource("1_bob0n")
+bus = &"SFX"

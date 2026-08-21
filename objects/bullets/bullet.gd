@@ -1,6 +1,7 @@
 extends Area2D
 class_name Bullet
 
+var sfx: Node2D
 var speed: float = 400.0
 var owner_peer_id: int = -1
 var bounces_remaining: int = 1
@@ -21,6 +22,7 @@ func set_sprite(sprite_id: int):
 
 
 func _ready() -> void:
+	sfx = get_node("/root/Lobby/SFX")
 	if multiplayer.is_server():
 		#I need to await 2 here until the other bodies are registered
 		await get_tree().physics_frame
@@ -54,10 +56,10 @@ func _physics_process(delta: float) -> void:
 			if multiplayer.is_server() and is_instance_valid(self):
 				for body in get_overlapping_bodies():
 					if body != wall_bounced_off:
-						queue_free()
+						explode()
 		else:
 			if multiplayer.is_server():
-				queue_free()
+				explode()
 			return
 
 	position += Vector2.DOWN.rotated(rotation) * speed * delta
@@ -71,5 +73,13 @@ func _on_body_entered(body: Node2D) -> void:
 			return
 		if body.peer_id != owner_peer_id:
 			get_node("/root/Lobby").add_kill(owner_peer_id)
+		get_node("/root/Lobby/Explosions").spawn_explosion.rpc(body.global_position, 2)
+		sfx.play_sfx.rpc(sfx.SFX_TYPE.TANK_EXPLOSION, global_position)
 		body.kill.rpc()
-		queue_free()
+		explode()
+
+
+func explode():
+	sfx.play_sfx.rpc(sfx.SFX_TYPE.BULLET_EXPLOSION, global_position)
+	get_node("/root/Lobby/Explosions").spawn_explosion.rpc(global_position, 1)
+	queue_free()

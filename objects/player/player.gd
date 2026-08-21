@@ -1,13 +1,15 @@
 extends CharacterBody2D
 class_name Player
 
+@onready var lobby = get_node("/root/Lobby")
+@onready var sfx = get_node("/root/Lobby/SFX")
+@onready var tracks = get_node("/root/Lobby/Tracks")
+@onready var engine_sound: AudioStreamPlayer2D = $EngineSound
 var peer_id: int = 1
 var local: bool = true
-var lobby: Lobby
-var tracks: Node2D
 var previous_position: Vector2
 var distance_since_last_track: float = 0.0
-@export var distance_between_tracks: int = 10
+var distance_between_tracks: int = 10
 
 var current_animation: StringName = "stopped":
 	set(value):
@@ -63,8 +65,6 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	lobby = get_node("/root/Lobby")
-	tracks = get_node("/root/Lobby/Tracks")
 	lobby.player_data_changed.connect(_on_player_data_changed)
 	if (local):
 		$Camera2D.make_current()
@@ -166,6 +166,8 @@ func _physics_process(delta: float) -> void:
 		tracks.spawn_track(position, rotation)
 	previous_position = global_position
 
+	update_engine_sound()
+
 
 #bullet firing logic
 const bullet_SCN: PackedScene = preload("res://objects/bullets/bullet.tscn")
@@ -176,12 +178,12 @@ func fire_bullet() -> void:
 		return
 	if !$FireCooldown.is_stopped():
 		return
+	$FireCooldown.start()
+	sfx.play_sfx.rpc(sfx.SFX_TYPE.FIRE, global_position)
 	if (!multiplayer.is_server()):
 		_request_fire.rpc_id(1)
-		$FireCooldown.start()
 		return
 	_spawn_bullet()
-	$FireCooldown.start()
 
 
 @rpc("any_peer", "call_remote", "reliable")
@@ -213,6 +215,7 @@ func get_angle_to_mouse() -> float:
 @rpc("authority", "call_local", "reliable")
 func kill() -> void:
 	set_hidden(true)
+	engine_sound.stop()
 	if multiplayer.is_server():
 		$RespawnTimer.start()
 
@@ -243,3 +246,15 @@ func set_hidden(hidden_bool: bool) -> void:
 func prepare_for_despawn() -> void:
 	if $ClientSynchronizer.is_multiplayer_authority():
 		$ClientSynchronizer.public_visibility = false
+
+
+func update_engine_sound() -> void:
+	var moving: bool = !is_zero_approx(speed)
+	if moving and !engine_sound.playing:
+		engine_sound.play()
+	elif !moving and engine_sound.playing:
+		engine_sound.stop()
+
+	if moving:
+		var speed_ratio: float = abs(speed) / max_speed
+		engine_sound.pitch_scale = lerp(0.3, 0.7, speed_ratio)

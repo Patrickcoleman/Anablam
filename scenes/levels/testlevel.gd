@@ -6,6 +6,7 @@ class_name Level
 
 # Public Helpers
 
+
 func get_spawn_positions() -> Array[Vector2]:
 	var spawn_positions: Array[Vector2] = []
 	var spawns = $SpawnPoints.get_children()

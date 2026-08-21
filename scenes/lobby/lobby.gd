@@ -195,6 +195,8 @@ func end_game() -> void:
 	unload_level()
 	update_game_state(GameState.GAME_OVER)
 	remove_all_players()
+	for child in $Tracks.get_children():
+		child.queue_free()
 	$GameOverTimer.start()
 	return
 

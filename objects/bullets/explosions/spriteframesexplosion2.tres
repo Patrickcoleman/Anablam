@@ -1,0 +1,30 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://clxmapymuvrql"]
+
+[ext_resource type="Texture2D" uid="uid://02dnlw40qd7r" path="res://objects/bullets/explosions/explosionSmoke1.png" id="1_vk2pm"]
+[ext_resource type="Texture2D" uid="uid://cwsfgdimhefmj" path="res://objects/bullets/explosions/explosionSmoke2.png" id="2_lbv2s"]
+[ext_resource type="Texture2D" uid="uid://lsp2eumg5tj3" path="res://objects/bullets/explosions/explosionSmoke3.png" id="3_140jy"]
+[ext_resource type="Texture2D" uid="uid://c846dx6dte6n0" path="res://objects/bullets/explosions/explosionSmoke4.png" id="4_o13dq"]
+[ext_resource type="Texture2D" uid="uid://dh60gd0pccnfx" path="res://objects/bullets/explosions/explosionSmoke5.png" id="5_86hg7"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_vk2pm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_lbv2s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_140jy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_o13dq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_86hg7")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]

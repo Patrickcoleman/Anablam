@@ -4,7 +4,13 @@
 [ext_resource type="Script" uid="uid://cvpb55qxwch4h" path="res://scenes/lobby/tracks.gd" id="2_413et"]
 [ext_resource type="Script" uid="uid://cflf2w2epx7um" path="res://scenes/lobby/ui.gd" id="2_v0l1j"]
 [ext_resource type="Script" uid="uid://brmueumte4vm2" path="res://scenes/lobby/scoreboard.gd" id="3_qv0t4"]
+[ext_resource type="Script" uid="uid://bfry4v0fjbjvu" path="res://scenes/lobby/explosions.gd" id="3_yhyct"]
 [ext_resource type="Script" uid="uid://d0p5xpyt7lbg8" path="res://scenes/lobby/lobby_ui.gd" id="4_5c8lw"]
+[ext_resource type="Script" uid="uid://db4o55mmx5y83" path="res://scenes/lobby/sfx.gd" id="7_g8dbv"]
+[ext_resource type="Script" uid="uid://d12ayxnjvt2jx" path="res://common/sound_effects/FSXData.gd" id="8_3pywa"]
+[ext_resource type="AudioStream" uid="uid://wnw32xbwimfu" path="res://common/sound_effects/bulletexplode.wav" id="9_phpfy"]
+[ext_resource type="AudioStream" uid="uid://cdhd5ocwy5mao" path="res://common/sound_effects/tankexplode.ogg" id="10_02lw7"]
+[ext_resource type="AudioStream" uid="uid://dj7rryfck6nli" path="res://common/sound_effects/fire.ogg" id="11_6iqo4"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5c8lw"]
 properties/0/path = NodePath(".:game_state")
@@ -50,17 +56,42 @@ corner_radius_bottom_left = 5
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_413et"]
 bg_color = Color(0.08627451, 0.18039216, 0.09803922, 0.36862746)
 
+[sub_resource type="Resource" id="Resource_cimh6"]
+script = ExtResource("8_3pywa")
+stream = ExtResource("9_phpfy")
+volume_db = -2.0
+pitch_scale = 0.9
+pitch_random_range = 0.2
+metadata/_custom_type_script = "uid://d12ayxnjvt2jx"
+
+[sub_resource type="Resource" id="Resource_02lw7"]
+script = ExtResource("8_3pywa")
+stream = ExtResource("10_02lw7")
+pitch_scale = 0.4
+pitch_random_range = 0.1
+metadata/_custom_type_script = "uid://d12ayxnjvt2jx"
+
+[sub_resource type="Resource" id="Resource_6iqo4"]
+script = ExtResource("8_3pywa")
+stream = ExtResource("11_6iqo4")
+volume_db = -10.0
+pitch_random_range = 0.2
+metadata/_custom_type_script = "uid://d12ayxnjvt2jx"
+
 [node name="Lobby" type="Node2D" unique_id=795581606]
 script = ExtResource("1_sj1j4")
 
 [node name="Level" type="Node2D" parent="." unique_id=587595762]
 
+[node name="Tracks" type="Node2D" parent="." unique_id=195987468]
+script = ExtResource("2_413et")
+
 [node name="Players" type="Node2D" parent="." unique_id=1985806010]
 
 [node name="Bullets" type="Node2D" parent="." unique_id=1132286643]
 
-[node name="Tracks" type="Node2D" parent="." unique_id=195987468]
-script = ExtResource("2_413et")
+[node name="Explosions" type="Node2D" parent="." unique_id=1927957155]
+script = ExtResource("3_yhyct")
 
 [node name="LevelSpawner" type="MultiplayerSpawner" parent="." unique_id=1861484377]
 _spawnable_scenes = PackedStringArray("uid://b6j0xvuuhrws7")
@@ -269,6 +300,12 @@ theme = SubResource("Theme_5c8lw")
 theme_override_styles/normal = SubResource("StyleBoxFlat_413et")
 text = "0/? votes"
 horizontal_alignment = 1
+
+[node name="SFX" type="Node2D" parent="." unique_id=1722526340]
+script = ExtResource("7_g8dbv")
+bullet_explosion_sfx = SubResource("Resource_cimh6")
+tank_explosion_sfx = SubResource("Resource_02lw7")
+fire_sfx = SubResource("Resource_6iqo4")
 
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button" to="UI" method="_on_join_dedicated_pressed"]
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button2" to="UI" method="_on_join_localhost_pressed"]

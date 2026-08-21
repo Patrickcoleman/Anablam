@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://b0ygeqj6fvxtf"]
+
+[ext_resource type="AudioStream" uid="uid://dj7rryfck6nli" path="res://common/sound_effects/fire.ogg" id="1_rqsf6"]
+
+[node name="Fire" type="AudioStreamPlayer2D" unique_id=361601543]
+stream = ExtResource("1_rqsf6")
+bus = &"SFX"

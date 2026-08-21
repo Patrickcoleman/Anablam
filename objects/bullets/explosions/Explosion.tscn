@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://i1b2iw05l1wa"]
+
+[ext_resource type="SpriteFrames" uid="uid://c1evgtmj4ylb7" path="res://objects/bullets/explosions/spriteframesexplosion1.tres" id="1_qj2s4"]
+[ext_resource type="Script" uid="uid://y1nspnwmfkxm" path="res://objects/bullets/explosions/explosion.gd" id="2_c6tnk"]
+
+[node name="Explosion" type="AnimatedSprite2D" unique_id=78762750]
+sprite_frames = ExtResource("1_qj2s4")
+frame = 4
+frame_progress = 1.0
+script = ExtResource("2_c6tnk")

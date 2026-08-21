@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dtup86lnbk1mn"]
+
+[ext_resource type="AudioStream" uid="uid://cwhrsnp87pi1i" path="res://common/sound_effects/engine.ogg" id="1_t8lg3"]
+
+[node name="Engine" type="AudioStreamPlayer2D" unique_id=489676738]
+stream = ExtResource("1_t8lg3")
+bus = &"SFX"

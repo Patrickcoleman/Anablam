@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bns2vcuchjed3"]
+
+[ext_resource type="AudioStream" uid="uid://cdhd5ocwy5mao" path="res://common/sound_effects/tankexplode.ogg" id="1_gvwyv"]
+
+[node name="TankExplode" type="AudioStreamPlayer2D" unique_id=372337648]
+stream = ExtResource("1_gvwyv")
+bus = &"SFX"
