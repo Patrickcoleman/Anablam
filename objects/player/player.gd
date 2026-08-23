@@ -214,6 +214,9 @@ func get_angle_to_mouse() -> float:
 
 @rpc("authority", "call_local", "reliable")
 func kill() -> void:
+	get_node("/root/Lobby/Explosions").spawn_explosion.rpc(global_position, 2)
+	get_node("/root/Lobby/Explosions").spawn_scorchmark.rpc(global_position, 1)
+	sfx.play_sfx.rpc(sfx.SFX_TYPE.TANK_EXPLOSION, global_position)
 	set_hidden(true)
 	engine_sound.stop()
 	if multiplayer.is_server():

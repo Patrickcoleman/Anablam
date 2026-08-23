@@ -73,8 +73,6 @@ func _on_body_entered(body: Node2D) -> void:
 			return
 		if body.peer_id != owner_peer_id:
 			get_node("/root/Lobby").add_kill(owner_peer_id)
-		get_node("/root/Lobby/Explosions").spawn_explosion.rpc(body.global_position, 2)
-		sfx.play_sfx.rpc(sfx.SFX_TYPE.TANK_EXPLOSION, global_position)
 		body.kill.rpc()
 		explode()
 

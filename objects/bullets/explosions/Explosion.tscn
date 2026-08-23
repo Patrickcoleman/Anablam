@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://y1nspnwmfkxm" path="res://objects/bullets/explosions/explosion.gd" id="2_c6tnk"]
 
 [node name="Explosion" type="AnimatedSprite2D" unique_id=78762750]
+z_index = 5
 sprite_frames = ExtResource("1_qj2s4")
 frame = 4
 frame_progress = 1.0
