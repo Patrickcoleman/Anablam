@@ -1,6 +1,8 @@
 extends Area2D
 class_name Bullet
 
+@onready var explosions: Node2D = get_node("/root/Lobby/Explosions")
+
 var sfx: Node2D
 var speed: float = 400.0
 var owner_peer_id: int = -1
@@ -71,13 +73,13 @@ func _on_body_entered(body: Node2D) -> void:
 	if body is Player:
 		if body.peer_id == owner_peer_id and bounces_remaining == 1:
 			return
-		if body.peer_id != owner_peer_id:
-			get_node("/root/Lobby").add_kill(owner_peer_id)
 		body.kill.rpc()
 		explode()
+		if body.peer_id != owner_peer_id:
+			get_node("/root/Lobby").add_kill(owner_peer_id)
 
 
 func explode():
 	sfx.play_sfx.rpc(sfx.SFX_TYPE.BULLET_EXPLOSION, global_position)
-	get_node("/root/Lobby/Explosions").spawn_explosion.rpc(global_position, 1)
+	explosions.spawn_effect.rpc(explosions.EFFECT_TYPE.EXPLOSION, global_position, 1)
 	queue_free()

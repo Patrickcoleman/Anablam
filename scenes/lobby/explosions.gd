@@ -2,18 +2,27 @@ extends Node2D
 var explosion_scene: PackedScene = preload("res://objects/bullets/explosions/Explosion.tscn")
 var scorchmark_scene: PackedScene = preload("res://objects/scene/scorchmark.tscn")
 
+@onready var lobby: Lobby = get_node("/root/Lobby")
+
+enum EFFECT_TYPE {
+	EXPLOSION,
+	SCORCHMARK,
+}
+
 
 @rpc("any_peer", "call_local", "unreliable")
-func spawn_explosion(explosion_position: Vector2, explosion_scale: float) -> void:
-	var explosion: Node2D = explosion_scene.instantiate()
-	explosion.global_position = explosion_position
-	explosion.scale = Vector2.ONE * explosion_scale
-	add_child(explosion)
+func spawn_effect(effect_type: EFFECT_TYPE, effect_position: Vector2, effect_scale: float) -> void:
+	if lobby.game_state != lobby.GameState.IN_GAME:
+		return
 
+	var scene: PackedScene
+	match effect_type:
+		EFFECT_TYPE.EXPLOSION:
+			scene = explosion_scene
+		EFFECT_TYPE.SCORCHMARK:
+			scene = scorchmark_scene
 
-@rpc("any_peer", "call_local", "unreliable")
-func spawn_scorchmark(scorchmark_position: Vector2, scorchmark_scale: float):
-	var scorchmark: Node2D = scorchmark_scene.instantiate()
-	scorchmark.position = scorchmark_position
-	scorchmark.scale = Vector2.ONE * scorchmark_scale
-	add_child(scorchmark)
+	var effect: Node2D = scene.instantiate()
+	effect.global_position = effect_position
+	effect.scale = Vector2.ONE * effect_scale
+	add_child(effect)

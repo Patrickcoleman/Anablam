@@ -4,6 +4,7 @@ class_name Player
 @onready var lobby = get_node("/root/Lobby")
 @onready var sfx = get_node("/root/Lobby/SFX")
 @onready var tracks = get_node("/root/Lobby/Tracks")
+@onready var explosions: Node2D = get_node("/root/Lobby/Explosions")
 @onready var engine_sound: AudioStreamPlayer2D = $EngineSound
 var peer_id: int = 1
 var local: bool = true
@@ -214,13 +215,14 @@ func get_angle_to_mouse() -> float:
 
 @rpc("authority", "call_local", "reliable")
 func kill() -> void:
-	get_node("/root/Lobby/Explosions").spawn_explosion.rpc(global_position, 2)
-	get_node("/root/Lobby/Explosions").spawn_scorchmark.rpc(global_position, 1)
+	explosions.spawn_effect.rpc(explosions.EFFECT_TYPE.EXPLOSION, global_position, 2)
+	explosions.spawn_effect.rpc(explosions.EFFECT_TYPE.SCORCHMARK, global_position, 1)
 	sfx.play_sfx.rpc(sfx.SFX_TYPE.TANK_EXPLOSION, global_position)
 	set_hidden(true)
 	engine_sound.stop()
 	if multiplayer.is_server():
 		$RespawnTimer.start()
+		lobby.player_data[peer_id]["alive"] = false
 
 
 func _on_respawn_timer_timeout() -> void:
@@ -230,11 +232,11 @@ func _on_respawn_timer_timeout() -> void:
 
 @rpc("authority", "call_local", "reliable")
 func revive(new_pos: Vector2) -> void:
+	global_position = new_pos
+	velocity = Vector2.ZERO
+	speed = 0.0
+	angular_velocity = 0.0
 	if local:
-		global_position = new_pos
-		velocity = Vector2.ZERO
-		speed = 0.0
-		angular_velocity = 0.0
 		set_hidden.rpc(false)
 
 

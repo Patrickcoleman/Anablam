@@ -1,6 +1,8 @@
 extends Node2D
 class_name Lobby
 
+@export var developer_mode: bool
+
 const MAX_PLAYERS: int = 5
 const DEFAULT_PORT: int = 34777
 
@@ -29,6 +31,9 @@ func _ready() -> void:
 	multiplayer.connection_failed.connect(_on_connection_failed)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
+	if developer_mode:
+		set_dev_settings()
+
 	# Prepare available character indices
 	for idx: int in Player.CHARACTERS.size():
 		available_characters.append(idx)
@@ -37,6 +42,10 @@ func _ready() -> void:
 
 	if (headless_mode):
 		start_enet_server()
+
+
+func set_dev_settings():
+	kills_to_win = 1
 
 # Network
 
@@ -76,7 +85,13 @@ func _on_peer_connected(peer_id: int) -> void:
 
 
 func make_default_player_entry() -> Dictionary:
-	return { "display_name": "Loading...", "voted": false, "sprite_id": 0, "kills": 0 }
+	return {
+		"display_name": "Loading...",
+		"voted": false,
+		"sprite_id": 0,
+		"kills": 0,
+		"alive": false,
+	}
 
 
 @rpc("authority", "call_local", "reliable")
@@ -155,6 +170,7 @@ func _on_game_state_changed(new_state: GameState) -> void:
 	$Scoreboard.hide()
 	$Scoreboard/PlayerBoxes.hide()
 	$Scoreboard/GameOver.hide()
+	clear_map()
 
 	match new_state:
 		GameState.MAIN_MENU:
@@ -185,7 +201,7 @@ func open_lobby():
 
 
 func start_new_game() -> void:
-	if !multiplayer.is_server():
+	if !multiplayer.is_server() or game_state != GameState.LOBBY:
 		return
 	load_level() # start the first level
 	spawn_all_players()
@@ -195,12 +211,12 @@ func start_new_game() -> void:
 
 
 func end_game() -> void:
-	if !multiplayer.is_server():
+	if !multiplayer.is_server() or game_state != GameState.IN_GAME:
 		return
-	unload_level()
 	update_game_state(GameState.GAME_OVER)
+	unload_level()
 	remove_all_players()
-	for child in $Tracks.get_children():
+	for child in $Bullets.get_children():
 		child.queue_free()
 	$GameOverTimer.start()
 	return
@@ -272,7 +288,11 @@ func all_players_voted() -> bool:
 func load_level() -> void:
 	# Get level path
 	var level_spawner: MultiplayerSpawner = $LevelSpawner
-	var level_path: String = level_spawner.get_spawnable_scene(0)
+	var level_path
+	if !developer_mode:
+		level_path = level_spawner.get_spawnable_scene(0)
+	else:
+		level_path = level_spawner.get_spawnable_scene(1)
 
 	# Load new level
 	var level_scn: PackedScene = load(level_path)
@@ -310,6 +330,8 @@ func get_player_count() -> int:
 
 
 func spawn_player(peer_id: int) -> void:
+	if get_player(peer_id) != null:
+		return
 	var player: Player = PLAYER_SCN.instantiate()
 	player.name = str(peer_id)
 
@@ -320,7 +342,8 @@ func spawn_player(peer_id: int) -> void:
 
 	$Players.add_child(player)
 
-	player.teleport.rpc(get_furthest_spawn(player))
+	player.teleport.rpc(get_furthest_spawn())
+	player_data[peer_id]["alive"] = true
 
 
 func remove_player(peer_id: int) -> void:
@@ -352,17 +375,21 @@ func remove_all_players() -> void:
 
 	for player: Player in get_players():
 		remove_player(player.peer_id)
+		player_data[player.peer_id]["alive"] = false
 
 
 func respawn_player(peer_id: int) -> void:
+	if !multiplayer.is_server():
+		return
 	var player: Player = get_player(peer_id)
 	if player == null:
 		return
-	var spawn_pos: Vector2 = get_furthest_spawn(player)
+	var spawn_pos: Vector2 = get_furthest_spawn()
+	player_data[peer_id]["alive"] = true
 	player.revive.rpc(spawn_pos)
 
 
-func get_furthest_spawn(excluded_player: Player) -> Vector2:
+func get_furthest_spawn() -> Vector2:
 	var potential_spawns: Array[Vector2] = level.get_spawn_positions()
 	var players: Array[Node] = $Players.get_children()
 	if players.is_empty():
@@ -371,7 +398,7 @@ func get_furthest_spawn(excluded_player: Player) -> Vector2:
 		var spawn_distances: Array[float] = []
 		var player_locations: Array[Vector2] = []
 		for player in players:
-			if player != excluded_player:
+			if player_data[player.peer_id]["alive"]:
 				player_locations.append(player.global_position)
 		for spawn in potential_spawns:
 			var nearest = INF
@@ -379,14 +406,17 @@ func get_furthest_spawn(excluded_player: Player) -> Vector2:
 				var distance: float = spawn.distance_to(location)
 				nearest = min(distance, nearest)
 			spawn_distances.append(nearest)
-
 		var best_spawn_index: int = 0
-		var best_spawn_distance: float = spawn_distances[0]
-
 		for i in spawn_distances.size():
-			if spawn_distances[i] > best_spawn_distance:
-				best_spawn_distance = spawn_distances[i]
+			if spawn_distances[i] > spawn_distances[best_spawn_index]:
+				spawn_distances[best_spawn_index] = spawn_distances[i]
 				best_spawn_index = i
-
 		var best_spawn: Vector2 = potential_spawns[best_spawn_index]
 		return best_spawn
+
+
+func clear_map():
+	for child in $Explosions.get_children():
+		child.queue_free()
+	for child in $Tracks.get_children():
+		child.queue_free()
