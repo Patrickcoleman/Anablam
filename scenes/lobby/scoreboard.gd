@@ -38,8 +38,10 @@ func draw_winner():
 func calculate_winner() -> String:
 	var player_data = lobby.player_data
 	var winner = "not set"
+	var most_kills = 0
 	for player in player_data:
-		if player_data[player]["kills"] == lobby.kills_to_win:
+		if player_data[player]["kills"] >= most_kills:
+			most_kills = player_data[player]["kills"]
 			winner = player_data[player]["display_name"]
 			break
 	return winner

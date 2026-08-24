@@ -200,6 +200,8 @@ func update_game_state(new_state: GameState) -> void:
 
 
 func open_lobby():
+	if !multiplayer.is_server():
+		return
 	reset_votes()
 	update_game_state(GameState.LOBBY)
 
@@ -291,7 +293,6 @@ func all_players_voted() -> bool:
 
 
 func load_level() -> void:
-	# Get level path
 	var level_spawner: MultiplayerSpawner = $LevelSpawner
 	var level_path
 	if !developer_mode:
@@ -439,7 +440,7 @@ func set_crosshair(on: bool):
 func set_settings_active():
 	if headless_mode:
 		return
-	elif multiplayer.is_server():
-		get_node("LobbyUI/PanelContainer/MarginContainer/HBoxContainer/KillsInput").editable = true
-	else:
-		get_node("LobbyUI/PanelContainer/MarginContainer/HBoxContainer/KillsInput").editable = false
+	#elif multiplayer.is_server():
+	#get_node("LobbyUI/PanelContainer/MarginContainer/HBoxContainer/KillsInput").editable = true
+	#else:
+	#get_node("LobbyUI/PanelContainer/MarginContainer/HBoxContainer/KillsInput").editable = false

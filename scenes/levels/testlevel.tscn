@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://b6j0xvuuhrws7"]
 
-[ext_resource type="Script" uid="uid://ms6gcuid1wbb" path="res://scenes/levels/testlevel.gd" id="1_wopdt"]
+[ext_resource type="Script" uid="uid://djmoog03px6xm" path="res://scenes/levels/level.gd" id="1_3hckn"]
 [ext_resource type="Texture2D" uid="uid://by4dgv0dfhgno" path="res://common/sprites/Obstacles/barrelRed_up.png" id="3_3hckn"]
 [ext_resource type="PackedScene" uid="uid://hhwn7sykn2cn" path="res://objects/scene/background/background.tscn" id="3_gwqra"]
 
 [node name="Testlevel" type="Node2D" unique_id=204164268]
-script = ExtResource("1_wopdt")
+script = ExtResource("1_3hckn")
+display_name = "MainLevel"
 
 [node name="Background" parent="." unique_id=1356983562 instance=ExtResource("3_gwqra")]
 
