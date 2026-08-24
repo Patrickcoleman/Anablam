@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bkeg1w7eyl54b" path="res://common/ui/volume.tscn" id="5_pbg2n"]
 [ext_resource type="Script" uid="uid://db4o55mmx5y83" path="res://scenes/lobby/sfx.gd" id="7_g8dbv"]
 [ext_resource type="Script" uid="uid://d12ayxnjvt2jx" path="res://common/sound_effects/sfxdata.gd" id="8_3pywa"]
+[ext_resource type="PackedScene" uid="uid://yktpdnchrv1n" path="res://scenes/lobby/lobby_player.tscn" id="8_s8luf"]
 [ext_resource type="Script" uid="uid://bhctxmy86oe1r" path="res://scenes/lobby/kills_input.gd" id="8_v3mhk"]
 [ext_resource type="AudioStream" uid="uid://wnw32xbwimfu" path="res://common/sound_effects/bulletexplode.wav" id="9_phpfy"]
 [ext_resource type="AudioStream" uid="uid://cdhd5ocwy5mao" path="res://common/sound_effects/tankexplode.ogg" id="10_02lw7"]
@@ -31,21 +32,7 @@ properties/0/replication_mode = 2
 [sub_resource type="LabelSettings" id="LabelSettings_patxp"]
 font_size = 40
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_patxp"]
-bg_color = Color(0.09803922, 0.14117648, 0.105882354, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0, 0.8235294, 0.11764706, 0.5686275)
-border_blend = true
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-corner_detail = 20
-
-[sub_resource type="LabelSettings" id="LabelSettings_cimh6"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cimh6"]
 
 [sub_resource type="Theme" id="Theme_cimh6"]
 
@@ -261,76 +248,52 @@ one_shot = true
 [node name="LobbyUI" type="CanvasLayer" parent="." unique_id=1924289879]
 script = ExtResource("4_5c8lw")
 
-[node name="HBox" type="HBoxContainer" parent="LobbyUI" unique_id=1921645264]
+[node name="Players" type="PanelContainer" parent="LobbyUI" unique_id=1000286052]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -237.0
+offset_top = -243.0
+offset_right = 201.0
+offset_bottom = 152.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_cimh6")
 
-[node name="PlayerList" type="VBoxContainer" parent="LobbyUI/HBox" unique_id=555308288]
+[node name="PlayerList" type="VBoxContainer" parent="LobbyUI/Players" unique_id=555308288]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 
-[node name="Slot1" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=153220064]
-custom_maximum_size = Vector2(200, -1)
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
-text = "Empty"
-label_settings = SubResource("LabelSettings_cimh6")
-
-[node name="Slot2" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=859820582]
-custom_maximum_size = Vector2(200, -1)
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
-text = "Empty"
-label_settings = SubResource("LabelSettings_cimh6")
-
-[node name="Slot3" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=1728584875]
-custom_maximum_size = Vector2(200, -1)
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
-text = "Empty"
-label_settings = SubResource("LabelSettings_cimh6")
-
-[node name="Slot4" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=1327825596]
-custom_maximum_size = Vector2(200, -1)
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
-text = "Empty"
-label_settings = SubResource("LabelSettings_cimh6")
-
-[node name="Slot5" type="Label" parent="LobbyUI/HBox/PlayerList" unique_id=2106689970]
-custom_maximum_size = Vector2(200, -1)
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
-text = "Empty"
-label_settings = SubResource("LabelSettings_cimh6")
-
-[node name="VBox" type="VBoxContainer" parent="LobbyUI/HBox" unique_id=884012282]
+[node name="LobbyPlayer" parent="LobbyUI/Players/PlayerList" unique_id=27140657 instance=ExtResource("8_s8luf")]
 layout_mode = 2
 
-[node name="ExitMenu" type="Button" parent="LobbyUI/HBox/VBox" unique_id=1974380143]
+[node name="VBox" type="VBoxContainer" parent="LobbyUI/Players" unique_id=884012282]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 42
+
+[node name="ExitMenu" type="Button" parent="LobbyUI/Players/VBox" unique_id=1974380143]
 layout_mode = 2
 theme = SubResource("Theme_cimh6")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_tk3j5")
 text = "Exit to Menu"
 
-[node name="VoteStart" type="Button" parent="LobbyUI/HBox/VBox" unique_id=1048713104]
+[node name="VotingOptions" type="VBoxContainer" parent="LobbyUI/Players/VBox" unique_id=5749131]
 layout_mode = 2
-size_flags_vertical = 10
+
+[node name="VoteStart" type="Button" parent="LobbyUI/Players/VBox/VotingOptions" unique_id=1048713104]
+layout_mode = 2
+size_flags_vertical = 0
 text = "Vote to Start"
 
-[node name="Label" type="Label" parent="LobbyUI/HBox/VBox" unique_id=560288484]
+[node name="Votes" type="Label" parent="LobbyUI/Players/VBox/VotingOptions" unique_id=560288484]
 layout_mode = 2
-size_flags_vertical = 8
+size_flags_vertical = 0
 theme = SubResource("Theme_5c8lw")
 theme_override_styles/normal = SubResource("StyleBoxFlat_413et")
 text = "0/? votes"
@@ -345,9 +308,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -145.0
-offset_top = -145.0
+offset_top = -114.0
 offset_right = 139.0
-offset_bottom = -71.0
+offset_bottom = -45.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 4
@@ -372,6 +335,7 @@ text = "First to: "
 [node name="KillsInput" type="SpinBox" parent="LobbyUI/PanelContainer/MarginContainer/HBoxContainer" unique_id=1481947554]
 layout_mode = 2
 size_flags_horizontal = 4
+min_value = 1.0
 max_value = 20.0
 value = 10.0
 script = ExtResource("8_v3mhk")
@@ -426,6 +390,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_tk3j5")
 text = "Exit to Menu"
 
 [node name="CustomCursor" type="Node2D" parent="." unique_id=1595597743]
+z_index = 100
 scale = Vector2(0.6, 0.6)
 script = ExtResource("19_wp0hx")
 
@@ -451,6 +416,6 @@ texture_progress = ExtResource("21_sqemm")
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button2" to="UI" method="_on_join_localhost_pressed"]
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button3" to="UI" method="_on_enet_host_pressed"]
 [connection signal="timeout" from="GameOverTimer" to="." method="gameover_screen_timeout"]
-[connection signal="pressed" from="LobbyUI/HBox/VBox/ExitMenu" to="LobbyUI" method="exit_to_menu"]
-[connection signal="pressed" from="LobbyUI/HBox/VBox/VoteStart" to="LobbyUI" method="vote_start"]
+[connection signal="pressed" from="LobbyUI/Players/VBox/ExitMenu" to="LobbyUI" method="exit_to_menu"]
+[connection signal="pressed" from="LobbyUI/Players/VBox/VotingOptions/VoteStart" to="LobbyUI" method="vote_start"]
 [connection signal="pressed" from="EscapeMenu/Panel/ExitMenu" to="LobbyUI" method="exit_to_menu"]

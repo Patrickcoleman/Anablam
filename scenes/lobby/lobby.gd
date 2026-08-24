@@ -17,6 +17,7 @@ var player_data: Dictionary = { }
 signal player_data_changed
 
 var kills_to_win: int = 5
+var server_headless: bool = true
 
 # Lifecycle
 
@@ -57,6 +58,7 @@ func start_enet_server(port: int = DEFAULT_PORT) -> void:
 	if !headless_mode:
 		player_data[1] = make_default_player_entry()
 		player_data[1]["display_name"] = display_name
+		server_headless = false
 	share_player_info.rpc(player_data)
 	open_lobby()
 
@@ -72,7 +74,6 @@ func start_enet_client(address: String, port: int = DEFAULT_PORT) -> void:
 #This signal is emitted with the newly connected peer's ID on each other peer,
 # and on the new peer multiple times, once with each other peer's ID.
 func _on_peer_connected(peer_id: int) -> void:
-	# Handle player spawn if hosting
 	if (!multiplayer.is_server()):
 		return
 
@@ -91,6 +92,7 @@ func make_default_player_entry() -> Dictionary:
 		"sprite_id": 0,
 		"kills": 0,
 		"alive": false,
+		"winner": false,
 	}
 
 
@@ -214,7 +216,6 @@ func start_new_game() -> void:
 	spawn_all_players()
 	reset_kills()
 	update_game_state(GameState.IN_GAME)
-	return
 
 
 func end_game() -> void:
@@ -226,7 +227,6 @@ func end_game() -> void:
 	for child in $Bullets.get_children():
 		child.queue_free()
 	$GameOverTimer.start()
-	return
 
 
 func gameover_screen_timeout() -> void:
@@ -262,6 +262,7 @@ func is_game_over() -> bool:
 func reset_kills():
 	for player in player_data:
 		player_data[player]["kills"] = 0
+		player_data[player]["winner"] = false
 	share_player_info.rpc(player_data)
 
 
@@ -440,7 +441,10 @@ func set_crosshair(on: bool):
 func set_settings_active():
 	if headless_mode:
 		return
-	#elif multiplayer.is_server():
-	#get_node("LobbyUI/PanelContainer/MarginContainer/HBoxContainer/KillsInput").editable = true
-	#else:
-	#get_node("LobbyUI/PanelContainer/MarginContainer/HBoxContainer/KillsInput").editable = false
+	var editable = true
+	for player in player_data:
+		if player_data[player]["winner"]:
+			if player != multiplayer.get_unique_id():
+				editable = false
+
+	$LobbyUI/PanelContainer/MarginContainer/HBoxContainer/KillsInput.editable = editable

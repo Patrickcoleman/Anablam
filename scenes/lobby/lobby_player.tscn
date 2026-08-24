@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://yktpdnchrv1n"]
+
+[ext_resource type="Texture2D" uid="uid://by4ju7x54mv7c" path="res://common/ui/player_icons/crown.png" id="1_s1fxu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cimh6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_patxp"]
+bg_color = Color(0.09803922, 0.14117648, 0.105882354, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0.8235294, 0.11764706, 0.5686275)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_cimh6"]
+
+[node name="LobbyPlayer" type="PanelContainer" unique_id=687197910]
+custom_minimum_size = Vector2(258, 33)
+custom_maximum_size = Vector2(258, 33)
+offset_right = 258.0
+offset_bottom = 33.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_cimh6")
+
+[node name="Crown" type="TextureRect" parent="." unique_id=1300906731]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+texture = ExtResource("1_s1fxu")
+stretch_mode = 3
+
+[node name="NameLabel" type="Label" parent="." unique_id=1268626]
+custom_minimum_size = Vector2(200, 0)
+custom_maximum_size = Vector2(200, -1)
+propagate_maximum_size = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_patxp")
+label_settings = SubResource("LabelSettings_cimh6")
+
+[node name="CheckBox" type="CheckBox" parent="." unique_id=550685858]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+disabled = true
