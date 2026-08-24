@@ -24,6 +24,7 @@ func play_sfx(sound: SFX_TYPE, sfx_position: Vector2) -> void:
 		-data.pitch_random_range,
 		data.pitch_random_range,
 	)
+	player.bus = "SFX"
 	add_child(player)
 	player.play()
 	player.finished.connect(player.queue_free)

@@ -6,8 +6,10 @@
 [ext_resource type="Script" uid="uid://brmueumte4vm2" path="res://scenes/lobby/scoreboard.gd" id="3_qv0t4"]
 [ext_resource type="Script" uid="uid://bfry4v0fjbjvu" path="res://scenes/lobby/explosions.gd" id="3_yhyct"]
 [ext_resource type="Script" uid="uid://d0p5xpyt7lbg8" path="res://scenes/lobby/lobby_ui.gd" id="4_5c8lw"]
+[ext_resource type="PackedScene" uid="uid://bkeg1w7eyl54b" path="res://common/ui/volume.tscn" id="5_pbg2n"]
 [ext_resource type="Script" uid="uid://db4o55mmx5y83" path="res://scenes/lobby/sfx.gd" id="7_g8dbv"]
 [ext_resource type="Script" uid="uid://d12ayxnjvt2jx" path="res://common/sound_effects/sfxdata.gd" id="8_3pywa"]
+[ext_resource type="Script" uid="uid://bhctxmy86oe1r" path="res://scenes/lobby/kills_input.gd" id="8_v3mhk"]
 [ext_resource type="AudioStream" uid="uid://wnw32xbwimfu" path="res://common/sound_effects/bulletexplode.wav" id="9_phpfy"]
 [ext_resource type="AudioStream" uid="uid://cdhd5ocwy5mao" path="res://common/sound_effects/tankexplode.ogg" id="10_02lw7"]
 [ext_resource type="AudioStream" uid="uid://dj7rryfck6nli" path="res://common/sound_effects/fire.ogg" id="11_6iqo4"]
@@ -16,6 +18,10 @@
 [ext_resource type="Script" uid="uid://cjyt5mwl7f6fl" path="res://common/music/MusicData.gd" id="13_opc5t"]
 [ext_resource type="AudioStream" uid="uid://d24ut8b1puf43" path="res://common/music/Lobby.ogg" id="14_opc5t"]
 [ext_resource type="AudioStream" uid="uid://ymev7icbaxsh" path="res://common/music/Battle.ogg" id="15_pbg2n"]
+[ext_resource type="Script" uid="uid://bqswa2bqhj24e" path="res://scenes/lobby/escape_menu.gd" id="18_pbg2n"]
+[ext_resource type="Script" uid="uid://dbwftsesxr8u4" path="res://scenes/lobby/custom_cursor.gd" id="19_wp0hx"]
+[ext_resource type="Texture2D" uid="uid://cx6r7h8k0maid" path="res://common/ui/crosshair-008.png" id="19_xyfku"]
+[ext_resource type="Texture2D" uid="uid://bimfc43cg5a5m" path="res://common/ui/crosshair_cooldown.png" id="21_sqemm"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5c8lw"]
 properties/0/path = NodePath(".:game_state")
@@ -103,7 +109,6 @@ metadata/_custom_type_script = "uid://cjyt5mwl7f6fl"
 
 [node name="Lobby" type="Node2D" unique_id=795581606]
 script = ExtResource("1_sj1j4")
-developer_mode = true
 
 [node name="Level" type="Node2D" parent="." unique_id=587595762]
 
@@ -136,6 +141,7 @@ spawn_limit = 40
 replication_config = SubResource("SceneReplicationConfig_5c8lw")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1454329024]
+visible = false
 script = ExtResource("2_v0l1j")
 
 [node name="Panel" type="PanelContainer" parent="UI" unique_id=925567546]
@@ -194,6 +200,8 @@ text = "Join Localhost (for dev)"
 layout_mode = 2
 text = "Host your own game"
 
+[node name="Volume" parent="UI" unique_id=1285048535 instance=ExtResource("5_pbg2n")]
+
 [node name="Scoreboard" type="CanvasLayer" parent="." unique_id=87374042]
 visible = false
 script = ExtResource("3_qv0t4")
@@ -210,21 +218,21 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [node name="GameOver" type="VBoxContainer" parent="Scoreboard" unique_id=2027009398]
-visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 72.0
-offset_bottom = 29.0
+offset_left = -196.5
+offset_top = -185.0
+offset_right = 196.5
+offset_bottom = -63.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="GameOverLabel" type="Label" parent="Scoreboard/GameOver" unique_id=86116660]
 layout_mode = 2
+theme_override_font_sizes/font_size = 41
 text = "Game Over!"
 horizontal_alignment = 1
 
@@ -233,21 +241,23 @@ layout_mode = 2
 
 [node name="Winner" type="Label" parent="Scoreboard/GameOver/WinnerBox" unique_id=1752258042]
 layout_mode = 2
+theme_override_font_sizes/font_size = 41
 text = "Winner:"
 
 [node name="WinnerName" type="Label" parent="Scoreboard/GameOver/WinnerBox" unique_id=115509007]
 layout_mode = 2
+theme_override_font_sizes/font_size = 41
 text = "Placeholder"
 
 [node name="PlayerBoxes" type="HBoxContainer" parent="Scoreboard/GameOver" unique_id=1639504148]
 layout_mode = 2
+size_flags_horizontal = 8
 
 [node name="GameOverTimer" type="Timer" parent="." unique_id=618592337]
 wait_time = 5.0
 one_shot = true
 
 [node name="LobbyUI" type="CanvasLayer" parent="." unique_id=1924289879]
-visible = false
 script = ExtResource("4_5c8lw")
 
 [node name="HBox" type="HBoxContainer" parent="LobbyUI" unique_id=1921645264]
@@ -325,6 +335,50 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_413et")
 text = "0/? votes"
 horizontal_alignment = 1
 
+[node name="Volume" parent="LobbyUI" unique_id=1414798539 instance=ExtResource("5_pbg2n")]
+
+[node name="PanelContainer" type="PanelContainer" parent="LobbyUI" unique_id=603459028]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -145.0
+offset_top = -145.0
+offset_right = 139.0
+offset_bottom = -71.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="LobbyUI/PanelContainer" unique_id=1984765848]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LobbyUI/PanelContainer/MarginContainer" unique_id=1304536782]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LobbyUI/PanelContainer/MarginContainer/HBoxContainer" unique_id=1850286352]
+layout_mode = 2
+text = "First to: "
+
+[node name="KillsInput" type="SpinBox" parent="LobbyUI/PanelContainer/MarginContainer/HBoxContainer" unique_id=1481947554]
+layout_mode = 2
+size_flags_horizontal = 4
+max_value = 20.0
+value = 10.0
+script = ExtResource("8_v3mhk")
+
+[node name="Label2" type="Label" parent="LobbyUI/PanelContainer/MarginContainer/HBoxContainer" unique_id=1941859058]
+layout_mode = 2
+text = "kills wins!"
+
 [node name="SFX" type="Node2D" parent="." unique_id=1722526340]
 script = ExtResource("7_g8dbv")
 bullet_explosion_sfx = SubResource("Resource_cimh6")
@@ -339,9 +393,63 @@ menu = SubResource("Resource_02hng")
 lobby = SubResource("Resource_bdtai")
 battle = SubResource("Resource_opc5t")
 
+[node name="EscapeMenu" type="CanvasLayer" parent="." unique_id=2062985156]
+visible = false
+script = ExtResource("18_pbg2n")
+
+[node name="Panel" type="Panel" parent="EscapeMenu" unique_id=986371954]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Volume" parent="EscapeMenu/Panel" unique_id=401374806 instance=ExtResource("5_pbg2n")]
+layout_mode = 1
+
+[node name="ExitMenu" type="Button" parent="EscapeMenu/Panel" unique_id=346978007]
+custom_maximum_size = Vector2(200, 50)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -199.0
+offset_bottom = 50.0
+grow_horizontal = 0
+theme = SubResource("Theme_cimh6")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_tk3j5")
+text = "Exit to Menu"
+
+[node name="CustomCursor" type="Node2D" parent="." unique_id=1595597743]
+scale = Vector2(0.6, 0.6)
+script = ExtResource("19_wp0hx")
+
+[node name="CooldownCircle" type="TextureProgressBar" parent="CustomCursor" unique_id=1550742291]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.0
+offset_top = -37.0
+offset_right = 37.0
+offset_bottom = 37.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+fill_mode = 4
+texture_under = ExtResource("19_xyfku")
+texture_progress = ExtResource("21_sqemm")
+
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button" to="UI" method="_on_join_dedicated_pressed"]
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button2" to="UI" method="_on_join_localhost_pressed"]
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button3" to="UI" method="_on_enet_host_pressed"]
 [connection signal="timeout" from="GameOverTimer" to="." method="gameover_screen_timeout"]
 [connection signal="pressed" from="LobbyUI/HBox/VBox/ExitMenu" to="LobbyUI" method="exit_to_menu"]
 [connection signal="pressed" from="LobbyUI/HBox/VBox/VoteStart" to="LobbyUI" method="vote_start"]
+[connection signal="pressed" from="EscapeMenu/Panel/ExitMenu" to="LobbyUI" method="exit_to_menu"]

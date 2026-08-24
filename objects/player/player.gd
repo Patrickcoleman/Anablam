@@ -83,7 +83,7 @@ func teleport(new_pos: Vector2) -> void:
 @export var acceleration: float = 400.0
 @export var deceleration: float = 600.0
 @export var max_speed: float = 120.0
-@export var max_reverse_speed: float = 70.0
+@export var max_reverse_speed: float = 90.0
 @export var turn_speed: float = 1.5
 
 @export var angular_damping: float = 100.0
@@ -180,6 +180,7 @@ func fire_bullet() -> void:
 	if !$FireCooldown.is_stopped():
 		return
 	$FireCooldown.start()
+	get_node("/root/Lobby/CustomCursor").start_cooldown()
 	sfx.play_sfx.rpc(sfx.SFX_TYPE.FIRE, global_position)
 	if (!multiplayer.is_server()):
 		_request_fire.rpc_id(1)

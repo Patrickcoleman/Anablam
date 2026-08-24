@@ -170,7 +170,9 @@ func _on_game_state_changed(new_state: GameState) -> void:
 	$Scoreboard.hide()
 	$Scoreboard/PlayerBoxes.hide()
 	$Scoreboard/GameOver.hide()
+	$EscapeMenu.hide()
 	clear_map()
+	set_crosshair(false)
 
 	match new_state:
 		GameState.MAIN_MENU:
@@ -178,8 +180,10 @@ func _on_game_state_changed(new_state: GameState) -> void:
 			music.play_track(music.MUSIC_TRACK.MENU)
 		GameState.LOBBY:
 			music.play_track(music.MUSIC_TRACK.LOBBY)
+			set_settings_active()
 			$LobbyUI.show()
 		GameState.IN_GAME:
+			set_crosshair(true)
 			music.play_track(music.MUSIC_TRACK.BATTLE)
 			$Scoreboard.draw_scoreboard()
 			$Scoreboard.show()
@@ -203,7 +207,8 @@ func open_lobby():
 func start_new_game() -> void:
 	if !multiplayer.is_server() or game_state != GameState.LOBBY:
 		return
-	load_level() # start the first level
+	kills_to_win = get_node("LobbyUI/PanelContainer/MarginContainer/HBoxContainer/KillsInput").value
+	load_level()
 	spawn_all_players()
 	reset_kills()
 	update_game_state(GameState.IN_GAME)
@@ -420,3 +425,21 @@ func clear_map():
 		child.queue_free()
 	for child in $Tracks.get_children():
 		child.queue_free()
+
+
+func set_crosshair(on: bool):
+	if on:
+		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+		$CustomCursor.visible = true
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		$CustomCursor.visible = false
+
+
+func set_settings_active():
+	if headless_mode:
+		return
+	elif multiplayer.is_server():
+		get_node("LobbyUI/PanelContainer/MarginContainer/HBoxContainer/KillsInput").editable = true
+	else:
+		get_node("LobbyUI/PanelContainer/MarginContainer/HBoxContainer/KillsInput").editable = false

@@ -18,7 +18,8 @@ func _ready() -> void:
 
 
 func _on_player_data_changed():
-	draw_scoreboard()
+	if lobby.game_state == lobby.GameState.IN_GAME:
+		draw_scoreboard()
 
 
 func draw_scoreboard():
@@ -26,7 +27,22 @@ func draw_scoreboard():
 
 
 func draw_game_over() -> void:
+	draw_winner()
 	draw_scores_in_element($GameOver/PlayerBoxes)
+
+
+func draw_winner():
+	$GameOver/WinnerBox/WinnerName.text = calculate_winner()
+
+
+func calculate_winner() -> String:
+	var player_data = lobby.player_data
+	var winner = "not set"
+	for player in player_data:
+		if player_data[player]["kills"] == lobby.kills_to_win:
+			winner = player_data[player]["display_name"]
+			break
+	return winner
 
 
 func draw_scores_in_element(parent: HBoxContainer) -> void:

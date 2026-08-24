@@ -4,7 +4,7 @@ class_name Bullet
 @onready var explosions: Node2D = get_node("/root/Lobby/Explosions")
 
 var sfx: Node2D
-var speed: float = 400.0
+var speed: float = 320.0
 var owner_peer_id: int = -1
 var bounces_remaining: int = 1
 var wall_bounced_off: Node2D
