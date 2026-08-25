@@ -110,7 +110,7 @@ script = ExtResource("2_413et")
 script = ExtResource("3_yhyct")
 
 [node name="LevelSpawner" type="MultiplayerSpawner" parent="." unique_id=1861484377]
-_spawnable_scenes = PackedStringArray("uid://b6j0xvuuhrws7", "uid://ci83vj4hxvxnm")
+_spawnable_scenes = PackedStringArray("uid://ci83vj4hxvxnm", "uid://bpn0nob83ub3t", "uid://chdhguu00e85r")
 spawn_path = NodePath("../Level")
 spawn_limit = 1
 

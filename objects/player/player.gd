@@ -27,9 +27,19 @@ const CHARACTERS: Array[SpriteFrames] = [
 	preload("res://objects/player/bodies/black_player.tres"),
 	preload("res://objects/player/bodies/blue_player.tres"),
 	preload("res://objects/player/bodies/beige_player.tres"),
+	preload("res://objects/player/bodies/green_player.tres"),
+	preload("res://objects/player/bodies/red_player.tres"),
+	preload("res://objects/player/bodies/black_player.tres"),
+	preload("res://objects/player/bodies/blue_player.tres"),
+	preload("res://objects/player/bodies/beige_player.tres"),
 ]
 
 const BARRELS: Array[Texture2D] = [
+	preload("res://objects/player/barrels/barrelGreen_outline.png"),
+	preload("res://objects/player/barrels/barrelRed_outline.png"),
+	preload("res://objects/player/barrels/barrelBlack_outline.png"),
+	preload("res://objects/player/barrels/barrelBlue_outline.png"),
+	preload("res://objects/player/barrels/barrelBeige_outline.png"),
 	preload("res://objects/player/barrels/barrelGreen_outline.png"),
 	preload("res://objects/player/barrels/barrelRed_outline.png"),
 	preload("res://objects/player/barrels/barrelBlack_outline.png"),

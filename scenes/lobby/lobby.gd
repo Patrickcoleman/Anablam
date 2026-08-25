@@ -3,7 +3,7 @@ class_name Lobby
 
 @export var developer_mode: bool
 
-const MAX_PLAYERS: int = 5
+const MAX_PLAYERS: int = 10
 const DEFAULT_PORT: int = 34777
 
 var headless_mode: bool = (DisplayServer.get_name() == "headless")
@@ -37,6 +37,7 @@ func _ready() -> void:
 
 	# Prepare available character indices
 	for idx: int in Player.CHARACTERS.size():
+		available_characters.append(idx)
 		available_characters.append(idx)
 
 	update_game_state(GameState.MAIN_MENU)
@@ -296,10 +297,12 @@ func all_players_voted() -> bool:
 func load_level() -> void:
 	var level_spawner: MultiplayerSpawner = $LevelSpawner
 	var level_path
-	if !developer_mode:
+	if developer_mode:
 		level_path = level_spawner.get_spawnable_scene(0)
-	else:
+	elif player_data.size() < 6:
 		level_path = level_spawner.get_spawnable_scene(1)
+	else:
+		level_path = level_spawner.get_spawnable_scene(2)
 
 	# Load new level
 	var level_scn: PackedScene = load(level_path)

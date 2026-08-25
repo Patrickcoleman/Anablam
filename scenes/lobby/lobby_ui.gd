@@ -18,7 +18,7 @@ func redraw_players():
 	var label_container: VBoxContainer = $Players/PlayerList
 	for child in label_container.get_children():
 		child.queue_free()
-	for i in 10:
+	for i in lobby.MAX_PLAYERS:
 		var new_label = LOBBY_PLAYER.instantiate()
 		label_container.add_child(new_label)
 		if i < player_ids.size():

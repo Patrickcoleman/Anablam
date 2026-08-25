@@ -15,6 +15,11 @@ const SPRITES: Array[Texture2D] = [
 	preload("res://objects/bullets/bulletSilverSilver_outline.png"),
 	preload("res://objects/bullets/bulletBlueSilver_outline.png"),
 	preload("res://objects/bullets/bulletBeigeSilver_outline.png"),
+	preload("res://objects/bullets/bulletGreenSilver_outline.png"),
+	preload("res://objects/bullets/bulletRedSilver_outline.png"),
+	preload("res://objects/bullets/bulletSilverSilver_outline.png"),
+	preload("res://objects/bullets/bulletBlueSilver_outline.png"),
+	preload("res://objects/bullets/bulletBeigeSilver_outline.png"),
 ]
 
 

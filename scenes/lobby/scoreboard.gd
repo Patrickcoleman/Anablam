@@ -7,6 +7,11 @@ const PLAYER_SPRITES: Array[Texture2D] = [
 	preload("res://common/ui/player_icons/Black_Icon.png"),
 	preload("res://common/ui/player_icons/Blue_Icon.png"),
 	preload("res://common/ui/player_icons/Beige_Icon.png"),
+	preload("res://common/ui/player_icons/Green_Icon.png"),
+	preload("res://common/ui/player_icons/Red_Icon.png"),
+	preload("res://common/ui/player_icons/Black_Icon.png"),
+	preload("res://common/ui/player_icons/Blue_Icon.png"),
+	preload("res://common/ui/player_icons/Beige_Icon.png"),
 ]
 
 var lobby: Lobby
