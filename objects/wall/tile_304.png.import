@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpr4jplqi8o56"
-path="res://.godot/imported/crateMetal.png-f7df86c8f5afcb1f542e01f7a7b5b8b7.ctex"
+uid="uid://cogpkhn4pmndv"
+path="res://.godot/imported/tile_304.png-8da679ff9252f445105b28c256827a02.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://objects/wall/crateMetal.png"
-dest_files=["res://.godot/imported/crateMetal.png-f7df86c8f5afcb1f542e01f7a7b5b8b7.ctex"]
+source_file="res://objects/wall/tile_304.png"
+dest_files=["res://.godot/imported/tile_304.png-8da679ff9252f445105b28c256827a02.ctex"]
 
 [params]
 
