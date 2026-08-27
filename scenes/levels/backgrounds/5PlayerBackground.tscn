@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://hhwn7sykn2cn"]
 
-[ext_resource type="Texture2D" uid="uid://bolc0dt5umfg8" path="res://assets/sprites/Environment/terrainTiles_default.png" id="1_gj8h5"]
-[ext_resource type="Texture2D" uid="uid://rebeatpe5tqo" path="res://assets/sprites/Environment/tilesheet_complete.png" id="2_ax2fl"]
+[ext_resource type="Texture2D" uid="uid://bolc0dt5umfg8" path="res://scenes/levels/tiles/terrainTiles_default.png" id="1_gj8h5"]
+[ext_resource type="Texture2D" uid="uid://rebeatpe5tqo" path="res://scenes/levels/tiles/tilesheet_complete.png" id="2_ax2fl"]
 [ext_resource type="PackedScene" uid="uid://2iyp0ftnf6e6" path="res://objects/tree/tree.tscn" id="3_462a6"]
 [ext_resource type="PackedScene" uid="uid://c7aahvekmyr22" path="res://objects/wall/wall.tscn" id="4_uh1yp"]
 

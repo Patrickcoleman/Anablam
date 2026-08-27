@@ -1,12 +1,12 @@
 [gd_scene format=4 uid="uid://b6j0xvuuhrws7"]
 
-[ext_resource type="Texture2D" uid="uid://bolc0dt5umfg8" path="res://assets/sprites/Environment/terrainTiles_default.png" id="1_gpuvv"]
-[ext_resource type="Texture2D" uid="uid://rebeatpe5tqo" path="res://assets/sprites/Environment/tilesheet_complete.png" id="2_gv663"]
+[ext_resource type="Texture2D" uid="uid://bolc0dt5umfg8" path="res://scenes/levels/tiles/terrainTiles_default.png" id="1_euvcu"]
+[ext_resource type="Texture2D" uid="uid://rebeatpe5tqo" path="res://scenes/levels/tiles/tilesheet_complete.png" id="2_if82c"]
 [ext_resource type="PackedScene" uid="uid://2iyp0ftnf6e6" path="res://objects/tree/tree.tscn" id="3_d38vg"]
 [ext_resource type="PackedScene" uid="uid://c7aahvekmyr22" path="res://objects/wall/wall.tscn" id="4_ume6h"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ax2fl"]
-texture = ExtResource("1_gpuvv")
+texture = ExtResource("1_euvcu")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 1:0/0 = 0
@@ -50,7 +50,7 @@ texture_region_size = Vector2i(64, 64)
 9:3/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f2rnw"]
-texture = ExtResource("2_gv663")
+texture = ExtResource("2_if82c")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 1:0/0 = 0
