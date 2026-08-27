@@ -1,0 +1,36 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bfmeyhgttp6r3"]
+
+[ext_resource type="Texture2D" uid="uid://d157a7s7dyg5t" path="res://objects/player/bodies/animations/Brown3.png" id="1_5re7n"]
+[ext_resource type="Texture2D" uid="uid://dma0pf7xxe0ep" path="res://objects/player/bodies/animations/Brown2.png" id="2_iw85f"]
+[ext_resource type="Texture2D" uid="uid://bnhdgulb5or4o" path="res://objects/player/bodies/animations/Brown1.png" id="3_1pb4a"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_5re7n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_iw85f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_1pb4a")
+}],
+"loop": 1,
+"name": &"backwards",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_1pb4a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_iw85f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_5re7n")
+}],
+"loop": 1,
+"name": &"forwards",
+"speed": 15.0
+}]

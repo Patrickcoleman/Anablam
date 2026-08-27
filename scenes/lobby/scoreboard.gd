@@ -1,12 +1,17 @@
 extends CanvasLayer
 
-const PLAYER_DISPLAY: PackedScene = preload("res://common/ui/EnemyPanel.tscn")
+const PLAYER_DISPLAY: PackedScene = preload("res://common/ui/player_icons/EnemyPanel.tscn")
 const PLAYER_SPRITES: Array[Texture2D] = [
-	preload("res://common/ui/player_icons/Green_Icon.png"),
-	preload("res://common/ui/player_icons/Red_Icon.png"),
+	preload("res://common/ui/player_icons/Beige_Icon.png"),
 	preload("res://common/ui/player_icons/Black_Icon.png"),
 	preload("res://common/ui/player_icons/Blue_Icon.png"),
-	preload("res://common/ui/player_icons/Beige_Icon.png"),
+	preload("res://common/ui/player_icons/Brown_Icon.png"),
+	preload("res://common/ui/player_icons/Forest_Icon.png"),
+	preload("res://common/ui/player_icons/Green_Icon.png"),
+	preload("res://common/ui/player_icons/Orange_Icon.png"),
+	preload("res://common/ui/player_icons/Purple_Icon.png"),
+	preload("res://common/ui/player_icons/Red_Icon.png"),
+	preload("res://common/ui/player_icons/Teal_Icon.png"),
 ]
 
 var lobby: Lobby
@@ -18,7 +23,8 @@ func _ready() -> void:
 
 
 func _on_player_data_changed():
-	draw_scoreboard()
+	if lobby.game_state == lobby.GameState.IN_GAME:
+		draw_scoreboard()
 
 
 func draw_scoreboard():
@@ -26,7 +32,24 @@ func draw_scoreboard():
 
 
 func draw_game_over() -> void:
+	draw_winner()
 	draw_scores_in_element($GameOver/PlayerBoxes)
+
+
+func draw_winner():
+	$GameOver/WinnerBox/WinnerName.text = calculate_winner()
+
+
+func calculate_winner() -> String:
+	var player_data = lobby.player_data
+	var winner_id = 1
+	var most_kills = 0
+	for player in player_data:
+		if player_data[player]["kills"] >= most_kills:
+			most_kills = player_data[player]["kills"]
+			winner_id = player
+	lobby.player_data[winner_id]["winner"] = true
+	return player_data[winner_id]["display_name"]
 
 
 func draw_scores_in_element(parent: HBoxContainer) -> void:

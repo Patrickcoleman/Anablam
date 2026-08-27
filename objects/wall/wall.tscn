@@ -1,0 +1,48 @@
+[gd_scene format=4 uid="uid://c7aahvekmyr22"]
+
+[ext_resource type="Texture2D" uid="uid://cgoft0dm70y21" path="res://objects/wall/tile_138.png" id="1_ltj23"]
+[ext_resource type="Texture2D" uid="uid://b00fkyoj14mpr" path="res://objects/wall/tile_142.png" id="2_4pi7y"]
+[ext_resource type="Texture2D" uid="uid://3cawt83dlce2" path="res://objects/wall/tile_300.png" id="3_722tm"]
+[ext_resource type="Texture2D" uid="uid://cogpkhn4pmndv" path="res://objects/wall/tile_304.png" id="4_g78qi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cimh6"]
+size = Vector2(704, 64)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_722tm"]
+texture = ExtResource("1_ltj23")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g78qi"]
+texture = ExtResource("2_4pi7y")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_my3fp"]
+texture = ExtResource("3_722tm")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1g5ve"]
+texture = ExtResource("4_g78qi")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_patxp"]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_722tm")
+sources/1 = SubResource("TileSetAtlasSource_g78qi")
+sources/2 = SubResource("TileSetAtlasSource_my3fp")
+sources/3 = SubResource("TileSetAtlasSource_1g5ve")
+
+[node name="Wall" type="StaticBody2D" unique_id=668654013]
+collision_mask = 0
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=721174874]
+shape = SubResource("RectangleShape2D_cimh6")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1558003152]
+position = Vector2(32, 32)
+tile_map_data = PackedByteArray("AAAAAP//AgAAAAAAAFD/////AgAAAAAAAFD8////AgAAAAAAAFD9////AgAAAAAAAFD7////AgAAAAAAAFADAP//AgAAAAAAAFACAP//AgAAAAAAAFABAP//AgAAAAAAAFD6////AwAAAAAAAAAEAP//AwAAAAAAADD+////AgAAAAAAAFA=")
+tile_set = SubResource("TileSet_patxp")

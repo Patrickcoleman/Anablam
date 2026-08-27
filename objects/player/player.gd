@@ -1,36 +1,65 @@
 extends CharacterBody2D
 class_name Player
 
+@onready var lobby = get_node("/root/Lobby")
+@onready var sfx = get_node("/root/Lobby/SFX")
+@onready var tracks = get_node("/root/Lobby/Tracks")
+@onready var explosions: Node2D = get_node("/root/Lobby/Explosions")
+@onready var engine_sound: AudioStreamPlayer2D = $EngineSound
 var peer_id: int = 1
 var local: bool = true
-var lobby: Lobby
+var previous_position: Vector2
+var distance_since_last_track: float = 0.0
+var distance_between_tracks: int = 10
+
+var current_animation: StringName = "stopped":
+	set(value):
+		current_animation = value
+		if value == "stopped":
+			$Body.stop()
+		else:
+			if is_node_ready():
+				$Body.play(current_animation)
 
 const CHARACTERS: Array[SpriteFrames] = [
-	preload("res://objects/player/bodies/green_player.tres"),
-	preload("res://objects/player/bodies/red_player.tres"),
-	preload("res://objects/player/bodies/black_player.tres"),
-	preload("res://objects/player/bodies/blue_player.tres"),
-	preload("res://objects/player/bodies/beige_player.tres"),
+	preload("res://objects/player/bodies/animations/beige_player.tres"),
+	preload("res://objects/player/bodies/animations/black_player.tres"),
+	preload("res://objects/player/bodies/animations/blue_player.tres"),
+	preload("res://objects/player/bodies/animations/brown_player.tres"),
+	preload("res://objects/player/bodies/animations/forest_player.tres"),
+	preload("res://objects/player/bodies/animations/green_player.tres"),
+	preload("res://objects/player/bodies/animations/orange_player.tres"),
+	preload("res://objects/player/bodies/animations/purple_player.tres"),
+	preload("res://objects/player/bodies/animations/red_player.tres"),
+	preload("res://objects/player/bodies/animations/teal_player.tres"),
 ]
 
 const BARRELS: Array[Texture2D] = [
-	preload("res://objects/player/barrels/barrelGreen_outline.png"),
-	preload("res://objects/player/barrels/barrelRed_outline.png"),
+	preload("res://objects/player/barrels/barrelBeige_outline.png"),
 	preload("res://objects/player/barrels/barrelBlack_outline.png"),
 	preload("res://objects/player/barrels/barrelBlue_outline.png"),
-	preload("res://objects/player/barrels/barrelBeige_outline.png"),
+	preload("res://objects/player/barrels/barrelBrown_outline.png"),
+	preload("res://objects/player/barrels/barrelForest_outline.png"),
+	preload("res://objects/player/barrels/barrelGreen_outline.png"),
+	preload("res://objects/player/barrels/barrelOrange_outline.png"),
+	preload("res://objects/player/barrels/barrelPurple_outline.png"),
+	preload("res://objects/player/barrels/barrelRed_outline.png"),
+	preload("res://objects/player/barrels/barrelTeal_outline.png"),
 ]
 
 
 func _on_player_data_changed():
 	var player_data = lobby.player_data
-	update_sprite(player_data[int(name)]["sprite_id"])
-	set_display_name(player_data[int(name)]["display_name"])
+	var id: int = int(name)
+	if !player_data.has(id):
+		return
+	update_sprite(player_data[id]["sprite_id"])
+	set_display_name(player_data[id]["display_name"])
 
 
 func update_sprite(sprite_id: int):
 	$Body.sprite_frames = CHARACTERS[sprite_id]
-	$Body.play(&"default")
+	$Body.stop()
 	$Barrel.texture = BARRELS[sprite_id]
 
 
@@ -47,7 +76,6 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	lobby = get_node("/root/Lobby")
 	lobby.player_data_changed.connect(_on_player_data_changed)
 	if (local):
 		$Camera2D.make_current()
@@ -65,7 +93,7 @@ func teleport(new_pos: Vector2) -> void:
 @export var acceleration: float = 400.0
 @export var deceleration: float = 600.0
 @export var max_speed: float = 120.0
-@export var max_reverse_speed: float = 70.0
+@export var max_reverse_speed: float = 90.0
 @export var turn_speed: float = 1.5
 
 @export var angular_damping: float = 100.0
@@ -105,13 +133,16 @@ func _physics_process(delta: float) -> void:
 			turn_input -= 1
 		if Input.is_action_pressed("move_forward"):
 			move_input += 1
+			current_animation = &"forwards"
 		if Input.is_action_pressed("move_back"):
+			current_animation = &"backwards"
 			move_input -= 1
 
 		if !is_zero_approx(move_input):
 			var target_speed: float = max_speed if (move_input > 0) else -max_reverse_speed
 			speed = move_toward(speed, target_speed, acceleration * delta)
 		else:
+			current_animation = "stopped"
 			speed = move_toward(speed, 0, deceleration * delta)
 
 		var forward: Vector2 = Vector2.DOWN.rotated(rotation)
@@ -139,6 +170,15 @@ func _physics_process(delta: float) -> void:
 
 	$Barrel.rotation = barrel_angle - rotation
 
+	var distance_this_frame: float = global_position.distance_to(previous_position)
+	distance_since_last_track += distance_this_frame
+	if distance_since_last_track >= distance_between_tracks:
+		distance_since_last_track = 0.0
+		tracks.spawn_track(position, rotation)
+	previous_position = global_position
+
+	update_engine_sound()
+
 
 #bullet firing logic
 const bullet_SCN: PackedScene = preload("res://objects/bullets/bullet.tscn")
@@ -149,12 +189,13 @@ func fire_bullet() -> void:
 		return
 	if !$FireCooldown.is_stopped():
 		return
+	$FireCooldown.start()
+	get_node("/root/Lobby/CustomCursor").start_cooldown()
+	sfx.play_sfx.rpc(sfx.SFX_TYPE.FIRE, global_position)
 	if (!multiplayer.is_server()):
 		_request_fire.rpc_id(1)
-		$FireCooldown.start()
 		return
 	_spawn_bullet()
-	$FireCooldown.start()
 
 
 @rpc("any_peer", "call_remote", "reliable")
@@ -170,6 +211,7 @@ func _spawn_bullet() -> void:
 	bullet.rotation = barrel_angle
 	bullet.owner_peer_id = peer_id
 	get_node("/root/Lobby/Bullets").add_child(bullet, true)
+	bullet.set_sprite.rpc(lobby.player_data[peer_id]["sprite_id"])
 
 
 func update_barrel_angle():
@@ -184,9 +226,14 @@ func get_angle_to_mouse() -> float:
 
 @rpc("authority", "call_local", "reliable")
 func kill() -> void:
+	explosions.spawn_effect.rpc(explosions.EFFECT_TYPE.EXPLOSION, global_position, 2)
+	explosions.spawn_effect.rpc(explosions.EFFECT_TYPE.SCORCHMARK, global_position, 1)
+	sfx.play_sfx.rpc(sfx.SFX_TYPE.TANK_EXPLOSION, global_position)
 	set_hidden(true)
+	engine_sound.stop()
 	if multiplayer.is_server():
 		$RespawnTimer.start()
+		lobby.player_data[peer_id]["alive"] = false
 
 
 func _on_respawn_timer_timeout() -> void:
@@ -197,10 +244,33 @@ func _on_respawn_timer_timeout() -> void:
 @rpc("authority", "call_local", "reliable")
 func revive(new_pos: Vector2) -> void:
 	global_position = new_pos
-	set_hidden(false)
+	velocity = Vector2.ZERO
+	speed = 0.0
+	angular_velocity = 0.0
+	if local:
+		set_hidden.rpc(false)
 
 
+@rpc("any_peer", "call_local", "reliable")
 func set_hidden(hidden_bool: bool) -> void:
 	visible = !hidden_bool
 	$Hitbox.set_deferred("disabled", hidden_bool)
 	set_physics_process(!hidden_bool)
+
+
+@rpc("authority", "call_local", "reliable")
+func prepare_for_despawn() -> void:
+	if $ClientSynchronizer.is_multiplayer_authority():
+		$ClientSynchronizer.public_visibility = false
+
+
+func update_engine_sound() -> void:
+	var moving: bool = !is_zero_approx(speed)
+	if moving and !engine_sound.playing:
+		engine_sound.play()
+	elif !moving and engine_sound.playing:
+		engine_sound.stop()
+
+	if moving:
+		var speed_ratio: float = abs(speed) / max_speed
+		engine_sound.pitch_scale = lerp(0.3, 0.7, speed_ratio)

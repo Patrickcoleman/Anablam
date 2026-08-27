@@ -1,19 +1,74 @@
 extends Area2D
 class_name Bullet
 
-var speed: float = 600.0
+@onready var explosions: Node2D = get_node("/root/Lobby/Explosions")
+
+var sfx: Node2D
+var speed: float = 320.0
 var owner_peer_id: int = -1
+var bounces_remaining: int = 1
+var wall_bounced_off: Node2D
 
 const SPRITES: Array[Texture2D] = [
-	preload("res://objects/bullets/bulletGreenSilver_outline.png"),
-	preload("res://objects/bullets/bulletRedSilver_outline.png"),
-	preload("res://objects/bullets/bulletSilverSilver_outline.png"),
-	preload("res://objects/bullets/bulletBlueSilver_outline.png"),
-	preload("res://objects/bullets/bulletBeigeSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletBeigeSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletBlackSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletBlueSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletBrownSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletForestSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletGreenSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletOrangeSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletPurpleSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletRedSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletTealSilver_outline.png"),
 ]
 
 
+@rpc("authority", "call_local", "reliable")
+func set_sprite(sprite_id: int):
+	$Sprite.texture = SPRITES[sprite_id]
+
+
+func _ready() -> void:
+	sfx = get_node("/root/Lobby/SFX")
+	if multiplayer.is_server():
+		#I need to await 2 here until the other bodies are registered
+		await get_tree().physics_frame
+		await get_tree().physics_frame
+		for body in get_overlapping_bodies():
+			if body is Player:
+				continue
+			queue_free()
+			return
+
+
 func _physics_process(delta: float) -> void:
+	var ray_right: RayCast2D = $RayCastRight
+	var ray_left: RayCast2D = $RayCastLeft
+	var colliding_ray: RayCast2D
+
+	if ray_right.is_colliding():
+		colliding_ray = ray_right
+	elif ray_left.is_colliding():
+		colliding_ray = ray_left
+
+	if colliding_ray:
+		if bounces_remaining > 0:
+			wall_bounced_off = colliding_ray.get_collider()
+			var normal: Vector2 = colliding_ray.get_collision_normal()
+			var direction: Vector2 = Vector2.DOWN.rotated(rotation)
+			var bounced: Vector2 = direction.bounce(normal)
+			rotation = bounced.angle() - PI / 2
+			bounces_remaining -= 1
+			global_position = colliding_ray.get_collision_point() + bounced.normalized() * 8.0
+			if multiplayer.is_server() and is_instance_valid(self):
+				for body in get_overlapping_bodies():
+					if body != wall_bounced_off:
+						explode()
+		else:
+			if multiplayer.is_server():
+				explode()
+			return
+
 	position += Vector2.DOWN.rotated(rotation) * speed * delta
 
 
@@ -21,9 +76,15 @@ func _on_body_entered(body: Node2D) -> void:
 	if !multiplayer.is_server():
 		return
 	if body is Player:
-		if body.peer_id == owner_peer_id:
+		if body.peer_id == owner_peer_id and bounces_remaining == 1:
 			return
-		else:
+		body.kill.rpc()
+		explode()
+		if body.peer_id != owner_peer_id:
 			get_node("/root/Lobby").add_kill(owner_peer_id)
-			body.kill.rpc()
+
+
+func explode():
+	sfx.play_sfx.rpc(sfx.SFX_TYPE.BULLET_EXPLOSION, global_position)
+	explosions.spawn_effect.rpc(explosions.EFFECT_TYPE.EXPLOSION, global_position, 1)
 	queue_free()

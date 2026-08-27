@@ -1,0 +1,36 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://d3mh2omh2vi8i"]
+
+[ext_resource type="Texture2D" uid="uid://hail6x50rvmi" path="res://objects/player/bodies/animations/Forest1.png" id="1_t556w"]
+[ext_resource type="Texture2D" uid="uid://dc18grjnuqqym" path="res://objects/player/bodies/animations/Forest3.png" id="2_ivg3r"]
+[ext_resource type="Texture2D" uid="uid://dlmttdfix3kqp" path="res://objects/player/bodies/animations/Forest2.png" id="3_wh6kh"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_t556w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ivg3r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_wh6kh")
+}],
+"loop": 1,
+"name": &"backwards",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_t556w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_wh6kh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ivg3r")
+}],
+"loop": 1,
+"name": &"forwards",
+"speed": 15.0
+}]

@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 var lobby: Lobby
+const LOBBY_PLAYER: PackedScene = preload("uid://yktpdnchrv1n")
 
 
 # Called when the node enters the scene tree for the first time.
@@ -12,14 +13,22 @@ func _ready() -> void:
 
 
 func redraw_players():
-	var labels = $HBox/PlayerList.get_children()
 	var player_data = lobby.player_data
 	var player_ids = player_data.keys()
-	for i in 5:
+	var label_container: VBoxContainer = $Players/PlayerList
+	for child in label_container.get_children():
+		child.queue_free()
+	for i in lobby.MAX_PLAYERS:
+		var new_label = LOBBY_PLAYER.instantiate()
+		label_container.add_child(new_label)
 		if i < player_ids.size():
-			labels[i].text = player_data[player_ids[i]]["display_name"]
-		else:
-			labels[i].text = "Empty"
+			var name_label: Label = new_label.get_node("NameLabel")
+			name_label.text = player_data[player_ids[i]]["display_name"]
+			var checkbox: CheckBox = new_label.get_node("CheckBox")
+			checkbox.visible = true
+			checkbox.button_pressed = player_data[player_ids[i]]["voted"]
+			if player_data[player_ids[i]]["winner"]:
+				new_label.get_node("Crown").visible = true
 
 
 func vote_start():
@@ -28,7 +37,10 @@ func vote_start():
 
 func redraw_votes():
 	var player_data = lobby.player_data
-	$HBox/VBox/Label.text = "%d/%d votes" % [count_votes(player_data), max(player_data.size(), 2)]
+	$Players/VBox/VotingOptions/Votes.text = "%d/%d votes" % [
+		count_votes(player_data),
+		max(player_data.size(), 2),
+	]
 
 
 func count_votes(player_data) -> int:

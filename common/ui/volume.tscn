@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://bkeg1w7eyl54b"]
+
+[ext_resource type="Script" uid="uid://rp22gw1fuvgj" path="res://common/ui/volume.gd" id="1_5hb1f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6mhv8"]
+bg_color = Color(0.42745098, 0.67058825, 0.4392157, 0.33333334)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="Theme" id="Theme_pbg2n"]
+
+[node name="Volume" type="PanelContainer" unique_id=1285048535]
+offset_right = 199.0
+offset_bottom = 103.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_6mhv8")
+script = ExtResource("1_5hb1f")
+
+[node name="Margins" type="MarginContainer" parent="." unique_id=79411983]
+layout_mode = 2
+theme = SubResource("Theme_pbg2n")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Margins" unique_id=476581637]
+layout_mode = 2
+
+[node name="Master" type="HBoxContainer" parent="Margins/VBox" unique_id=1817718022]
+layout_mode = 2
+
+[node name="MasterLabel" type="Label" parent="Margins/VBox/Master" unique_id=1192486082]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+text = "Master"
+
+[node name="MasterScroll" type="HScrollBar" parent="Margins/VBox/Master" unique_id=417390511]
+custom_minimum_size = Vector2(120, 15)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.1
+page = 0.1
+value = 0.8
+custom_step = 0.1
+
+[node name="Music" type="HBoxContainer" parent="Margins/VBox" unique_id=1678592737]
+layout_mode = 2
+
+[node name="MusicLabel" type="Label" parent="Margins/VBox/Music" unique_id=1702393565]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+text = "Music"
+
+[node name="MusicScroll" type="HScrollBar" parent="Margins/VBox/Music" unique_id=327476242]
+custom_minimum_size = Vector2(120, 15)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.1
+page = 0.1
+value = 0.8
+custom_step = 0.1
+
+[node name="SFX" type="HBoxContainer" parent="Margins/VBox" unique_id=417623309]
+layout_mode = 2
+
+[node name="SFXLabel" type="Label" parent="Margins/VBox/SFX" unique_id=2036828834]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+text = "SFX"
+
+[node name="SFXScroll" type="HScrollBar" parent="Margins/VBox/SFX" unique_id=1072794903]
+custom_minimum_size = Vector2(120, 15)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.1
+page = 0.1
+value = 0.8
+custom_step = 0.1
