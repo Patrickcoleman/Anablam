@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://syeprg8lvf16"]
 
 [ext_resource type="Script" uid="uid://dr6jb16olusby" path="res://objects/player/player.gd" id="1_ssrue"]
-[ext_resource type="SpriteFrames" uid="uid://cq4j054hl28dv" path="res://objects/player/bodies/green_player.tres" id="2_gnkmh"]
+[ext_resource type="SpriteFrames" uid="uid://cq4j054hl28dv" path="res://objects/player/bodies/animations/green_player.tres" id="2_gnkmh"]
 [ext_resource type="Texture2D" uid="uid://4egcuvsa7sey" path="res://assets/sprites/Tanks/barrelRed.png" id="2_ssrue"]
 [ext_resource type="Script" uid="uid://clxdaiv0k3jgd" path="res://objects/player/info_panel.gd" id="4_gnkmh"]
 [ext_resource type="Script" uid="uid://c48h50dmwoyb6" path="res://objects/player/hud.gd" id="4_xkryw"]

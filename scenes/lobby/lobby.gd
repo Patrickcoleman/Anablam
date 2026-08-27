@@ -38,7 +38,6 @@ func _ready() -> void:
 	# Prepare available character indices
 	for idx: int in Player.CHARACTERS.size():
 		available_characters.append(idx)
-		available_characters.append(idx)
 
 	update_game_state(GameState.MAIN_MENU)
 

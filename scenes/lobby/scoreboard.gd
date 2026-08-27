@@ -2,16 +2,16 @@ extends CanvasLayer
 
 const PLAYER_DISPLAY: PackedScene = preload("res://common/ui/player_icons/EnemyPanel.tscn")
 const PLAYER_SPRITES: Array[Texture2D] = [
-	preload("res://common/ui/player_icons/Green_Icon.png"),
-	preload("res://common/ui/player_icons/Red_Icon.png"),
+	preload("res://common/ui/player_icons/Beige_Icon.png"),
 	preload("res://common/ui/player_icons/Black_Icon.png"),
 	preload("res://common/ui/player_icons/Blue_Icon.png"),
-	preload("res://common/ui/player_icons/Beige_Icon.png"),
+	preload("res://common/ui/player_icons/Brown_Icon.png"),
+	preload("res://common/ui/player_icons/Forest_Icon.png"),
 	preload("res://common/ui/player_icons/Green_Icon.png"),
+	preload("res://common/ui/player_icons/Orange_Icon.png"),
+	preload("res://common/ui/player_icons/Purple_Icon.png"),
 	preload("res://common/ui/player_icons/Red_Icon.png"),
-	preload("res://common/ui/player_icons/Black_Icon.png"),
-	preload("res://common/ui/player_icons/Blue_Icon.png"),
-	preload("res://common/ui/player_icons/Beige_Icon.png"),
+	preload("res://common/ui/player_icons/Teal_Icon.png"),
 ]
 
 var lobby: Lobby

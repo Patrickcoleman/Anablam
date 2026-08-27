@@ -22,29 +22,29 @@ var current_animation: StringName = "stopped":
 				$Body.play(current_animation)
 
 const CHARACTERS: Array[SpriteFrames] = [
-	preload("res://objects/player/bodies/green_player.tres"),
-	preload("res://objects/player/bodies/red_player.tres"),
-	preload("res://objects/player/bodies/black_player.tres"),
-	preload("res://objects/player/bodies/blue_player.tres"),
-	preload("res://objects/player/bodies/beige_player.tres"),
-	preload("res://objects/player/bodies/green_player.tres"),
-	preload("res://objects/player/bodies/red_player.tres"),
-	preload("res://objects/player/bodies/black_player.tres"),
-	preload("res://objects/player/bodies/blue_player.tres"),
-	preload("res://objects/player/bodies/beige_player.tres"),
+	preload("res://objects/player/bodies/animations/beige_player.tres"),
+	preload("res://objects/player/bodies/animations/black_player.tres"),
+	preload("res://objects/player/bodies/animations/blue_player.tres"),
+	preload("res://objects/player/bodies/animations/brown_player.tres"),
+	preload("res://objects/player/bodies/animations/forest_player.tres"),
+	preload("res://objects/player/bodies/animations/green_player.tres"),
+	preload("res://objects/player/bodies/animations/orange_player.tres"),
+	preload("res://objects/player/bodies/animations/purple_player.tres"),
+	preload("res://objects/player/bodies/animations/red_player.tres"),
+	preload("res://objects/player/bodies/animations/teal_player.tres"),
 ]
 
 const BARRELS: Array[Texture2D] = [
-	preload("res://objects/player/barrels/barrelGreen_outline.png"),
-	preload("res://objects/player/barrels/barrelRed_outline.png"),
+	preload("res://objects/player/barrels/barrelBeige_outline.png"),
 	preload("res://objects/player/barrels/barrelBlack_outline.png"),
 	preload("res://objects/player/barrels/barrelBlue_outline.png"),
-	preload("res://objects/player/barrels/barrelBeige_outline.png"),
+	preload("res://objects/player/barrels/barrelBrown_outline.png"),
+	preload("res://objects/player/barrels/barrelForest_outline.png"),
 	preload("res://objects/player/barrels/barrelGreen_outline.png"),
+	preload("res://objects/player/barrels/barrelOrange_outline.png"),
+	preload("res://objects/player/barrels/barrelPurple_outline.png"),
 	preload("res://objects/player/barrels/barrelRed_outline.png"),
-	preload("res://objects/player/barrels/barrelBlack_outline.png"),
-	preload("res://objects/player/barrels/barrelBlue_outline.png"),
-	preload("res://objects/player/barrels/barrelBeige_outline.png"),
+	preload("res://objects/player/barrels/barrelTeal_outline.png"),
 ]
 
 
