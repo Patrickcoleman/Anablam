@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c7aahvekmyr22"]
 
-[ext_resource type="Texture2D" uid="uid://o4kotb2gsn3s" path="res://assets/sprites/Tiles/tile_11.png" id="1_20v0k"]
+[ext_resource type="Texture2D" uid="uid://cpr4jplqi8o56" path="res://objects/wall/crateMetal.png" id="1_mqi10"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cimh6"]
 size = Vector2(704, 64)
@@ -13,6 +13,6 @@ metadata/_edit_group_ = true
 shape = SubResource("RectangleShape2D_cimh6")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=854126236]
-position = Vector2(1.9073486e-05, 0)
-scale = Vector2(11.000001, 1)
-texture = ExtResource("1_20v0k")
+position = Vector2(1.5258789e-05, 9.536743e-07)
+scale = Vector2(25.142855, 2.2857141)
+texture = ExtResource("1_mqi10")
