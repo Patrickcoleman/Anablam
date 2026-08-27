@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://djmoog03px6xm" path="res://scenes/levels/level.gd" id="1_lvou1"]
 [ext_resource type="PackedScene" uid="uid://b6j0xvuuhrws7" path="res://scenes/levels/backgrounds/10PlayerBackground.tscn" id="2_lvou1"]
-[ext_resource type="Texture2D" uid="uid://by4dgv0dfhgno" path="res://assets/sprites/Obstacles/barrelRed_up.png" id="3_0uwg4"]
+[ext_resource type="PackedScene" uid="uid://b840oixlir1ik" path="res://objects/spawnpoint/spawn.tscn" id="3_lvou1"]
 
 [node name="10PlayerMap" type="Node2D" unique_id=204164268]
 script = ExtResource("1_lvou1")
@@ -15,82 +15,50 @@ tile_map_data = PackedByteArray("AAD3/xEAAgACAAsAAAAaAPP/AgACAAoAAAD3//P/AgAAAAo
 script = ExtResource("1_lvou1")
 display_name = "10PlayerMap"
 
-[node name="Spawn" type="Marker2D" parent="SpawnPoints" unique_id=229370693]
-position = Vector2(1384, 1328)
-metadata/_edit_group_ = true
+[node name="Spawn" parent="SpawnPoints" unique_id=761349994 instance=ExtResource("3_lvou1")]
+position = Vector2(-344, -456)
+rotation = 0.76693183
 
-[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn" unique_id=2038921869]
-visible = false
-texture = ExtResource("3_0uwg4")
+[node name="Spawn2" parent="SpawnPoints" unique_id=686668564 instance=ExtResource("3_lvou1")]
+position = Vector2(-120, -503.99997)
+rotation = -1.5159326
 
-[node name="Spawn2" type="Marker2D" parent="SpawnPoints" unique_id=2009489891]
-position = Vector2(-344, -32)
-metadata/_edit_group_ = true
+[node name="Spawn3" parent="SpawnPoints" unique_id=186152703 instance=ExtResource("3_lvou1")]
+position = Vector2(552, -720)
+rotation = 0.00880897
 
-[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn2" unique_id=529201661]
-visible = false
-texture = ExtResource("3_0uwg4")
+[node name="Spawn4" parent="SpawnPoints" unique_id=561005207 instance=ExtResource("3_lvou1")]
+position = Vector2(1184.0001, -735.99994)
+rotation = 0.00880897
 
-[node name="Spawn3" type="Marker2D" parent="SpawnPoints" unique_id=1999919262]
-position = Vector2(1856, 64)
-metadata/_edit_group_ = true
+[node name="Spawn5" parent="SpawnPoints" unique_id=837873552 instance=ExtResource("3_lvou1")]
+position = Vector2(2008, -608)
+rotation = 1.0755264
 
-[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn3" unique_id=590609854]
-visible = false
-texture = ExtResource("3_0uwg4")
+[node name="Spawn6" parent="SpawnPoints" unique_id=1041414668 instance=ExtResource("3_lvou1")]
+position = Vector2(2112, 32)
+rotation = 2.4712434
 
-[node name="Spawn4" type="Marker2D" parent="SpawnPoints" unique_id=663404559]
-position = Vector2(-304, 1416)
-metadata/_edit_group_ = true
+[node name="Spawn7" parent="SpawnPoints" unique_id=1297836528 instance=ExtResource("3_lvou1")]
+position = Vector2(1720.0001, 680)
+rotation = 4.7423153
 
-[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn4" unique_id=849114941]
-visible = false
-texture = ExtResource("3_0uwg4")
+[node name="Spawn8" parent="SpawnPoints" unique_id=1120725363 instance=ExtResource("3_lvou1")]
+position = Vector2(2120, 1440)
+rotation = 1.6208951
 
-[node name="Spawn5" type="Marker2D" parent="SpawnPoints" unique_id=431170378]
-position = Vector2(872, -688)
-metadata/_edit_group_ = true
+[node name="Spawn9" parent="SpawnPoints" unique_id=2011675058 instance=ExtResource("3_lvou1")]
+position = Vector2(1040.0001, 1480)
+rotation = 3.1001863
 
-[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn5" unique_id=1192023601]
-visible = false
-texture = ExtResource("3_0uwg4")
+[node name="Spawn10" parent="SpawnPoints" unique_id=1494152983 instance=ExtResource("3_lvou1")]
+position = Vector2(-200, 1200.0001)
+rotation = 0.6990165
 
-[node name="Spawn6" type="Marker2D" parent="SpawnPoints" unique_id=1769828603]
-position = Vector2(424, 1480)
-metadata/_edit_group_ = true
+[node name="Spawn11" parent="SpawnPoints" unique_id=689085738 instance=ExtResource("3_lvou1")]
+position = Vector2(-464, 824)
+rotation = 3.7491362
 
-[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn6" unique_id=391342301]
-visible = false
-texture = ExtResource("3_0uwg4")
-
-[node name="Spawn7" type="Marker2D" parent="SpawnPoints" unique_id=826417166]
-position = Vector2(120, -648)
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn7" unique_id=610817214]
-visible = false
-texture = ExtResource("3_0uwg4")
-
-[node name="Spawn8" type="Marker2D" parent="SpawnPoints" unique_id=874406677]
-position = Vector2(2048, 1440)
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn8" unique_id=1427633541]
-visible = false
-texture = ExtResource("3_0uwg4")
-
-[node name="Spawn9" type="Marker2D" parent="SpawnPoints" unique_id=679728499]
-position = Vector2(1928, -592)
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn9" unique_id=823169159]
-visible = false
-texture = ExtResource("3_0uwg4")
-
-[node name="Spawn10" type="Marker2D" parent="SpawnPoints" unique_id=28657338]
-position = Vector2(-408, 760)
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn10" unique_id=1488916403]
-visible = false
-texture = ExtResource("3_0uwg4")
+[node name="Spawn12" parent="SpawnPoints" unique_id=1212717929 instance=ExtResource("3_lvou1")]
+position = Vector2(-176, 328)
+rotation = 2.3806717

@@ -7,9 +7,5 @@ class_name Level
 # Public Helpers
 
 
-func get_spawn_positions() -> Array[Vector2]:
-	var spawn_positions: Array[Vector2] = []
-	var spawns = $SpawnPoints.get_children()
-	for child in spawns:
-		spawn_positions.append(child.global_position)
-	return spawn_positions
+func get_spawn_positions() -> Array[Node]:
+	return $SpawnPoints.get_children()

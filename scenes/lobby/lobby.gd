@@ -111,8 +111,8 @@ func _on_peer_disconnected(peer_id: int) -> void:
 	player_data.erase(peer_id)
 	share_player_info.rpc(player_data)
 
-	if (get_player_count() == 0):
-		unload_level()
+	if (player_data.size() == 0):
+		end_game()
 
 
 func _on_connected_to_server() -> void:
@@ -352,7 +352,7 @@ func spawn_player(peer_id: int) -> void:
 
 	$Players.add_child(player)
 
-	player.teleport.rpc(get_furthest_spawn())
+	player.teleport.rpc(get_best_spawn_point())
 	player_data[peer_id]["alive"] = true
 
 
@@ -394,16 +394,16 @@ func respawn_player(peer_id: int) -> void:
 	var player: Player = get_player(peer_id)
 	if player == null:
 		return
-	var spawn_pos: Vector2 = get_furthest_spawn()
+	var spawn_pos: Transform2D = get_best_spawn_point()
 	player_data[peer_id]["alive"] = true
 	player.revive.rpc(spawn_pos)
 
 
-func get_furthest_spawn() -> Vector2:
-	var potential_spawns: Array[Vector2] = level.get_spawn_positions()
+func get_best_spawn_point() -> Transform2D:
+	var potential_spawns: Array[Node] = level.get_spawn_positions()
 	var players: Array[Node] = $Players.get_children()
 	if players.is_empty():
-		return potential_spawns.pick_random()
+		return potential_spawns.pick_random().global_transform
 	else:
 		var spawn_distances: Array[float] = []
 		var player_locations: Array[Vector2] = []
@@ -413,7 +413,7 @@ func get_furthest_spawn() -> Vector2:
 		for spawn in potential_spawns:
 			var nearest = INF
 			for location in player_locations:
-				var distance: float = spawn.distance_to(location)
+				var distance: float = spawn.global_position.distance_to(location)
 				nearest = min(distance, nearest)
 			spawn_distances.append(nearest)
 		var best_spawn_index: int = 0
@@ -421,8 +421,8 @@ func get_furthest_spawn() -> Vector2:
 			if spawn_distances[i] > spawn_distances[best_spawn_index]:
 				spawn_distances[best_spawn_index] = spawn_distances[i]
 				best_spawn_index = i
-		var best_spawn: Vector2 = potential_spawns[best_spawn_index]
-		return best_spawn
+		var best_spawn: Node = potential_spawns[best_spawn_index]
+		return best_spawn.global_transform
 
 
 func clear_map():

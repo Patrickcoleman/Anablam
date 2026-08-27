@@ -638,9 +638,9 @@ position = Vector2(504, 176)
 position = Vector2(568, 336)
 
 [node name="Wall2" parent="Environment" unique_id=1150250084 instance=ExtResource("4_uh1yp")]
-position = Vector2(1232, 56)
+position = Vector2(1224, 200)
 rotation = 1.5707964
 
 [node name="Wall3" parent="Environment" unique_id=492184654 instance=ExtResource("4_uh1yp")]
-position = Vector2(-64, 504)
+position = Vector2(-40, 464)
 rotation = 1.5707964

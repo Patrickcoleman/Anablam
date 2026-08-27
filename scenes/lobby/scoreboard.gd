@@ -42,14 +42,17 @@ func draw_winner():
 
 func calculate_winner() -> String:
 	var player_data = lobby.player_data
-	var winner_id = 1
+	var winner_id
 	var most_kills = 0
 	for player in player_data:
 		if player_data[player]["kills"] >= most_kills:
 			most_kills = player_data[player]["kills"]
 			winner_id = player
-	lobby.player_data[winner_id]["winner"] = true
-	return player_data[winner_id]["display_name"]
+	if winner_id:
+		lobby.player_data[winner_id]["winner"] = true
+		return player_data[winner_id]["display_name"]
+	else:
+		return "no winner"
 
 
 func draw_scores_in_element(parent: HBoxContainer) -> void:

@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://ci83vj4hxvxnm"]
 
 [ext_resource type="Script" uid="uid://djmoog03px6xm" path="res://scenes/levels/level.gd" id="1_dxctp"]
-[ext_resource type="Texture2D" uid="uid://by4dgv0dfhgno" path="res://assets/sprites/Obstacles/barrelRed_up.png" id="1_xmf3k"]
 [ext_resource type="PackedScene" uid="uid://c7aahvekmyr22" path="res://objects/wall/wall.tscn" id="2_dxctp"]
+[ext_resource type="PackedScene" uid="uid://b840oixlir1ik" path="res://objects/spawnpoint/spawn.tscn" id="2_xq0nn"]
 
 [node name="Devlevel" type="Node2D" unique_id=1439100336]
 script = ExtResource("1_dxctp")
@@ -10,29 +10,17 @@ display_name = "Dev Level"
 
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=1774205851]
 
-[node name="Spawn" type="Marker2D" parent="SpawnPoints" unique_id=1983339225]
-position = Vector2(587, 440)
-metadata/_edit_group_ = true
+[node name="Spawn4" parent="SpawnPoints" unique_id=761349994 instance=ExtResource("2_xq0nn")]
+position = Vector2(396, 154)
+rotation = -0.7392723
 
-[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn" unique_id=1336224284]
-visible = false
-texture = ExtResource("1_xmf3k")
+[node name="Spawn5" parent="SpawnPoints" unique_id=1779653944 instance=ExtResource("2_xq0nn")]
+position = Vector2(590, 434)
+rotation = 3.1215937
 
-[node name="Spawn2" type="Marker2D" parent="SpawnPoints" unique_id=1907539093]
-position = Vector2(418, 221)
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn2" unique_id=1612781111]
-visible = false
-texture = ExtResource("1_xmf3k")
-
-[node name="Spawn3" type="Marker2D" parent="SpawnPoints" unique_id=809276631]
-position = Vector2(735, 210)
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn3" unique_id=375550920]
-visible = false
-texture = ExtResource("1_xmf3k")
+[node name="Spawn6" parent="SpawnPoints" unique_id=281153712 instance=ExtResource("2_xq0nn")]
+position = Vector2(765, 163)
+rotation = 0.9565067
 
 [node name="Wall" parent="." unique_id=668654013 instance=ExtResource("2_dxctp")]
 position = Vector2(567, 77)

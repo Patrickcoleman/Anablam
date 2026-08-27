@@ -85,9 +85,9 @@ func _ready() -> void:
 
 # RPC
 @rpc("authority", "call_local", "reliable")
-func teleport(new_pos: Vector2) -> void:
+func teleport(new_pos: Transform2D) -> void:
 	velocity = Vector2.ZERO
-	global_position = new_pos
+	transform = new_pos
 
 
 @export var acceleration: float = 400.0
@@ -242,8 +242,8 @@ func _on_respawn_timer_timeout() -> void:
 
 
 @rpc("authority", "call_local", "reliable")
-func revive(new_pos: Vector2) -> void:
-	global_position = new_pos
+func revive(new_pos: Transform2D) -> void:
+	transform = new_pos
 	velocity = Vector2.ZERO
 	speed = 0.0
 	angular_velocity = 0.0

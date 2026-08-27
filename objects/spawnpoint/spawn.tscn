@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://b840oixlir1ik"]
+
+[ext_resource type="Texture2D" uid="uid://o504dnehnhba" path="res://objects/spawnpoint/arrow-icon-png-transparent-8-2669892019.jpg" id="1_cqhg0"]
+[ext_resource type="Script" uid="uid://dnsicbfygty33" path="res://objects/spawnpoint/spawn.gd" id="1_fpftc"]
+
+[node name="Spawn" type="Marker2D" unique_id=761349994]
+script = ExtResource("1_fpftc")
+metadata/_edit_group_ = true
+
+[node name="Arrow" type="Sprite2D" parent="." unique_id=1067184193]
+position = Vector2(-9.536743e-07, 0)
+rotation = 1.5707964
+scale = Vector2(0.05444444, 0.05444444)
+texture = ExtResource("1_cqhg0")
