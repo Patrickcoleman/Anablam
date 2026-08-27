@@ -10,16 +10,16 @@ var bounces_remaining: int = 1
 var wall_bounced_off: Node2D
 
 const SPRITES: Array[Texture2D] = [
-	preload("res://objects/bullets/bulletGreenSilver_outline.png"),
-	preload("res://objects/bullets/bulletRedSilver_outline.png"),
-	preload("res://objects/bullets/bulletSilverSilver_outline.png"),
-	preload("res://objects/bullets/bulletBlueSilver_outline.png"),
-	preload("res://objects/bullets/bulletBeigeSilver_outline.png"),
-	preload("res://objects/bullets/bulletGreenSilver_outline.png"),
-	preload("res://objects/bullets/bulletRedSilver_outline.png"),
-	preload("res://objects/bullets/bulletSilverSilver_outline.png"),
-	preload("res://objects/bullets/bulletBlueSilver_outline.png"),
-	preload("res://objects/bullets/bulletBeigeSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletGreenSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletRedSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletSilverSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletBlueSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletBeigeSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletGreenSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletRedSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletSilverSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletBlueSilver_outline.png"),
+	preload("res://objects/bullets/sprites/bulletBeigeSilver_outline.png"),
 ]
 
 

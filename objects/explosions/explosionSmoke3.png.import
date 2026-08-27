@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://by4ju7x54mv7c"
-path="res://.godot/imported/crown.png-ba691c7f54ada7b1e092458496ca26bc.ctex"
+uid="uid://lsp2eumg5tj3"
+path="res://.godot/imported/explosionSmoke3.png-f87c19f10b1d4a76a491cb0f43abaf56.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://common/ui/crown.png"
-dest_files=["res://.godot/imported/crown.png-ba691c7f54ada7b1e092458496ca26bc.ctex"]
+source_file="res://objects/explosions/explosionSmoke3.png"
+dest_files=["res://.godot/imported/explosionSmoke3.png-f87c19f10b1d4a76a491cb0f43abaf56.ctex"]
 
 [params]
 

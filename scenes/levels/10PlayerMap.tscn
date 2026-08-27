@@ -1,8 +1,8 @@
 [gd_scene format=4 uid="uid://chdhguu00e85r"]
 
 [ext_resource type="Script" uid="uid://djmoog03px6xm" path="res://scenes/levels/level.gd" id="1_lvou1"]
-[ext_resource type="PackedScene" uid="uid://b6j0xvuuhrws7" path="res://objects/scene/backgrounds/10PlayerBackground.tscn" id="2_lvou1"]
-[ext_resource type="Texture2D" uid="uid://by4dgv0dfhgno" path="res://common/sprites/Obstacles/barrelRed_up.png" id="3_0uwg4"]
+[ext_resource type="PackedScene" uid="uid://b6j0xvuuhrws7" path="res://scenes/levels/backgrounds/10PlayerBackground.tscn" id="2_lvou1"]
+[ext_resource type="Texture2D" uid="uid://by4dgv0dfhgno" path="res://assets/sprites/Obstacles/barrelRed_up.png" id="3_0uwg4"]
 
 [node name="10PlayerMap" type="Node2D" unique_id=204164268]
 script = ExtResource("1_lvou1")

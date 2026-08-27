@@ -1,6 +1,6 @@
 extends Node2D
-var explosion_scene: PackedScene = preload("res://objects/bullets/explosions/Explosion.tscn")
-var scorchmark_scene: PackedScene = preload("res://objects/scene/scorchmark.tscn")
+var explosion_scene: PackedScene = preload("uid://i1b2iw05l1wa")
+var scorchmark_scene: PackedScene = preload("uid://ct7qgbfwm81es")
 
 @onready var lobby: Lobby = get_node("/root/Lobby")
 

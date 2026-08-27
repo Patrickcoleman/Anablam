@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://by4ju7x54mv7c"
-path="res://.godot/imported/crown.png-ba691c7f54ada7b1e092458496ca26bc.ctex"
+uid="uid://ceeymx0bn26pr"
+path="res://.godot/imported/bulletBeigeSilver_outline.png-0edb026a75133a6a9832e02e2f8ccef9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://common/ui/crown.png"
-dest_files=["res://.godot/imported/crown.png-ba691c7f54ada7b1e092458496ca26bc.ctex"]
+source_file="res://objects/bullets/sprites/bulletBeigeSilver_outline.png"
+dest_files=["res://.godot/imported/bulletBeigeSilver_outline.png-0edb026a75133a6a9832e02e2f8ccef9.ctex"]
 
 [params]
 

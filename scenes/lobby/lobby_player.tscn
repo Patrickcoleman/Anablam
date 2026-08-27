@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://yktpdnchrv1n"]
 
-[ext_resource type="Texture2D" uid="uid://by4ju7x54mv7c" path="res://common/ui/player_icons/crown.png" id="1_s1fxu"]
+[ext_resource type="Texture2D" uid="uid://by4ju7x54mv7c" path="res://common/ui/crown.png" id="1_s1fxu"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cimh6"]
 

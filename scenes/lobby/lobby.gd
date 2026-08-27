@@ -181,6 +181,7 @@ func _on_game_state_changed(new_state: GameState) -> void:
 		GameState.MAIN_MENU:
 			$UI.show()
 			music.play_track(music.MUSIC_TRACK.MENU)
+			player_data.clear()
 		GameState.LOBBY:
 			music.play_track(music.MUSIC_TRACK.LOBBY)
 			set_settings_active()

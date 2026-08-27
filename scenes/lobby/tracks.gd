@@ -5,7 +5,7 @@ var tracks: PackedScene
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	tracks = preload("res://objects/scene/track.tscn")
+	tracks = preload("uid://c7nvxgxm8j7fh")
 	pass # Replace with function body.
 
 
