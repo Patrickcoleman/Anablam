@@ -274,3 +274,10 @@ func update_engine_sound() -> void:
 	if moving:
 		var speed_ratio: float = abs(speed) / max_speed
 		engine_sound.pitch_scale = lerp(0.3, 0.7, speed_ratio)
+
+
+@rpc("authority", "call_remote", "reliable")
+func collect_letter(letter: String, location: Vector2):
+	if !local:
+		return
+	$HUD.add_letter(letter, location)

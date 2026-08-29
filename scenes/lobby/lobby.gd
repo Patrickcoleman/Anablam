@@ -149,7 +149,6 @@ func close_server() -> void:
 
 
 var level: Level = null
-var level_idx: int = -1
 
 # Game State Management
 
@@ -215,6 +214,7 @@ func start_new_game() -> void:
 	kills_to_win = get_node("LobbyUI/PanelContainer/MarginContainer/HBoxContainer/KillsInput").value
 	load_level()
 	spawn_all_players()
+	$Letters.begin_spawning()
 	reset_kills()
 	update_game_state(GameState.IN_GAME)
 
@@ -228,6 +228,7 @@ func end_game() -> void:
 	for child in $Bullets.get_children():
 		child.queue_free()
 	$GameOverTimer.start()
+	$Letters/LetterTimer.stop()
 
 
 func gameover_screen_timeout() -> void:

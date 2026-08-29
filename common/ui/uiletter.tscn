@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://c8rmqaulnjc1w"]
+
+[ext_resource type="LabelSettings" uid="uid://bvtxin06kdpau" path="res://common/ui/letter_label_settings.tres" id="1_qo3bq"]
+
+[node name="Uiletter" type="Control" unique_id=995174764]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="LetterLabel" type="Label" parent="." unique_id=1213718446]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -21.0
+offset_right = 20.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "A"
+label_settings = ExtResource("1_qo3bq")
+horizontal_alignment = 1

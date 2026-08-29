@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://4egcuvsa7sey" path="res://assets/sprites/Tanks/barrelRed.png" id="2_ssrue"]
 [ext_resource type="Script" uid="uid://clxdaiv0k3jgd" path="res://objects/player/info_panel.gd" id="4_gnkmh"]
 [ext_resource type="Script" uid="uid://c48h50dmwoyb6" path="res://objects/player/hud.gd" id="4_xkryw"]
+[ext_resource type="Script" uid="uid://ca085losaj4d4" path="res://objects/player/collected_letters.gd" id="5_ow0dq"]
 [ext_resource type="AudioStream" uid="uid://cwhrsnp87pi1i" path="res://assets/sfx/engine.ogg" id="6_xkryw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cimh6"]
@@ -26,6 +27,9 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath(".:current_animation")
 properties/4/spawn = true
 properties/4/replication_mode = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tk3j5"]
+bg_color = Color(0.6, 0.6, 0.6, 0.27058825)
 
 [sub_resource type="LabelSettings" id="LabelSettings_cimh6"]
 font_size = 12
@@ -68,11 +72,19 @@ one_shot = true
 [node name="HUD" type="CanvasLayer" parent="." unique_id=545584566]
 script = ExtResource("4_xkryw")
 
-[node name="Label" type="Label" parent="HUD" unique_id=1766960836]
-visible = false
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Test"
+[node name="CollectedLetters" type="Panel" parent="HUD" unique_id=1923884385]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -302.0
+offset_right = 223.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tk3j5")
+script = ExtResource("5_ow0dq")
+
+[node name="TweenTimer" type="Timer" parent="HUD/CollectedLetters" unique_id=893216399]
+wait_time = 0.1
+one_shot = true
 
 [node name="InfoPanel" type="Node2D" parent="." unique_id=1848457230]
 script = ExtResource("4_gnkmh")
@@ -98,3 +110,4 @@ max_distance = 1000.0
 
 [connection signal="synchronized" from="ClientSynchronizer" to="." method="on_state_received"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
+[connection signal="timeout" from="HUD/CollectedLetters/TweenTimer" to="HUD/CollectedLetters" method="_on_tween_timer_timeout"]

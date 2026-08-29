@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://brmueumte4vm2" path="res://scenes/lobby/scoreboard.gd" id="3_qv0t4"]
 [ext_resource type="Script" uid="uid://bfry4v0fjbjvu" path="res://scenes/lobby/explosions.gd" id="3_yhyct"]
 [ext_resource type="Script" uid="uid://d0p5xpyt7lbg8" path="res://scenes/lobby/lobby_ui.gd" id="4_5c8lw"]
+[ext_resource type="Script" uid="uid://c5wnq6x2q6sgj" path="res://scenes/lobby/letters.gd" id="4_mq6cd"]
 [ext_resource type="PackedScene" uid="uid://bkeg1w7eyl54b" path="res://common/ui/volume.tscn" id="5_pbg2n"]
 [ext_resource type="Script" uid="uid://db4o55mmx5y83" path="res://scenes/lobby/sfx.gd" id="7_g8dbv"]
 [ext_resource type="Script" uid="uid://d12ayxnjvt2jx" path="res://common/autoloads/sfx/sfxdata.gd" id="8_3pywa"]
@@ -96,6 +97,7 @@ metadata/_custom_type_script = "uid://cjyt5mwl7f6fl"
 
 [node name="Lobby" type="Node2D" unique_id=795581606]
 script = ExtResource("1_sj1j4")
+developer_mode = true
 
 [node name="Level" type="Node2D" parent="." unique_id=587595762]
 
@@ -108,6 +110,11 @@ script = ExtResource("2_413et")
 
 [node name="Explosions" type="Node2D" parent="." unique_id=1927957155]
 script = ExtResource("3_yhyct")
+
+[node name="Letters" type="Node2D" parent="." unique_id=1813079941]
+script = ExtResource("4_mq6cd")
+
+[node name="LetterTimer" type="Timer" parent="Letters" unique_id=6417178]
 
 [node name="LevelSpawner" type="MultiplayerSpawner" parent="." unique_id=1861484377]
 _spawnable_scenes = PackedStringArray("uid://ci83vj4hxvxnm", "uid://bpn0nob83ub3t", "uid://chdhguu00e85r")
@@ -123,6 +130,11 @@ spawn_limit = 5
 _spawnable_scenes = PackedStringArray("uid://buokvh4vsppti")
 spawn_path = NodePath("../Bullets")
 spawn_limit = 40
+
+[node name="LetterSpawner" type="MultiplayerSpawner" parent="." unique_id=838354836]
+_spawnable_scenes = PackedStringArray("uid://bedxy2h8m6vhe")
+spawn_path = NodePath("../Letters")
+spawn_limit = 100
 
 [node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=214453317]
 replication_config = SubResource("SceneReplicationConfig_5c8lw")
@@ -411,6 +423,7 @@ fill_mode = 4
 texture_under = ExtResource("19_xyfku")
 texture_progress = ExtResource("21_sqemm")
 
+[connection signal="timeout" from="Letters/LetterTimer" to="Letters" method="_on_letter_timer_timeout"]
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button" to="UI" method="_on_join_dedicated_pressed"]
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button2" to="UI" method="_on_join_localhost_pressed"]
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/Button3" to="UI" method="_on_enet_host_pressed"]

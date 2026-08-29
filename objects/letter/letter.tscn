@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://bedxy2h8m6vhe"]
+
+[ext_resource type="Script" uid="uid://dv1oeqpnqkrpp" path="res://objects/letter/letter.gd" id="1_c8p5m"]
+[ext_resource type="LabelSettings" uid="uid://bvtxin06kdpau" path="res://common/ui/letter_label_settings.tres" id="2_vetam"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cimh6"]
+radius = 17.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_c8p5m"]
+properties/0/path = NodePath(".:letter")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[node name="Letter" type="Node2D" unique_id=1897056630]
+z_index = 10
+script = ExtResource("1_c8p5m")
+
+[node name="LetterLabel" type="Label" parent="." unique_id=1730785625]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.0
+offset_top = -27.5
+offset_right = 13.0
+offset_bottom = 27.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "A"
+label_settings = ExtResource("2_vetam")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1028499785]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=181040897]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_cimh6")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=493610881]
+replication_config = SubResource("SceneReplicationConfig_c8p5m")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

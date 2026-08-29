@@ -1,37 +1,25 @@
 [gd_scene format=3 uid="uid://ci83vj4hxvxnm"]
 
-[ext_resource type="Script" uid="uid://djmoog03px6xm" path="res://scenes/levels/level.gd" id="1_dxctp"]
-[ext_resource type="PackedScene" uid="uid://c7aahvekmyr22" path="res://objects/wall/wall.tscn" id="2_dxctp"]
-[ext_resource type="PackedScene" uid="uid://b840oixlir1ik" path="res://objects/spawnpoint/spawn.tscn" id="2_xq0nn"]
+[ext_resource type="Script" uid="uid://djmoog03px6xm" path="res://scenes/levels/level.gd" id="1_ym7s8"]
+[ext_resource type="PackedScene" uid="uid://bxy1fpfktolwk" path="res://scenes/levels/backgrounds/DevBackground.tscn" id="2_ymddw"]
+[ext_resource type="PackedScene" uid="uid://b840oixlir1ik" path="res://objects/spawnpoint/spawn.tscn" id="3_uv0y7"]
 
 [node name="Devlevel" type="Node2D" unique_id=1439100336]
-script = ExtResource("1_dxctp")
+script = ExtResource("1_ym7s8")
 display_name = "Dev Level"
+
+[node name="Background" parent="." unique_id=1756243402 instance=ExtResource("2_ymddw")]
 
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=1774205851]
 
-[node name="Spawn4" parent="SpawnPoints" unique_id=761349994 instance=ExtResource("2_xq0nn")]
+[node name="Spawn4" parent="SpawnPoints" unique_id=761349994 instance=ExtResource("3_uv0y7")]
 position = Vector2(396, 154)
 rotation = -0.7392723
 
-[node name="Spawn5" parent="SpawnPoints" unique_id=1779653944 instance=ExtResource("2_xq0nn")]
+[node name="Spawn5" parent="SpawnPoints" unique_id=1779653944 instance=ExtResource("3_uv0y7")]
 position = Vector2(590, 434)
 rotation = 3.1215937
 
-[node name="Spawn6" parent="SpawnPoints" unique_id=281153712 instance=ExtResource("2_xq0nn")]
+[node name="Spawn6" parent="SpawnPoints" unique_id=281153712 instance=ExtResource("3_uv0y7")]
 position = Vector2(765, 163)
 rotation = 0.9565067
-
-[node name="Wall" parent="." unique_id=668654013 instance=ExtResource("2_dxctp")]
-position = Vector2(567, 77)
-
-[node name="Wall2" parent="." unique_id=1651648625 instance=ExtResource("2_dxctp")]
-position = Vector2(867, 295)
-rotation = 1.5707964
-
-[node name="Wall3" parent="." unique_id=330339313 instance=ExtResource("2_dxctp")]
-position = Vector2(314, 295)
-rotation = 1.5707964
-
-[node name="Wall4" parent="." unique_id=402345911 instance=ExtResource("2_dxctp")]
-position = Vector2(590, 524)
