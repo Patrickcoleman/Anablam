@@ -104,7 +104,6 @@ metadata/_custom_type_script = "uid://cjyt5mwl7f6fl"
 
 [node name="Lobby" type="Node2D" unique_id=795581606]
 script = ExtResource("1_sj1j4")
-developer_mode = true
 
 [node name="Level" type="Node2D" parent="." unique_id=587595762]
 
