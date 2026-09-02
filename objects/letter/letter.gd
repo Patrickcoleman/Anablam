@@ -1,43 +1,10 @@
 extends Node2D
 class_name Letter
 
-var letters: Array[String] = [
-	"a",
-	"b",
-	"c",
-	"d",
-	"e",
-	"f",
-	"g",
-	"h",
-	"i",
-	"j",
-	"k",
-	"l",
-	"m",
-	"n",
-	"o",
-	"p",
-	"q",
-	"r",
-	"s",
-	"t",
-	"u",
-	"v",
-	"w",
-	"x",
-	"y",
-	"z",
-]
-
 var letter: String = "":
 	set(value):
 		$LetterLabel.text = value
 		letter = value
-
-
-func randomise():
-	letter = letters.pick_random()
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:

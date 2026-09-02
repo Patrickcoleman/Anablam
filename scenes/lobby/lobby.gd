@@ -43,6 +43,11 @@ func _ready() -> void:
 
 	if (headless_mode):
 		start_enet_server()
+	elif developer_mode:
+		await get_tree().create_timer(0.1).timeout
+		start_enet_client("127.0.0.1", DEFAULT_PORT)
+		await get_tree().create_timer(0.1).timeout
+		$LobbyUI.vote_start()
 
 
 func set_dev_settings():

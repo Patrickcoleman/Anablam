@@ -3,6 +3,7 @@
 [ext_resource type="LabelSettings" uid="uid://bvtxin06kdpau" path="res://common/ui/letter_label_settings.tres" id="1_qo3bq"]
 
 [node name="Uiletter" type="Control" unique_id=995174764]
+z_index = 10
 layout_mode = 3
 anchors_preset = 0
 

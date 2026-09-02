@@ -127,16 +127,17 @@ func _physics_process(delta: float) -> void:
 		var turn_input: float = 0.0
 		var move_input: float = 0.0
 
-		if Input.is_action_pressed("turn_right"):
-			turn_input += 1
-		if Input.is_action_pressed("turn_left"):
-			turn_input -= 1
-		if Input.is_action_pressed("move_forward"):
-			move_input += 1
-			current_animation = &"forwards"
-		if Input.is_action_pressed("move_back"):
-			current_animation = &"backwards"
-			move_input -= 1
+		if $HUD/WordPanel.visible == false:
+			if Input.is_action_pressed("turn_right"):
+				turn_input += 1
+			if Input.is_action_pressed("turn_left"):
+				turn_input -= 1
+			if Input.is_action_pressed("move_forward"):
+				move_input += 1
+				current_animation = &"forwards"
+			if Input.is_action_pressed("move_back"):
+				current_animation = &"backwards"
+				move_input -= 1
 
 		if !is_zero_approx(move_input):
 			var target_speed: float = max_speed if (move_input > 0) else -max_reverse_speed

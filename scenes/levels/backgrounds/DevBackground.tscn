@@ -62,21 +62,21 @@ tile_set = SubResource("TileSet_y3bwh")
 [node name="Borders" type="StaticBody2D" parent="." unique_id=1736793720]
 
 [node name="WallTop" type="CollisionShape2D" parent="Borders" unique_id=398437318]
-position = Vector2(600, 59)
+position = Vector2(600, 35)
 shape = SubResource("WorldBoundaryShape2D_cimh6")
 
 [node name="WallLeft" type="CollisionShape2D" parent="Borders" unique_id=66238762]
-position = Vector2(236, 308)
+position = Vector2(203, 305)
 rotation = -1.5707964
 shape = SubResource("WorldBoundaryShape2D_cimh6")
 
 [node name="WallBottom" type="CollisionShape2D" parent="Borders" unique_id=267209178]
-position = Vector2(614, 602)
+position = Vector2(612, 652)
 rotation = 3.1415927
 shape = SubResource("WorldBoundaryShape2D_cimh6")
 
 [node name="WallRight" type="CollisionShape2D" parent="Borders" unique_id=1781648760]
-position = Vector2(947, 275)
+position = Vector2(983, 278)
 rotation = 1.5707964
 shape = SubResource("WorldBoundaryShape2D_cimh6")
 

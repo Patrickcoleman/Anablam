@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-@onready var ui_letter_scene = preload("uid://c8rmqaulnjc1w")
+var ui_letter_scene = preload("uid://c8rmqaulnjc1w")
 
 var collect_tween_duration: float = 0.7
 
@@ -26,7 +26,7 @@ func add_letter(letter: String, world_location: Vector2) -> void:
 	tween.finished.connect(on_letter_arrived.bind(new_letter))
 
 
-func on_letter_arrived(new_letter: Node):
+func on_letter_arrived(new_letter: Control):
 	$CollectedLetters.add_letter(new_letter)
 
 

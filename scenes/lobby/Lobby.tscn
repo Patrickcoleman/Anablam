@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://cjyt5mwl7f6fl" path="res://common/autoloads/music/MusicData.gd" id="13_opc5t"]
 [ext_resource type="AudioStream" uid="uid://d24ut8b1puf43" path="res://assets/music/Lobby.ogg" id="14_opc5t"]
 [ext_resource type="AudioStream" uid="uid://ymev7icbaxsh" path="res://assets/music/Battle.ogg" id="15_pbg2n"]
+[ext_resource type="AudioStream" uid="uid://c1vpvvj1l171f" path="res://assets/sfx/huh.mp3" id="16_2wvlb"]
 [ext_resource type="Script" uid="uid://bqswa2bqhj24e" path="res://scenes/lobby/escape_menu.gd" id="18_pbg2n"]
 [ext_resource type="Script" uid="uid://dbwftsesxr8u4" path="res://scenes/lobby/custom_cursor.gd" id="19_wp0hx"]
 [ext_resource type="Texture2D" uid="uid://cx6r7h8k0maid" path="res://common/ui/crosshair-008.png" id="19_xyfku"]
@@ -75,6 +76,12 @@ script = ExtResource("8_3pywa")
 stream = ExtResource("11_6iqo4")
 volume_db = -10.0
 pitch_random_range = 0.2
+metadata/_custom_type_script = "uid://d12ayxnjvt2jx"
+
+[sub_resource type="Resource" id="Resource_xgwla"]
+script = ExtResource("8_3pywa")
+stream = ExtResource("16_2wvlb")
+pitch_scale = 1.1
 metadata/_custom_type_script = "uid://d12ayxnjvt2jx"
 
 [sub_resource type="Resource" id="Resource_02hng"]
@@ -360,6 +367,7 @@ script = ExtResource("7_g8dbv")
 bullet_explosion_sfx = SubResource("Resource_cimh6")
 tank_explosion_sfx = SubResource("Resource_02lw7")
 fire_sfx = SubResource("Resource_6iqo4")
+huh_sfx = SubResource("Resource_xgwla")
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=596210380]
 volume_db = -8.0

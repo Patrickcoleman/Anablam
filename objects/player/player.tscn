@@ -6,7 +6,9 @@
 [ext_resource type="Script" uid="uid://clxdaiv0k3jgd" path="res://objects/player/info_panel.gd" id="4_gnkmh"]
 [ext_resource type="Script" uid="uid://c48h50dmwoyb6" path="res://objects/player/hud.gd" id="4_xkryw"]
 [ext_resource type="Script" uid="uid://ca085losaj4d4" path="res://objects/player/collected_letters.gd" id="5_ow0dq"]
+[ext_resource type="Script" uid="uid://b20kuqug5yrgg" path="res://objects/player/word_panel.gd" id="6_m4kly"]
 [ext_resource type="AudioStream" uid="uid://cwhrsnp87pi1i" path="res://assets/sfx/engine.ogg" id="6_xkryw"]
+[ext_resource type="Script" uid="uid://d3b5sew6wltx" path="res://objects/player/collected_words.gd" id="7_xgwla"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cimh6"]
 size = Vector2(40, 42)
@@ -30,6 +32,11 @@ properties/4/replication_mode = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tk3j5"]
 bg_color = Color(0.6, 0.6, 0.6, 0.27058825)
+
+[sub_resource type="FontVariation" id="FontVariation_svxoe"]
+opentype_features = {
+1818847073: 0
+}
 
 [sub_resource type="LabelSettings" id="LabelSettings_cimh6"]
 font_size = 12
@@ -73,18 +80,62 @@ one_shot = true
 script = ExtResource("4_xkryw")
 
 [node name="CollectedLetters" type="Panel" parent="HUD" unique_id=1923884385]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -302.0
-offset_right = 223.0
-grow_vertical = 0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -223.0
+offset_bottom = 302.0
+grow_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_tk3j5")
 script = ExtResource("5_ow0dq")
 
 [node name="TweenTimer" type="Timer" parent="HUD/CollectedLetters" unique_id=893216399]
 wait_time = 0.1
 one_shot = true
+
+[node name="WordPanel" type="PanelContainer" parent="HUD" unique_id=861350628]
+custom_minimum_size = Vector2(0, 50)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -49.0
+offset_top = -251.0
+offset_right = 49.0
+offset_bottom = -201.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("6_m4kly")
+
+[node name="WordEntry" type="TextEdit" parent="HUD/WordPanel" unique_id=1852698699]
+layout_mode = 2
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = SubResource("FontVariation_svxoe")
+theme_override_font_sizes/font_size = 30
+emoji_menu_enabled = false
+shortcut_keys_enabled = false
+drag_and_drop_selection_enabled = false
+middle_mouse_paste_enabled = false
+tab_input_mode = false
+virtual_keyboard_enabled = false
+scroll_fit_content_width = true
+
+[node name="Words" type="PanelContainer" parent="HUD" unique_id=616674100]
+visible = false
+
+[node name="Margins" type="MarginContainer" parent="HUD/Words" unique_id=1079726849]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="CollectedWords" type="VBoxContainer" parent="HUD/Words/Margins" unique_id=107363890]
+layout_mode = 2
+script = ExtResource("7_xgwla")
 
 [node name="InfoPanel" type="Node2D" parent="." unique_id=1848457230]
 script = ExtResource("4_gnkmh")
@@ -111,3 +162,5 @@ max_distance = 1000.0
 [connection signal="synchronized" from="ClientSynchronizer" to="." method="on_state_received"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
 [connection signal="timeout" from="HUD/CollectedLetters/TweenTimer" to="HUD/CollectedLetters" method="_on_tween_timer_timeout"]
+[connection signal="gui_input" from="HUD/WordPanel/WordEntry" to="HUD/WordPanel" method="_on_word_entry_gui_input"]
+[connection signal="text_changed" from="HUD/WordPanel/WordEntry" to="HUD/WordPanel" method="_on_word_entry_text_changed"]

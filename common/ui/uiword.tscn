@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://d0ykplrahkjg4"]
+
+[ext_resource type="LabelSettings" uid="uid://bvtxin06kdpau" path="res://common/ui/letter_label_settings.tres" id="1_58kx1"]
+
+[sub_resource type="FontVariation" id="FontVariation_xgwla"]
+spacing_top = -8
+spacing_bottom = -8
+
+[node name="Uiword" type="Label" unique_id=485209498]
+offset_right = 171.0
+offset_bottom = 42.0
+theme_override_fonts/font = SubResource("FontVariation_xgwla")
+text = "Placeholder"
+label_settings = ExtResource("1_58kx1")

@@ -3,13 +3,15 @@ extends Node2D
 @export var bullet_explosion_sfx: SFXData
 @export var tank_explosion_sfx: SFXData
 @export var fire_sfx: SFXData
+@export var huh_sfx: SFXData
 
-@onready var sounds: Array[SFXData] = [bullet_explosion_sfx, tank_explosion_sfx, fire_sfx]
+@onready var sounds: Array[SFXData] = [bullet_explosion_sfx, tank_explosion_sfx, fire_sfx, huh_sfx]
 
 enum SFX_TYPE {
 	BULLET_EXPLOSION,
 	TANK_EXPLOSION,
 	FIRE,
+	HUH,
 }
 
 
